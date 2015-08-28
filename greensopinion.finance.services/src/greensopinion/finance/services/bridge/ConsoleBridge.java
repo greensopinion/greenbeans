@@ -1,4 +1,4 @@
-package greensopinion.finance.services;
+package greensopinion.finance.services.bridge;
 
 public class ConsoleBridge {
 

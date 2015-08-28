@@ -1,4 +1,4 @@
-package greensopinion.finance.services;
+package greensopinion.finance.services.application;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

@@ -6,31 +6,33 @@ describe('Controller: AboutCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var AboutCtrl,
-    scope, mockWindow, appServiceLocator,mockAboutService;
+    scope, aboutService,consoler;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope,$q) {
     scope = $rootScope.$new();
 
-    mockAboutService = {
-      getCopyrightNotice: function() {
-        return 'test it yeah!';
-      }
-    };
-    appServiceLocator = {
-      getAboutService: function() {
-          return mockAboutService;
+    consoler = {
+      log: function(message) {
+        console.log(message);
       }
     };
 
-    mockWindow = {
-      appServiceLocator: appServiceLocator
+    aboutService = {
+      about: function() {
+        return $q(function(resolve){
+          resolve({
+            copyrightNotice: 'Copyright (c) 2015',
+            applicationName: 'This Is It'
+          });
+        });
+      }
     };
 
     AboutCtrl = $controller('AboutCtrl', {
       $scope: scope,
-      $window: mockWindow
-      // place here mocked dependencies
+      aboutService: aboutService,
+      console: consoler
     });
   }));
 

@@ -1,7 +1,8 @@
-package greensopinion.finance.services;
+package greensopinion.finance.services.application;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import greensopinion.finance.services.bridge.ConsoleBridge;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
