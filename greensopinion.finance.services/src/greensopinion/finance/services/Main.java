@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	private ServiceLocator serviceLocator = new ServiceLocator();
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Title Placeholder");
@@ -17,7 +19,7 @@ public class Main extends Application {
 	}
 
 	private Scene createMainScene() {
-		return new Scene(new WebApplicationRegion(), Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,
+		return new Scene(new WebApplicationRegion(serviceLocator), Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,
 				Constants.DEFAULT_FILL_COLOUR);
 	}
 

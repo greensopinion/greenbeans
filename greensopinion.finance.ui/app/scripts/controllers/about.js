@@ -8,10 +8,6 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('AboutCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('AboutCtrl',['$scope','$window', function ($scope,$window) {
+    $scope.copyrightNotice = $window.appServiceLocator.getAboutService().getCopyrightNotice(); // 'Copyright (c) 2015 David Green.  All rights reserved.';
+  }]);
