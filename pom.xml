@@ -7,13 +7,16 @@
   <groupId>greensopinion</groupId>
   <artifactId>greensopinion.finance</artifactId>
   <packaging>pom</packaging>
-  <version>${app.version}</version>
-  <properties>
-    <app.version>0.1.0-SNAPSHOT</app.version>
-  </properties>
+  <version>0.1.0-SNAPSHOT</version>
+  
+  <organization>
+    <name>Green's Opinion</name>
+    <url>http://greensopinion.blogspot.com</url>
+  </organization>
   
   <modules>
     <module>greensopinion.finance.services</module>
     <module>greensopinion.finance.ui</module>
+    <module>greensopinion.finance.application</module>
   </modules>
 </project>

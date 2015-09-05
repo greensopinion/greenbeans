@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>greensopinion</groupId>
+    <artifactId>greensopinion.finance</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <name>Green's Opinion - Finance - Application</name>
+  <artifactId>greensopinion.finance.application</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>greensopinion</groupId>
+      <artifactId>greensopinion.finance.services</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>greensopinion</groupId>
+      <artifactId>greensopinion.finance.ui</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+      <type>tar.gz</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>unpack-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>target/libs</outputDirectory>
+              <excludes>javafx/**</excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <target xmlns:fx="javafx:com.sun.javafx.tools.ant">
+                <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+                  uri="javafx:com.sun.javafx.tools.ant" classpath=".:${java.home}/../lib/ant-javafx.jar" />
+
+                <fx:jar destfile="target/greensopinnion-finance.jar">
+                  <fx:application
+                    mainClass="greensopinion.finance.services.application.Main"
+                    name="Green's Opinion - Finance" version="0.1.0-SNAPSHOT" />
+                  <fileset dir="target/libs">
+                    <exclude name="web-assets"/>
+                  </fileset>
+                </fx:jar>
+
+                <fx:deploy nativeBundles="all" outdir="${basedir}/target">
+                  <fx:resources>
+                    <fx:fileset dir="target">
+                      <include name="greensopinnion-finance.jar" />
+                    </fx:fileset>
+                    <fx:fileset dir="target/libs">
+                      <include name="web-assets/**" />
+                    </fx:fileset>
+                  </fx:resources>
+                </fx:deploy>
+
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
