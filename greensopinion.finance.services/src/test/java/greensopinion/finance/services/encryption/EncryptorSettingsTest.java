@@ -1,0 +1,34 @@
+package greensopinion.finance.services.encryption;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+public class EncryptorSettingsTest {
+	@Test
+	public void masterPasswordValidationState() {
+		EncryptorSettings settings = EncryptorSettings.newSettings("12345");
+		assertNotNull(settings.getMasterPasswordVerificationState());
+		assertSaltInitialized(settings);
+
+		for (int x = 12346; x < 12400; ++x) {
+			assertFalse(settings.validateMasterPassword(Integer.toString(x)));
+		}
+		assertTrue(settings.validateMasterPassword("12345"));
+	}
+
+	private void assertSaltInitialized(EncryptorSettings settings) {
+		assertNotNull(settings.getSalt());
+		assertEquals(8, settings.getSalt().length);
+		int zeros = 0;
+		for (byte b : settings.getSalt()) {
+			if (b == 0) {
+				++zeros;
+			}
+		}
+		assertTrue(zeros < 8);
+	}
+}
