@@ -1,0 +1,9 @@
+{
+  "encryptorSettings": {
+    "masterPasswordVerificationState": "1234",
+    "salt": [
+      35,
+      36
+    ]
+  }
+}
