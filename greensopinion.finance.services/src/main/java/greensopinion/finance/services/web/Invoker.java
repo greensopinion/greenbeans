@@ -35,7 +35,6 @@ public class Invoker {
 		} catch (Exception e) {
 			return toWebResponse(webRenderer.toResponse(e));
 		}
-
 	}
 
 	private WebResponse toWebResponse(Response response) {
