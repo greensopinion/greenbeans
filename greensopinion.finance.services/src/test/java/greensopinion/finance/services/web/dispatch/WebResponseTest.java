@@ -1,8 +1,10 @@
-package greensopinion.finance.services.web;
+package greensopinion.finance.services.web.dispatch;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import greensopinion.finance.services.web.dispatch.WebResponse;
 
 public class WebResponseTest {
 	@Test

@@ -1,4 +1,4 @@
-package greensopinion.finance.services.web;
+package greensopinion.finance.services.web.dispatch;
 
 public class WebResponse {
 

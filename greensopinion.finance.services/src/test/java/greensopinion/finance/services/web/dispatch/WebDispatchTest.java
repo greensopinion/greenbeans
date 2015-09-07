@@ -1,4 +1,4 @@
-package greensopinion.finance.services.web;
+package greensopinion.finance.services.web.dispatch;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import com.google.inject.Guice;
+
+import greensopinion.finance.services.web.WebServiceModule;
 
 public class WebDispatchTest {
 

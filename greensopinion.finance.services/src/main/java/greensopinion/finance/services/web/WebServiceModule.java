@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 
+import greensopinion.finance.services.web.dispatch.Invoker;
+import greensopinion.finance.services.web.dispatch.WebDispatch;
+
 public class WebServiceModule extends AbstractModule {
 
 	@Override

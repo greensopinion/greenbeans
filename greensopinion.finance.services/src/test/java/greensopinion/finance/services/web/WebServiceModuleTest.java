@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import greensopinion.finance.services.web.dispatch.Invoker;
+import greensopinion.finance.services.web.dispatch.WebDispatch;
+
 public class WebServiceModuleTest {
 	@Test
 	public void providesWebDispatch() {

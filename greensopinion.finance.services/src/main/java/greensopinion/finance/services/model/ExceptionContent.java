@@ -1,4 +1,4 @@
-package greensopinion.finance.services.web;
+package greensopinion.finance.services.model;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;

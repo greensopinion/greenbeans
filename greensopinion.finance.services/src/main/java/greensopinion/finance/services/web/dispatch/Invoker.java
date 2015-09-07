@@ -1,4 +1,4 @@
-package greensopinion.finance.services.web;
+package greensopinion.finance.services.web.dispatch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.text.MessageFormat.format;
@@ -16,6 +16,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
+
+import greensopinion.finance.services.web.GsonWebRenderer;
 
 public class Invoker {
 

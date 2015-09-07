@@ -4,9 +4,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.inject.Inject;
 
-import greensopinion.finance.services.web.WebDispatch;
-import greensopinion.finance.services.web.WebRequest;
-import greensopinion.finance.services.web.WebResponse;
+import greensopinion.finance.services.web.dispatch.WebDispatch;
+import greensopinion.finance.services.web.dispatch.WebRequest;
+import greensopinion.finance.services.web.dispatch.WebResponse;
 
 public class WebInvoker {
 

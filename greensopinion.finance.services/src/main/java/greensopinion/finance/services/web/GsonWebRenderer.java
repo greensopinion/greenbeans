@@ -25,6 +25,8 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import greensopinion.finance.services.model.ExceptionContent;
+
 public class GsonWebRenderer
 		implements MessageBodyReader<Object>, MessageBodyWriter<Object>, ExceptionMapper<Exception> {
 
