@@ -10,7 +10,6 @@
 angular.module('greensopinionfinanceApp')
   .controller('AboutCtrl',['$scope','aboutService', function ($scope,aboutService) {
     aboutService.about().then(function(about) {
-      console.log(JSON.stringify(about));
       $scope.copyrightNotice = about.copyrightNotice;
       $scope.applicationName = about.applicationName;
     });

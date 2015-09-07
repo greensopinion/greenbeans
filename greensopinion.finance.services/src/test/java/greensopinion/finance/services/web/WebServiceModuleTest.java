@@ -34,8 +34,8 @@ public class WebServiceModuleTest {
 	}
 
 	@Test
-	public void providesEncryptionWebService() {
-		assertSingletonBinding(createInjector(), EncryptionWebService.class);
+	public void providesEncryptionSettingsWebService() {
+		assertSingletonBinding(createInjector(), EncryptionSettingsWebService.class);
 	}
 
 	@Test

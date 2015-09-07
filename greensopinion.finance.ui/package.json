@@ -27,6 +27,7 @@
     "grunt-wiredep": "^2.0.0",
     "jit-grunt": "^0.9.1",
     "jshint-stylish": "^1.0.0",
+    "karma-chrome-launcher": "^0.2.0",
     "karma-jasmine": "*",
     "karma-phantomjs-launcher": "*",
     "time-grunt": "^1.0.0"

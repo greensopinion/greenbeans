@@ -1,21 +1,54 @@
 <div class="jumbotron">
-  <h1>Green's Opinion<br/> Finances</h1>
+  <h1>Green's Opinion Finances</h1>
   <p class="lead">
     Get your daily finances under control.
   </p>
 </div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
+<div class="row" ng-if="needsConfiguration()">
+  <h4>Configure Encryption</h4>
   <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
+      Banking information is private, and we want to keep it that way!  By encrypting your data
+      using strong encryption you're taking steps to ensure that it's safe from prying eyes.
   </p>
-
-  <h4>Angular</h4>
   <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
+      Provide a password to keep your data safe.  Choose a password that you can remember, but one that's hard
+      for others to guess.
   </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+  <div>
+    <form name="configureEncryption" class="form form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="masterPassword">Master Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="masterPassword" ng-model="formData.masterPassword" autofocus/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="masterPassword2">Master Password (Confirm)</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="masterPassword2" ng-model="formData.masterPassword2"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="set-password" type="submit" class="btn btn-primary" ng-click="configure()">Save</button>
+            </div>
+        </div>
+    </form>
+  </div>
+  <p>
+    You will be asked to provide your password once each time the application is launched.
+    If you forget your password you won't be able to access the data at all.
+  </p>
+  <h5>Technical Detail</h5>
+  <p>
+      Data loaded into this app is encrypted using 256-bit AES encryption with Galois Counter Mode (GCM).
+      The secret key is derrived using PKCS #5's PBKDF2 (Password-Based Key Derivation Function #2).
+      password is salted to prevent dictionary attacks against the key.  A random 16-byte initialization
+      vector is applied to ensure that each encrypted message is unique.
+  </p>
+  <p>
+      While encryption does not 100% guarantee data safety, strong encryption is the best known way to protect
+      your data.
+  </p>
 </div>
