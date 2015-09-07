@@ -8,6 +8,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import greensopinion.finance.services.bridge.WebInvoker;
+import greensopinion.finance.services.data.ConfigurationModule;
+import greensopinion.finance.services.encryption.EncryptionModule;
 import greensopinion.finance.services.web.WebServiceModule;
 
 public class ServiceLocator {
@@ -19,7 +21,7 @@ public class ServiceLocator {
 	}
 
 	private Injector createInjector() {
-		return Guice.createInjector(new WebServiceModule());
+		return Guice.createInjector(new EncryptionModule(), new ConfigurationModule(), new WebServiceModule());
 	}
 
 	public WebInvoker getWebInvoker() {

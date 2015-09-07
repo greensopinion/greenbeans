@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.google.common.io.Files;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import greensopinion.finance.services.TestResources;
@@ -29,16 +28,18 @@ public class DataServiceTest {
 	private File dataFolder;
 	private DataService service;
 
+	private DataDirectoryLocator dataDirectory;
+
 	@Before
 	public void before() {
 		dataFolder = new File(temporaryFolder.getRoot(), "data");
+		dataDirectory = new DataDirectoryLocator() {
+			@Override
+			public File locate() {
+				return dataFolder;
+			}
+		};
 		service = createService();
-	}
-
-	@Test
-	public void getDataDirectory() {
-		DataService service = new DataService(new Gson());
-		assertEquals(DataDirectory.locate(), service.getDataDirectory());
 	}
 
 	@Test
@@ -67,11 +68,6 @@ public class DataServiceTest {
 	}
 
 	private DataService createService() {
-		return new DataService(new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()) {
-			@Override
-			File getDataDirectory() {
-				return dataFolder;
-			}
-		};
+		return new DataService(new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create(), dataDirectory);
 	}
 }

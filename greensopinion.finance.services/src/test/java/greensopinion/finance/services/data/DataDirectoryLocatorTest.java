@@ -7,11 +7,11 @@ import java.io.File;
 
 import org.junit.Test;
 
-public class DataDirectoryTest {
+public class DataDirectoryLocatorTest {
 
 	@Test
 	public void getDataDirectory() {
-		File file = DataDirectory.locate();
+		File file = new DataDirectoryLocator().locate();
 		assertEquals(System.getProperty("user.home") + "/Library/Application Support/GreensOpinionFinance",
 				file.getPath());
 		assertTrue(file.getParentFile().exists());

@@ -21,14 +21,16 @@ import com.google.gson.Gson;
 
 import jersey.repackaged.com.google.common.base.Throwables;
 
-public class DataService {
+class DataService {
 
 	private static final String DATA_FILE = "data.json";
-	private Gson gson;
+	private final Gson gson;
+	private final DataDirectoryLocator dataDirectoryLocator;
 
 	@Inject
-	public DataService(Gson gson) {
+	DataService(Gson gson, DataDirectoryLocator dataDirectoryLocator) {
 		this.gson = checkNotNull(gson);
+		this.dataDirectoryLocator = checkNotNull(dataDirectoryLocator);
 	}
 
 	public Data load() {
@@ -62,10 +64,6 @@ public class DataService {
 	}
 
 	File getDataFile() {
-		return new File(getDataDirectory(), DATA_FILE);
-	}
-
-	File getDataDirectory() {
-		return DataDirectory.locate();
+		return new File(dataDirectoryLocator.locate(), DATA_FILE);
 	}
 }
