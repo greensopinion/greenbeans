@@ -13,8 +13,8 @@ public class EncryptorSettings {
 		return new EncryptorSettings(encryptedState, salt);
 	}
 
-	private String masterPasswordVerificationState;
-	private byte[] salt;
+	private final String masterPasswordVerificationState;
+	private final byte[] salt;
 
 	public EncryptorSettings(String masterPasswordVerificationState, byte[] salt) {
 		this.masterPasswordVerificationState = masterPasswordVerificationState;
@@ -26,7 +26,7 @@ public class EncryptorSettings {
 	}
 
 	public byte[] getSalt() {
-		return salt;
+		return Arrays.copyOf(salt, salt.length);
 	}
 
 	public boolean validateMasterPassword(String masterPassword) {
