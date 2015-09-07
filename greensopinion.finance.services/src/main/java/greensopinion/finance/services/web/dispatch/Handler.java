@@ -2,7 +2,9 @@ package greensopinion.finance.services.web.dispatch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -13,11 +15,13 @@ import javax.ws.rs.PathParam;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import jersey.repackaged.com.google.common.base.Throwables;
+
 class Handler {
 	static final String NAME_ENTITY = "<request-entity>";
 
-	private Object webService;
-	private Method method;
+	private final Object webService;
+	private final Method method;
 
 	private List<String> parameterOrder;
 	private Map<String, Type> parameterNameToType;
@@ -25,7 +29,7 @@ class Handler {
 	public Handler(Object webService, Method method) {
 		this.webService = checkNotNull(webService);
 		this.method = checkNotNull(method);
-		compileParameters(method.getAnnotatedParameterTypes());
+		compileParameters(method.getAnnotatedParameterTypes(), method.getParameterAnnotations());
 	}
 
 	public Map<String, Type> getParameterNameToType() {
@@ -38,29 +42,43 @@ class Handler {
 			String parameterName = parameterOrder.get(x);
 			params[x] = parameters.get(parameterName);
 		}
-		return method.invoke(webService, params);
+		try {
+			return method.invoke(webService, params);
+		} catch (InvocationTargetException e) {
+			throw Throwables.propagate(e.getCause());
+		}
 	}
 
-	private void compileParameters(AnnotatedType[] annotatedParameterTypes) {
+	private void compileParameters(AnnotatedType[] annotatedParameterTypes, Annotation[][] annotations) {
 		ImmutableList.Builder<String> parameterOrderBuilder = ImmutableList.builder();
 		ImmutableMap.Builder<String, Type> nameToTypeBuilder = ImmutableMap.builder();
 
-		for (AnnotatedType annotatedParameter : annotatedParameterTypes) {
-			PathParam pathParam = annotatedParameter.getAnnotation(PathParam.class);
+		for (int x = 0; x < annotatedParameterTypes.length; ++x) {
+			AnnotatedType annotatedType = annotatedParameterTypes[x];
+			PathParam pathParam = getPathParam(annotations[x]);
 			String name;
 			Type type;
 			if (pathParam != null) {
 				name = pathParam.value();
-				type = annotatedParameter.getType();
+				type = annotatedType.getType();
 			} else {
 				name = NAME_ENTITY;
-				type = annotatedParameter.getType();
+				type = annotatedType.getType();
 			}
 			parameterOrderBuilder.add(name);
 			nameToTypeBuilder.put(name, type);
 		}
 		parameterOrder = parameterOrderBuilder.build();
 		parameterNameToType = nameToTypeBuilder.build();
+	}
+
+	private PathParam getPathParam(Annotation[] annotations) {
+		for (Annotation annotation : annotations) {
+			if (PathParam.class == annotation.annotationType()) {
+				return (PathParam) annotation;
+			}
+		}
+		return null;
 	}
 
 }
