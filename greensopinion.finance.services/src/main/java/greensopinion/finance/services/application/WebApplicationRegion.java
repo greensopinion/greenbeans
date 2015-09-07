@@ -3,9 +3,6 @@ package greensopinion.finance.services.application;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import greensopinion.finance.services.bridge.ConsoleBridge;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker.State;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.Region;
@@ -24,22 +21,15 @@ public class WebApplicationRegion extends Region {
 	public WebApplicationRegion(ServiceLocator serviceLocator) {
 		checkNotNull(serviceLocator);
 		installConsoleBridge();
-		webEngine.load(Constants.webViewLocation());
 		installServiceLocator(serviceLocator);
+		webEngine.load(Constants.webViewLocation());
+
 		getChildren().add(webView);
 	}
 
 	private void installServiceLocator(ServiceLocator serviceLocator) {
-		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
-
-			@Override
-			public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-				if (State.SUCCEEDED.equals(newValue)) {
-					JSObject windowObject = getJsWindow();
-					windowObject.setMember(JS_MEMBER_NAME_APP_SERVICE_LOCATOR, serviceLocator);
-				}
-			}
-		});
+		JSObject windowObject = getJsWindow();
+		windowObject.setMember(JS_MEMBER_NAME_APP_SERVICE_LOCATOR, serviceLocator);
 	}
 
 	private void installConsoleBridge() {

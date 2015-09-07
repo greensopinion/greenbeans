@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private ServiceLocator serviceLocator = new ServiceLocator();
+	private final ServiceLocator serviceLocator = new ServiceLocator();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
