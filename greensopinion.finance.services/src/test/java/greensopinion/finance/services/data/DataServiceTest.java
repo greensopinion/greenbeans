@@ -57,8 +57,8 @@ public class DataServiceTest {
 		service.save(data);
 		assertTrue(dataFolder.exists());
 
-		assertEquals(TestResources.load(DataServiceTest.class, "expected-data.json.txt"),
-				Files.toString(new File(dataFolder, "data.json"), StandardCharsets.UTF_8));
+		assertEquals(TestResources.load(DataServiceTest.class, "expected-settings.json.txt"),
+				Files.toString(new File(dataFolder, "settings.json"), StandardCharsets.UTF_8));
 
 		Data loaded = service.load();
 		assertNotNull(loaded);

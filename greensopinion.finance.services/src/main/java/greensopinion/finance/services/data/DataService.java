@@ -23,7 +23,7 @@ import jersey.repackaged.com.google.common.base.Throwables;
 
 class DataService {
 
-	private static final String DATA_FILE = "data.json";
+	private static final String SETTINGS_FILE = "settings.json";
 	private final DataGsonProvider gsonProvider;
 	private final DataDirectoryLocator dataDirectoryLocator;
 
@@ -34,7 +34,7 @@ class DataService {
 	}
 
 	public Data load() {
-		File dataFile = getDataFile();
+		File dataFile = getSettingsFile();
 		if (dataFile.exists()) {
 			try (Reader reader = new InputStreamReader(new BufferedInputStream(new FileInputStream(dataFile)),
 					StandardCharsets.UTF_8)) {
@@ -48,7 +48,7 @@ class DataService {
 
 	public void save(Data data) {
 		checkNotNull(data);
-		File dataFile = getDataFile();
+		File dataFile = getSettingsFile();
 		File dataFolder = dataFile.getParentFile();
 		if (!dataFolder.exists()) {
 			if (!dataFolder.mkdirs()) {
@@ -68,7 +68,7 @@ class DataService {
 		return gsonProvider.get();
 	}
 
-	File getDataFile() {
-		return new File(dataDirectoryLocator.locate(), DATA_FILE);
+	File getSettingsFile() {
+		return new File(dataDirectoryLocator.locate(), SETTINGS_FILE);
 	}
 }
