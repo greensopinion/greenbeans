@@ -68,6 +68,11 @@ public class DataServiceTest {
 	}
 
 	private DataService createService() {
-		return new DataService(new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create(), dataDirectory);
+		return new DataService(new DataGsonProvider() {
+			@Override
+			GsonBuilder builder() {
+				return super.builder().setPrettyPrinting();
+			}
+		}, dataDirectory);
 	}
 }

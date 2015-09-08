@@ -24,12 +24,12 @@ import jersey.repackaged.com.google.common.base.Throwables;
 class DataService {
 
 	private static final String DATA_FILE = "data.json";
-	private final Gson gson;
+	private final DataGsonProvider gsonProvider;
 	private final DataDirectoryLocator dataDirectoryLocator;
 
 	@Inject
-	DataService(Gson gson, DataDirectoryLocator dataDirectoryLocator) {
-		this.gson = checkNotNull(gson);
+	DataService(DataGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator) {
+		this.gsonProvider = checkNotNull(gsonProvider);
 		this.dataDirectoryLocator = checkNotNull(dataDirectoryLocator);
 	}
 
@@ -38,7 +38,7 @@ class DataService {
 		if (dataFile.exists()) {
 			try (Reader reader = new InputStreamReader(new BufferedInputStream(new FileInputStream(dataFile)),
 					StandardCharsets.UTF_8)) {
-				return checkNotNull(gson.fromJson(reader, Data.class));
+				return checkNotNull(gson().fromJson(reader, Data.class));
 			} catch (IOException e) {
 				throw Throwables.propagate(e);
 			}
@@ -55,12 +55,17 @@ class DataService {
 				throw new IllegalStateException(format("Cannot create folder {0}", dataFolder));
 			}
 		}
+		Gson gson = gson();
 		try (Writer writer = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(dataFile)),
 				StandardCharsets.UTF_8)) {
 			gson.toJson(data, writer);
 		} catch (IOException e) {
 			throw Throwables.propagate(e);
 		}
+	}
+
+	private Gson gson() {
+		return gsonProvider.get();
 	}
 
 	File getDataFile() {
