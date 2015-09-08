@@ -42,4 +42,27 @@ describe('Controller: MainCtrl', function () {
     $rootScope.$digest();
     expect(scope.needsConfiguration()).toBe(true);
   });
+
+  it('exposes formData', function() {
+    expect(scope.formData).toBeDefined();
+    expect(scope.formData.masterPassword).toBeDefined();
+    expect(scope.formData.masterPassword2).toBeDefined();
+  });
+
+  it('exposes configure', function() {
+    expect(scope.configure).toBeDefined();
+    scope.configure();
+    $rootScope.$digest();
+    expect(scope.errorMessage).toBe('You must enter a master password.');
+
+    scope.formData.masterPassword = '1234';
+    scope.configure();
+    $rootScope.$digest();
+    expect(scope.errorMessage).toBe('Passwords entered do not match.');
+
+    scope.formData.masterPassword2 = '1234';
+    scope.configure();
+    $rootScope.$digest();
+    expect(scope.errorMessage).toBeUndefined();
+  });
 });
