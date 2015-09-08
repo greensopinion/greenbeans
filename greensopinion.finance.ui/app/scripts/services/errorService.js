@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('greensopinionfinanceApp')
-  .service('errorService',[function() {
+  .service('errorService',['ErrorModel',function(ErrorModel) {
     var getErrorMessage = function(result) {
-        if (result instanceof Error) {
+        if (result instanceof ErrorModel) {
           return result.message;
         }
         return 'Unexpected error: '+result;
