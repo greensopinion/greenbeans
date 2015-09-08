@@ -6,7 +6,7 @@
 </div>
 
 <div class="row" ng-if="needsConfiguration()">
-  <h4>Configure Encryption</h4>
+  <h3><i class="fa fa-lock fa-2x"></i> Secure Your Data</h3>
   <p>
       Banking information is private, and we want to keep it that way!  By encrypting your data
       using strong encryption you're taking steps to ensure that it's safe from prying eyes.
@@ -37,14 +37,15 @@
     </form>
   </div>
   <p>
-    You will be asked to provide your password once each time the application is launched.
-    If you forget your password you won't be able to access the data at all.
+    The master password is used as a secret key to encrypt your data.
+    You will be asked to provide the master password once each time the application is launched.
+    Without the master password your data is lost forever, so be sure to choose a password that you can remember.
   </p>
-  <h5>Technical Detail</h5>
+  <h4>Encryption Algorithm</h4>
   <p>
       Data loaded into this app is encrypted using 256-bit AES encryption with Galois Counter Mode (GCM).
       The secret key is derrived using PKCS #5's PBKDF2 (Password-Based Key Derivation Function #2).
-      password is salted to prevent dictionary attacks against the key.  A random 16-byte initialization
+      The password is salted to prevent dictionary attacks against the key.  A random 16-byte initialization
       vector is applied to ensure that each encrypted message is unique.
   </p>
   <p>
