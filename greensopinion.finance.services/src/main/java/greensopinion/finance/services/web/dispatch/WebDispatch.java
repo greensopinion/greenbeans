@@ -15,6 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.common.base.CharMatcher;
@@ -26,14 +27,16 @@ import com.google.inject.Binding;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 
+import greensopinion.finance.services.model.ExceptionContent;
+
 public class WebDispatch {
 
 	private static final List<Class<? extends Annotation>> webMethodAnnotations = ImmutableList
 			.<Class<? extends Annotation>> of(GET.class, PUT.class, DELETE.class, POST.class);
 
-	private Map<WebPath, Handler> pathToHandler;
+	private final Map<WebPath, Handler> pathToHandler;
 
-	private Invoker invoker;
+	private final Invoker invoker;
 
 	@Inject
 	public WebDispatch(Injector injector, Invoker invoker) {
@@ -49,7 +52,13 @@ public class WebDispatch {
 				return invoker.invoke(request, match, handlerEntry.getValue());
 			}
 		}
-		return new WebResponse(Status.NOT_FOUND.getStatusCode(), null);
+		return notFound(request);
+	}
+
+	private WebResponse notFound(WebRequest request) {
+		ExceptionContent entity = new ExceptionContent(new NotFoundException(request));
+		return invoker.toWebResponse(
+				Response.status(Status.NOT_FOUND).entity(entity).build());
 	}
 
 	private Map<WebPath, Handler> createPathToHandler(Injector injector) {

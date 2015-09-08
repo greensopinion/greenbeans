@@ -11,7 +11,7 @@ import greensopinion.finance.services.web.WebServiceModule;
 
 public class WebDispatchTest {
 
-	private WebDispatch dispatch = createWebDispatch();
+	private final WebDispatch dispatch = createWebDispatch();
 
 	@Test
 	public void dispatch() {
@@ -20,6 +20,15 @@ public class WebDispatchTest {
 		assertEquals(200, response.getResponseCode());
 		assertEquals(
 				"{\"applicationName\":\"Green's Opinion - Finances\",\"copyrightNotice\":\"Copyright (c) 2015 David Green.  All rights reserved.\"}",
+				response.getEntity());
+	}
+
+	@Test
+	public void dispatchNotFound() {
+		WebResponse response = dispatch.dispatch(new WebRequest("GET", "/not-present", null));
+		assertNotNull(response);
+		assertEquals(404, response.getResponseCode());
+		assertEquals("{\"errorCode\":\"NotFoundException\",\"message\":\"Not found: GET /not-present\"}",
 				response.getEntity());
 	}
 

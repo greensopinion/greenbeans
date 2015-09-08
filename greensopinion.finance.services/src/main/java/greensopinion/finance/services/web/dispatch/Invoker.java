@@ -21,7 +21,7 @@ import greensopinion.finance.services.web.GsonWebRenderer;
 
 public class Invoker {
 
-	private GsonWebRenderer webRenderer;
+	private final GsonWebRenderer webRenderer;
 
 	@Inject
 	public Invoker(GsonWebRenderer webRenderer) {
@@ -39,7 +39,7 @@ public class Invoker {
 		}
 	}
 
-	private WebResponse toWebResponse(Response response) {
+	WebResponse toWebResponse(Response response) {
 		Object entity = response.getEntity();
 		String entityString = null;
 		ByteArrayOutputStream entityStream = new ByteArrayOutputStream();
