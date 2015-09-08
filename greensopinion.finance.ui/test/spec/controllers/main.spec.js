@@ -23,6 +23,11 @@ describe('Controller: MainCtrl', function () {
           return $q(function(resolve) {
             resolve({});
           });
+        },
+        initializeMasterPassword: function () {
+          return $q(function(resolve) {
+            resolve({});
+          });
         }
     };
     MainCtrl = $controller('MainCtrl', {
@@ -48,13 +53,25 @@ describe('Controller: MainCtrl', function () {
     expect(scope.needsConfiguration()).toBe(true);
   });
 
+  it('exposes needsInitialization()', function () {
+    expect(scope.needsInitialization).toBeDefined();
+    expect(scope.needsInitialization()).toBe(false);
+    $rootScope.$digest();
+    expect(scope.needsInitialization()).toBe(true);
+
+    encryptionSettings.initialized = true;
+
+    $rootScope.$digest();
+    expect(scope.needsInitialization()).toBe(false);
+  });
+
   it('exposes formData', function() {
     expect(scope.formData).toBeDefined();
     expect(scope.formData.masterPassword).toBeDefined();
     expect(scope.formData.masterPassword2).toBeDefined();
   });
 
-  it('exposes configure', function() {
+  it('exposes configure()', function() {
     expect(scope.configure).toBeDefined();
     scope.configure();
     $rootScope.$digest();
@@ -67,6 +84,18 @@ describe('Controller: MainCtrl', function () {
 
     scope.formData.masterPassword2 = '1234';
     scope.configure();
+    $rootScope.$digest();
+    expect(scope.errorMessage).toBeUndefined();
+  });
+
+  it('exposes initialize()', function() {
+    expect(scope.configure).toBeDefined();
+    scope.initialize();
+    $rootScope.$digest();
+    expect(scope.errorMessage).toBe('You must enter a master password.');
+
+    scope.formData.masterPassword = '1234';
+    scope.initialize();
     $rootScope.$digest();
     expect(scope.errorMessage).toBeUndefined();
   });

@@ -19,6 +19,12 @@ describe('Service: EncryptionSettingsService', function () {
           payload.path = path;
           payload.entity = entity;
           return payloadPromise;
+        },
+        post: function(path,entity) {
+          payload.method = 'POST';
+          payload.path = path;
+          payload.entity = entity;
+          return payloadPromise;
         }
       };
       $provide.value('rest', mockRest);
@@ -56,6 +62,7 @@ describe('Service: EncryptionSettingsService', function () {
         expect(settings.initialized).toBe(true);
         expect(settings.configured).toBe(true);
     }));
+
     it('configureMasterPassword should invoke web service',function() {
         expect(encryptionSettingsService.configureMasterPassword).toBeDefined();
         var settings;
@@ -66,6 +73,19 @@ describe('Service: EncryptionSettingsService', function () {
 
         expect(settings.path).toBe('/encryption-settings/current');
         expect(settings.method).toBe('PUT');
+        expect(settings.entity.masterPassword).toBe( '1234');
+    });
+
+    it('configureMasterPassword should invoke web service',function() {
+        expect(encryptionSettingsService.initializeMasterPassword).toBeDefined();
+        var settings;
+        encryptionSettingsService.initializeMasterPassword('1234').then(function(result) {
+          settings = result;
+        });
+        $rootScope.$digest();
+
+        expect(settings.path).toBe('/encryption-settings/current');
+        expect(settings.method).toBe('POST');
         expect(settings.entity.masterPassword).toBe( '1234');
     });
 });

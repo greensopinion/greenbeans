@@ -55,8 +55,11 @@ class Handler {
 	}
 
 	private void logInvocationError(Throwable cause) {
-		Logger.getLogger(method.getDeclaringClass().getName()).log(Level.SEVERE,
-				format("exception: {0}", cause.getMessage()), cause);
+		getLogger().log(Level.SEVERE, format("exception: {0}", cause.getMessage()), cause);
+	}
+
+	Logger getLogger() {
+		return Logger.getLogger(method.getDeclaringClass().getName());
 	}
 
 	private void compileParameters(AnnotatedType[] annotatedParameterTypes, Annotation[][] annotations) {

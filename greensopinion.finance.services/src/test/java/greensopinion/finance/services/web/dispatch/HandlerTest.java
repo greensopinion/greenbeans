@@ -1,6 +1,12 @@
 package greensopinion.finance.services.web.dispatch;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.PathParam;
 
@@ -26,10 +32,23 @@ public class HandlerTest {
 
 	@Test
 	public void invokeWithException() throws Exception {
-		Handler handler = new Handler(new TestWebService(), TestWebService.class.getDeclaredMethod("thrower"));
-		thrown.expect(RuntimeException.class);
-		thrown.expectMessage("ouch");
-		handler.invoke(ImmutableMap.of());
+		final Logger logger = mock(Logger.class);
+		Handler handler = new Handler(new TestWebService(), TestWebService.class.getDeclaredMethod("thrower")) {
+			@Override
+			Logger getLogger() {
+				return logger;
+			}
+		};
+		try {
+			handler.invoke(ImmutableMap.of());
+		} catch (Exception e) {
+			verify(logger).log(Level.SEVERE, "exception: " + e.getMessage(), e);
+			verifyNoMoreInteractions(logger);
+			throw e;
+		} finally {
+			thrown.expect(RuntimeException.class);
+			thrown.expectMessage("ouch");
+		}
 	}
 
 	@Test

@@ -10,6 +10,10 @@ angular.module('greensopinionfinanceApp')
       configureMasterPassword: function(masterPassword) {
           var entity = { masterPassword: masterPassword };
           return rest.put(API_BASE+'current',entity);
+      },
+      initializeMasterPassword: function(masterPassword) {
+          var entity = { masterPassword: masterPassword };
+          return rest.post(API_BASE+'current',entity);
       }
     };
   }]);
