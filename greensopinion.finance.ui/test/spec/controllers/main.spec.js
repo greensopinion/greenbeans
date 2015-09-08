@@ -18,6 +18,11 @@ describe('Controller: MainCtrl', function () {
             return $q(function(resolve) {
               resolve(encryptionSettings);
             });
+        },
+        configureMasterPassword: function() {
+          return $q(function(resolve) {
+            resolve({});
+          });
         }
     };
     MainCtrl = $controller('MainCtrl', {

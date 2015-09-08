@@ -6,6 +6,9 @@ angular.module('greensopinionfinanceApp')
         if (result instanceof ErrorModel) {
           return result.message;
         }
+        if (result.errorCode !== undefined) {
+          return result.message;
+        }
         return 'Unexpected error: '+result;
     };
     return {

@@ -1,6 +1,7 @@
 package greensopinion.finance.services.web.dispatch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.text.MessageFormat.format;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
@@ -9,6 +10,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.PathParam;
 
@@ -45,8 +48,15 @@ class Handler {
 		try {
 			return method.invoke(webService, params);
 		} catch (InvocationTargetException e) {
-			throw Throwables.propagate(e.getCause());
+			Throwable cause = e.getCause();
+			logInvocationError(cause);
+			throw Throwables.propagate(cause);
 		}
+	}
+
+	private void logInvocationError(Throwable cause) {
+		Logger.getLogger(method.getDeclaringClass().getName()).log(Level.SEVERE,
+				format("exception: {0}", cause.getMessage()), cause);
 	}
 
 	private void compileParameters(AnnotatedType[] annotatedParameterTypes, Annotation[][] annotations) {

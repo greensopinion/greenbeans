@@ -20,6 +20,15 @@ describe('Service: ErrorService', function () {
         $rootScope.$digest();
         expect(scope.errorMessage).toBe('test message');
     }));
+    it('should handle REST failure message payload',function() {
+        errorService.maintainErrorMessageInScope(deferred.promise,scope);
+        deferred.reject({
+          errorCode: 500,
+          message: 'some error message'
+        });
+        $rootScope.$digest();
+        expect(scope.errorMessage).toBe('some error message');
+    });
     it('should clear errorMessage on success',function() {
         scope.errorMessage = 'a message';
         errorService.maintainErrorMessageInScope(deferred.promise,scope);

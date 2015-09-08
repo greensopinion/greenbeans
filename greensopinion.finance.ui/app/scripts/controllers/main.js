@@ -23,7 +23,13 @@ angular.module('greensopinionfinanceApp')
       if ($scope.formData.masterPassword !== $scope.formData.masterPassword2) {
           return $q.reject(new ErrorModel('Passwords entered do not match.'));
       }
-      return $q.resolve('test');// encryptionSettingsService.configureMasterPassword($scope.formData.masterPassword);
+      return encryptionSettingsService.configureMasterPassword($scope.formData.masterPassword)
+        .then(function(result) {
+          encryptionSettingsService.get().then(function(encryptionSettings) {
+            $scope.encryptionSettings = encryptionSettings;
+          });
+          return result;   
+      });
     };
     $scope.configure = function() {
       return errorService.maintainErrorMessageInScope(configure(),$scope);

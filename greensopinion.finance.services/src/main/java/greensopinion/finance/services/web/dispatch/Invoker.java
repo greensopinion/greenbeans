@@ -42,12 +42,14 @@ public class Invoker {
 	WebResponse toWebResponse(Response response) {
 		Object entity = response.getEntity();
 		String entityString = null;
-		ByteArrayOutputStream entityStream = new ByteArrayOutputStream();
-		try {
-			webRenderer.writeTo(entity, entity.getClass(), entity.getClass(), null, null, null, entityStream);
-			entityString = entityStream.toString(StandardCharsets.UTF_8.name());
-		} catch (Exception e) {
-			throw Throwables.propagate(e);
+		if (entity != null) {
+			ByteArrayOutputStream entityStream = new ByteArrayOutputStream();
+			try {
+				webRenderer.writeTo(entity, entity.getClass(), entity.getClass(), null, null, null, entityStream);
+				entityString = entityStream.toString(StandardCharsets.UTF_8.name());
+			} catch (Exception e) {
+				throw Throwables.propagate(e);
+			}
 		}
 		return new WebResponse(response.getStatus(), entityString);
 	}
