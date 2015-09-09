@@ -2,12 +2,21 @@ package greensopinion.finance.services.application;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import com.google.common.io.Resources;
+
 import greensopinion.finance.services.bridge.ConsoleBridge;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker.State;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.Region;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import jersey.repackaged.com.google.common.base.Throwables;
 import netscape.javascript.JSObject;
 
 public class WebApplicationRegion extends Region {
@@ -18,13 +27,36 @@ public class WebApplicationRegion extends Region {
 	private final WebView webView = new WebView();
 	private final WebEngine webEngine = webView.getEngine();
 
-	public WebApplicationRegion(ServiceLocator serviceLocator) {
+	public WebApplicationRegion(ServiceLocator serviceLocator, boolean debugUi) {
 		checkNotNull(serviceLocator);
 		installConsoleBridge();
 		installServiceLocator(serviceLocator);
 		webEngine.load(Constants.webViewLocation());
-
+		if (debugUi) {
+			installFirebugLite();
+		}
 		getChildren().add(webView);
+	}
+
+	private void installFirebugLite() {
+		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
+
+			@Override
+			public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+				if (State.SUCCEEDED.equals(newValue)) {
+					webEngine.executeScript(installFirebugLiteScript());
+				}
+			}
+
+			private String installFirebugLiteScript() {
+				try {
+					return Resources.toString(WebApplicationRegion.class.getResource("install-firebug-lite.js"),
+							StandardCharsets.UTF_8);
+				} catch (IOException e) {
+					throw Throwables.propagate(e);
+				}
+			}
+		});
 	}
 
 	private void installServiceLocator(ServiceLocator serviceLocator) {

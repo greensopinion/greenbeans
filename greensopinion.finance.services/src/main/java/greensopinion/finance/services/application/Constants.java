@@ -12,9 +12,10 @@ import javafx.scene.paint.Color;
 
 class Constants {
 
-	public static final int DEFAULT_HEIGHT = 600;
+	public static final int DEFAULT_HEIGHT = 1024;
 	public static final int DEFAULT_WIDTH = 800;
 	public static final Color DEFAULT_FILL_COLOUR = Color.web("#666970");
+	public static final Object PARAM_DEBUG_UI = "-XdebugUI";
 
 	public static String webViewLocation() {
 		URL selfUri = checkNotNull(Constants.class.getResource(Constants.class.getSimpleName() + ".class"));
