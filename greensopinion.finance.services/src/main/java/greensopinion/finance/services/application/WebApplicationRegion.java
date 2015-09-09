@@ -1,13 +1,17 @@
 package greensopinion.finance.services.application;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import javax.inject.Inject;
+
 import com.google.common.io.Resources;
 
 import greensopinion.finance.services.bridge.ConsoleBridge;
+import javafx.application.Application.Parameters;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -19,23 +23,37 @@ import javafx.scene.web.WebView;
 import jersey.repackaged.com.google.common.base.Throwables;
 import netscape.javascript.JSObject;
 
-public class WebApplicationRegion extends Region {
+class WebApplicationRegion extends Region {
 
 	private static final String JS_MEMBER_NAME_APP_SERVICE_LOCATOR = "appServiceLocator";
 	private static final String JS_MEMBER_NAME_CONSOLE_BRIDGE = "consoleBridge";
 
-	private final WebView webView = new WebView();
-	private final WebEngine webEngine = webView.getEngine();
+	private WebView webView;
+	private WebEngine webEngine;
+	private final ServiceLocator serviceLocator;
+	private final Parameters parameters;
 
-	public WebApplicationRegion(ServiceLocator serviceLocator, boolean debugUi) {
-		checkNotNull(serviceLocator);
+	@Inject
+	WebApplicationRegion(ServiceLocator serviceLocator, Parameters parameters) {
+		this.serviceLocator = checkNotNull(serviceLocator);
+		this.parameters = checkNotNull(parameters);
+	}
+
+	public void initialize() {
+		checkState(webView == null);
+		webView = new WebView();
+		webEngine = webView.getEngine();
 		installConsoleBridge();
 		installServiceLocator(serviceLocator);
 		webEngine.load(Constants.webViewLocation());
-		if (debugUi) {
+		if (isDebugUi(parameters)) {
 			installFirebugLite();
 		}
 		getChildren().add(webView);
+	}
+
+	private boolean isDebugUi(Parameters parameters) {
+		return parameters.getUnnamed().contains(Constants.PARAM_DEBUG_UI);
 	}
 
 	private void installFirebugLite() {

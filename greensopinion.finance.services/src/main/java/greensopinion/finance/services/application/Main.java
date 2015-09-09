@@ -1,23 +1,33 @@
 package greensopinion.finance.services.application;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import greensopinion.finance.services.data.ConfigurationModule;
+import greensopinion.finance.services.encryption.EncryptionModule;
+import greensopinion.finance.services.web.WebServiceModule;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private final ServiceLocator serviceLocator = new ServiceLocator();
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Title Placeholder");
 
-		Scene scene = createMainScene();
+		Injector injector = createInjector();
+		MainScene scene = injector.getInstance(MainScene.class);
+		scene.initialize();
 		primaryStage.setScene(scene);
 		setSizeAndLocation(primaryStage);
 		primaryStage.show();
+	}
+
+	Injector createInjector() {
+		return Guice.createInjector(new SceneModule(getParameters()), new EncryptionModule(), new ConfigurationModule(),
+				new WebServiceModule());
 	}
 
 	private void setSizeAndLocation(Stage primaryStage) {
@@ -26,15 +36,6 @@ public class Main extends Application {
 
 		primaryStage.setWidth(Constants.DEFAULT_WIDTH);
 		primaryStage.setHeight(Math.min(Constants.DEFAULT_HEIGHT, visualBounds.getHeight()));
-	}
-
-	private Scene createMainScene() {
-		return new Scene(new WebApplicationRegion(serviceLocator, isDebugUi()), Constants.DEFAULT_WIDTH,
-				Constants.DEFAULT_HEIGHT, Constants.DEFAULT_FILL_COLOUR);
-	}
-
-	private boolean isDebugUi() {
-		return getParameters().getUnnamed().contains(Constants.PARAM_DEBUG_UI);
 	}
 
 	public static final void main(String[] args) {
