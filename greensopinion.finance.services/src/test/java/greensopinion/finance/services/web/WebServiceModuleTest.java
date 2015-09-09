@@ -2,13 +2,16 @@ package greensopinion.finance.services.web;
 
 import static greensopinion.finance.services.InjectorAsserts.assertSingletonBinding;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
 import com.google.gson.Gson;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import greensopinion.finance.services.ImportFilesService;
 import greensopinion.finance.services.web.dispatch.Invoker;
 import greensopinion.finance.services.web.dispatch.WebDispatch;
 
@@ -39,6 +42,11 @@ public class WebServiceModuleTest {
 	}
 
 	@Test
+	public void providesImportWebService() {
+		assertSingletonBinding(createInjector(), ImportFilesWebService.class);
+	}
+
+	@Test
 	public void providesGson() {
 		Gson gson = assertSingletonBinding(createInjector(), Gson.class);
 		assertHtmlEscapingDisabled(gson);
@@ -49,6 +57,11 @@ public class WebServiceModuleTest {
 	}
 
 	private Injector createInjector() {
-		return Guice.createInjector(new WebServiceModule());
+		return Guice.createInjector(new WebServiceModule(), new AbstractModule() {
+			@Override
+			protected void configure() {
+				bind(ImportFilesService.class).toInstance(mock(ImportFilesService.class));
+			}
+		});
 	}
 }

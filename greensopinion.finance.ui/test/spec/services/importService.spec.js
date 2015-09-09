@@ -20,11 +20,18 @@ describe('Service: importService', function () {
     importService = _importService_;
   }));
 
-  it('importFiles() should invoke web service', function () {
-    importService.importFiles();
+  it('selectedFiles() should invoke web service', function () {
+    importService.selectedFiles();
     $rootScope.$digest();
     expect(payload.method).toBe('GET');
-    expect(payload.path).toBe('/imports/new');
+    expect(payload.path).toBe('/imports/selected');
   });
 
+  it('importFiles() should invoke web service', function () {
+    importService.importFiles(['one','two']);
+    $rootScope.$digest();
+    expect(payload.method).toBe('POST');
+    expect(payload.path).toBe('/imports');
+    expect(payload.entity).toEqual(['one','two']);
+  });
 });

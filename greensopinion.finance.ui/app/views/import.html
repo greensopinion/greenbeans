@@ -2,14 +2,32 @@
 <p>
     Import transactions into the application by selecting one or more files:
 </p>
-<div>
+<div ng-if="!hasFiles()">
+  <form name="selectFilesForm" class="form form-horizontal">
+      <div class="alert alert-danger" ng-show="errorMessage">
+          {{errorMessage}}
+      </div>
+      <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <button id="import-files" type="submit" class="btn btn-primary" ng-click="selectFiles()">Select Files...</button>
+          </div>
+      </div>
+  </form>
+</div>
+<div ng-if="hasFiles()">
+  <p>The following files will be imported:</p>
+  <ul>
+      <li ng-repeat="file in files">{{file}}</li>
+  </ul>
   <form name="importFilesForm" class="form form-horizontal">
       <div class="alert alert-danger" ng-show="errorMessage">
           {{errorMessage}}
       </div>
       <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-              <button id="import-files" type="submit" class="btn btn-primary" ng-click="importFiles()">Import Files...</button>
+              <button id="import-files" type="submit" class="btn btn-primary" ng-click="importFiles()">Import Files</button>
+
+              <button id="import-files" type="submit" class="btn" ng-click="cancel()">Cancel</button>
           </div>
       </div>
   </form>
@@ -30,5 +48,5 @@
 </ol>
 <p>
   When you're done downloading transactions for every account and time period of
-  interest, use the "Import" button above to import the downloaded files.
+  interest, use the "Select Files" button above to import the downloaded files.
 </p>

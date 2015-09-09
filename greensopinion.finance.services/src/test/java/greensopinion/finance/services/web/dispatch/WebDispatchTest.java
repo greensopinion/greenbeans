@@ -2,11 +2,14 @@ package greensopinion.finance.services.web.dispatch;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 
+import greensopinion.finance.services.ImportFilesService;
 import greensopinion.finance.services.web.WebServiceModule;
 
 public class WebDispatchTest {
@@ -32,7 +35,19 @@ public class WebDispatchTest {
 				response.getEntity());
 	}
 
+	@Test
+	public void dispatchRootPath() {
+		WebResponse response = dispatch.dispatch(new WebRequest("POST", "/imports", "['one','two']"));
+		assertNotNull(response);
+		assertEquals(204, response.getResponseCode());
+	}
+
 	private WebDispatch createWebDispatch() {
-		return Guice.createInjector(new WebServiceModule()).getInstance(WebDispatch.class);
+		return Guice.createInjector(new WebServiceModule(), new AbstractModule() {
+			@Override
+			protected void configure() {
+				bind(ImportFilesService.class).toInstance(mock(ImportFilesService.class));
+			}
+		}).getInstance(WebDispatch.class);
 	}
 }
