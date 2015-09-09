@@ -31,6 +31,9 @@ public class ImportFilesService {
 		fileChooser.setTitle("Select Files to Import");
 		fileChooser.getExtensionFilters().setAll(new ExtensionFilter("CSV files (*.csv)", ImmutableList.of("*.csv")));
 		List<File> files = fileChooser.showOpenMultipleDialog(window);
+		if (files == null) {
+			return ImmutableList.of();
+		}
 		return FluentIterable.from(files).transform(new Function<File, String>() {
 
 			@Override
@@ -47,5 +50,4 @@ public class ImportFilesService {
 		}
 		return new File(System.getProperty("user.home"));
 	}
-
 }
