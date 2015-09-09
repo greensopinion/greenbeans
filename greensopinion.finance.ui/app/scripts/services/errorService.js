@@ -18,6 +18,7 @@ angular.module('greensopinionfinanceApp')
               return result;
           },function failure(result) {
               scope.errorMessage = getErrorMessage(result);
+              console.log('Error: '+result);
               return result;
           });
       }

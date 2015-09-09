@@ -5,24 +5,18 @@ describe('Service: AboutService', function () {
     // load the controller's module
     beforeEach(module('greensopinionfinanceApp'));
 
-    var aboutService, mockRest, payload, $rootScope, promiseOf;
+    var aboutService, payload, $rootScope;
+
 
     beforeEach(module(function ($provide) {
-      mockRest = {
-        get: function(path) {
-          payload.method = 'GET';
-          payload.path = path;
-          return promiseOf;
-        }
-      };
-      $provide.value('rest', mockRest);
-    }));
-    beforeEach(inject(function ($injector,_$rootScope_,$q) {
-        $rootScope = _$rootScope_;
+      $provide.factory('rest', function(MockRest) {
         payload = { applicationName: 'App Name', copyrightNotice: 'Copyright Notice' };
-        promiseOf = $q(function(resolve){
-            resolve(payload);
-        });
+        return new MockRest(payload);
+      });
+    }));
+
+    beforeEach(inject(function ($injector,_$rootScope_) {
+        $rootScope = _$rootScope_;
         aboutService = $injector.get('aboutService');
     }));
 

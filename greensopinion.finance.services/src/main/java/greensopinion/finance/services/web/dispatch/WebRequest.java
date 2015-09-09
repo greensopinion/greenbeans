@@ -1,9 +1,11 @@
 package greensopinion.finance.services.web.dispatch;
 
+import com.google.common.base.MoreObjects;
+
 public class WebRequest {
-	private String httpMethod;
-	private String path;
-	private String entity;
+	private final String httpMethod;
+	private final String path;
+	private final String entity;
 
 	public WebRequest(String httpMethod, String path, String entity) {
 		this.httpMethod = httpMethod;
@@ -21,5 +23,10 @@ public class WebRequest {
 
 	public String getEntity() {
 		return entity;
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(WebRequest.class).add("httpMethod", httpMethod).add("path", path).toString();
 	}
 }

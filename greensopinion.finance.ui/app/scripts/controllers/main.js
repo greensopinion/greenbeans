@@ -8,13 +8,21 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('MainCtrl',['$scope','errorService','encryptionSettingsService','$q','ErrorModel', function ($scope,errorService,encryptionSettingsService,$q,ErrorModel) {
+  .controller('MainCtrl',['$scope','errorService','encryptionSettingsService','$q','ErrorModel','$location', function ($scope,errorService,encryptionSettingsService,$q,ErrorModel,$location) {
 
     $scope.formData = {
       masterPassword: '',
       masterPassword2: ''
     };
+    var fetchSettings = function() {
+      encryptionSettingsService.get().then(function(encryptionSettings) {
+        $scope.encryptionSettings = encryptionSettings;
 
+        if (!$scope.needsInitialization() && !$scope.needsConfiguration()) {
+          $location.path('/import');
+        }
+      });
+    };
     var configure = function() {
       if ($scope.formData.masterPassword.trim().length === 0) {
           return $q.reject(new ErrorModel('You must enter a master password.'));
@@ -37,9 +45,7 @@ angular.module('greensopinionfinanceApp')
       }
       return encryptionSettingsService.initializeMasterPassword($scope.formData.masterPassword)
         .then(function(result) {
-          encryptionSettingsService.get().then(function(encryptionSettings) {
-            $scope.encryptionSettings = encryptionSettings;
-          });
+          fetchSettings();
           return result;
       });
     };
@@ -56,7 +62,5 @@ angular.module('greensopinionfinanceApp')
     $scope.initialize = function() {
       return errorService.maintainErrorMessageInScope(initialize(),$scope);
     };
-    encryptionSettingsService.get().then(function(encryptionSettings) {
-      $scope.encryptionSettings = encryptionSettings;
-    });
+    fetchSettings();
   }]);

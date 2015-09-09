@@ -27,6 +27,11 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/import', {
+        templateUrl: 'views/import.html',
+        controller: 'ImportCtrl',
+        controllerAs: 'import'
+      })
       .otherwise({
         redirectTo: '/'
       });

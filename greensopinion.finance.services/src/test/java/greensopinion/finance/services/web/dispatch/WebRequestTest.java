@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import greensopinion.finance.services.web.dispatch.WebRequest;
-
 public class WebRequestTest {
 
 	@Test
@@ -14,5 +12,6 @@ public class WebRequestTest {
 		assertEquals("GET", webRequest.getHttpMethod());
 		assertEquals("/yo", webRequest.getPath());
 		assertEquals("123", webRequest.getEntity());
+		assertEquals("WebRequest{httpMethod=GET, path=/yo}", webRequest.toString());
 	}
 }
