@@ -63,6 +63,18 @@ describe('Controller: MainCtrl', function () {
 
     $rootScope.$digest();
     expect(scope.needsInitialization()).toBe(false);
+
+    encryptionSettings.initialized = false;
+    encryptionSettings.configured = false;
+
+    $rootScope.$digest();
+    expect(scope.needsInitialization()).toBe(false);
+
+    encryptionSettings.initialized = false;
+    encryptionSettings.configured = true;
+
+    $rootScope.$digest();
+    expect(scope.needsInitialization()).toBe(true);
   });
 
   it('exposes formData', function() {

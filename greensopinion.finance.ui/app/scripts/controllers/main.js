@@ -48,7 +48,7 @@ angular.module('greensopinionfinanceApp')
       return $scope.encryptionSettings !== undefined && !$scope.encryptionSettings.configured;
     };
     $scope.needsInitialization = function() {
-      return $scope.encryptionSettings !== undefined && !$scope.encryptionSettings.initialized;
+      return $scope.encryptionSettings !== undefined && !$scope.encryptionSettings.initialized && $scope.encryptionSettings.configured;
     };
     $scope.configure = function() {
       return errorService.maintainErrorMessageInScope(configure(),$scope);
