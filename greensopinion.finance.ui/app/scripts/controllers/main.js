@@ -32,9 +32,7 @@ angular.module('greensopinionfinanceApp')
       }
       return encryptionSettingsService.configureMasterPassword($scope.formData.masterPassword)
         .then(function(result) {
-          encryptionSettingsService.get().then(function(encryptionSettings) {
-            $scope.encryptionSettings = encryptionSettings;
-          });
+          fetchSettings();
           return result;
       });
     };
