@@ -24,11 +24,12 @@ import jersey.repackaged.com.google.common.base.Throwables;
 class PersistenceService {
 
 	private static final String SETTINGS_FILE = "settings.json";
-	private final DataGsonProvider gsonProvider;
+	private static final String TRANSACTIONS_FILE = "transactions.json";
+	private final PersistenceGsonProvider gsonProvider;
 	private final DataDirectoryLocator dataDirectoryLocator;
 
 	@Inject
-	PersistenceService(DataGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator) {
+	PersistenceService(PersistenceGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator) {
 		this.gsonProvider = checkNotNull(gsonProvider);
 		this.dataDirectoryLocator = checkNotNull(dataDirectoryLocator);
 	}
@@ -41,9 +42,22 @@ class PersistenceService {
 		return new Settings();
 	}
 
-	public void saveSettings(Settings data) {
-		checkNotNull(data);
-		save(getSettingsFile(), data);
+	public Transactions loadTransactions() {
+		File transactionsFile = getTransactionsFile();
+		if (transactionsFile.exists()) {
+			return read(transactionsFile, Transactions.class);
+		}
+		return new Transactions();
+	}
+
+	public void saveSettings(Settings settings) {
+		checkNotNull(settings);
+		save(getSettingsFile(), settings);
+	}
+
+	public void saveTransactions(Transactions transactions) {
+		checkNotNull(transactions);
+		save(getTransactionsFile(), transactions);
 	}
 
 	private <T> T read(File file, Class<T> type) {
@@ -75,6 +89,10 @@ class PersistenceService {
 
 	private Gson gson() {
 		return gsonProvider.get();
+	}
+
+	File getTransactionsFile() {
+		return new File(dataDirectoryLocator.locate(), TRANSACTIONS_FILE);
 	}
 
 	File getSettingsFile() {

@@ -53,6 +53,6 @@ public class ConfigurationServiceTest {
 		assertNull(data.getEncryptorSettings());
 		verifyNoMoreInteractions(persistenceService);
 		assertSame(encryptorSettings, configurationService.getEncryptorSettings());
-		assertNotSame(data, configurationService.data());
+		assertNotSame(data, configurationService.settings());
 	}
 }

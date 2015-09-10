@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -22,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 
 import greensopinion.finance.services.data.ConfigurationService;
+import greensopinion.finance.services.data.Transactions;
 import greensopinion.finance.services.transaction.CsvTransactionReader;
 import greensopinion.finance.services.transaction.Transaction;
 import javafx.stage.FileChooser;
@@ -70,8 +74,18 @@ public class ImportFilesService {
 		}
 	}
 
-	private void addTransactions(List<Transaction> transactions) {
-		configurationService.addTransactions(transactions);
+	private void addTransactions(List<Transaction> provided) {
+		List<Transaction> newTransactions = new ArrayList<>(provided);
+		Transactions transactions = configurationService.getTransactions();
+		Set<Transaction> existingTransactions = new HashSet<>(transactions.getTransactions());
+		for (Transaction newTransaction : ImmutableList.copyOf(newTransactions)) {
+			if (existingTransactions.contains(newTransaction)) {
+				newTransactions.remove(newTransaction);
+			}
+		}
+		newTransactions.addAll(transactions.getTransactions());
+		Collections.sort(newTransactions);
+		configurationService.setTransactions(new Transactions(newTransactions));
 	}
 
 	private void deleteFiles(List<String> files) {

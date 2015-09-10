@@ -2,6 +2,7 @@ package greensopinion.finance.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -11,10 +12,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,6 +21,8 @@ import org.mockito.ArgumentCaptor;
 import com.google.common.collect.ImmutableList;
 
 import greensopinion.finance.services.data.ConfigurationService;
+import greensopinion.finance.services.data.Transactions;
+import greensopinion.finance.services.transaction.MockTransaction;
 import greensopinion.finance.services.transaction.Transaction;
 import javafx.stage.Window;
 import jersey.repackaged.com.google.common.base.Throwables;
@@ -47,33 +46,26 @@ public class ImportFilesServiceTest {
 		assertImportFiles(false);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void assertImportFiles(boolean deleteFileAfterImport) {
+		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263);
+		Transaction txn2 = MockTransaction.create("2015-06-11", "description2", -1500);
+		Transactions originalTransactions = new Transactions(ImmutableList.of(txn2, txn1));
+		doReturn(originalTransactions).when(configurationService).getTransactions();
+
 		File file1 = new File(temporaryFolder.getRoot(), "test1.csv");
-		write(file1, "06/12/2015,description,12.63,,5356.53");
+		write(file1, "06/12/2015,description,12.63,,5356.53\n06/15/2015,return,,103.41,5356.53");
 		assertTrue(file1.exists());
 
 		service.importFiles(ImmutableList.of(file1.getPath()), deleteFileAfterImport);
 
 		assertEquals(!deleteFileAfterImport, file1.exists());
 
-		ArgumentCaptor<List> transactionsCaptor = ArgumentCaptor.forClass(List.class);
-		verify(configurationService).addTransactions(transactionsCaptor.capture());
+		ArgumentCaptor<Transactions> transactionsCaptor = ArgumentCaptor.forClass(Transactions.class);
+		verify(configurationService).setTransactions(transactionsCaptor.capture());
 
-		List<Transaction> transactions = transactionsCaptor.getValue();
-		assertEquals(ImmutableList.of(transaction("2015-06-12", "description", -1263)), transactions);
-	}
-
-	private Transaction transaction(String date, String description, long amount) {
-		try {
-			return new Transaction(dateFormat().parse(date), description, amount);
-		} catch (ParseException e) {
-			throw Throwables.propagate(e);
-		}
-	}
-
-	private DateFormat dateFormat() {
-		return new SimpleDateFormat("yyyy-MM-dd");
+		Transaction txn3 = MockTransaction.create("2015-06-15", "return", 10341);
+		Transactions transactions = transactionsCaptor.getValue();
+		assertEquals(ImmutableList.of(txn2, txn1, txn3), transactions.getTransactions());
 	}
 
 	private void write(File file, String text) {
