@@ -15,8 +15,8 @@ angular.module('greensopinionfinanceApp')
       selectedFiles: function() {
           return rest.get(API_BASE+'selected');
       },
-      importFiles: function(selectedFiles) {
-          return rest.post(API_BARE,selectedFiles);
+      importFiles: function(selectedFiles,deleteAfterImport) {
+          return rest.post(API_BARE,{ files: selectedFiles, deleteAfterImport: deleteAfterImport });
       }
     };
   }]);

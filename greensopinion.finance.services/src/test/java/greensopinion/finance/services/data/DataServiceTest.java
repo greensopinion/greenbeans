@@ -26,7 +26,7 @@ public class DataServiceTest {
 	public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
 	private File dataFolder;
-	private DataService service;
+	private PersistenceService service;
 
 	private DataDirectoryLocator dataDirectory;
 
@@ -44,31 +44,31 @@ public class DataServiceTest {
 
 	@Test
 	public void readNoFile() {
-		assertNotNull(service.load());
+		assertNotNull(service.loadSettings());
 	}
 
 	@Test
 	public void roundTrip() throws IOException {
 		assertFalse(dataFolder.exists());
 
-		Data data = new Data();
+		Settings data = new Settings();
 		data.setEncryptorSettings(new EncryptorSettings("1234", new byte[] { 35, 36 }));
 
-		service.save(data);
+		service.saveSettings(data);
 		assertTrue(dataFolder.exists());
 
 		assertEquals(TestResources.load(DataServiceTest.class, "expected-settings.json.txt"),
 				Files.toString(new File(dataFolder, "settings.json"), StandardCharsets.UTF_8));
 
-		Data loaded = service.load();
+		Settings loaded = service.loadSettings();
 		assertNotNull(loaded);
 		assertEquals(data.getEncryptorSettings().getMasterPasswordVerificationState(),
 				loaded.getEncryptorSettings().getMasterPasswordVerificationState());
 		assertArrayEquals(data.getEncryptorSettings().getSalt(), loaded.getEncryptorSettings().getSalt());
 	}
 
-	private DataService createService() {
-		return new DataService(new DataGsonProvider() {
+	private PersistenceService createService() {
+		return new PersistenceService(new DataGsonProvider() {
 			@Override
 			GsonBuilder builder() {
 				return super.builder().setPrettyPrinting();

@@ -37,7 +37,8 @@ public class WebDispatchTest {
 
 	@Test
 	public void dispatchRootPath() {
-		WebResponse response = dispatch.dispatch(new WebRequest("POST", "/imports", "['one','two']"));
+		WebResponse response = dispatch
+				.dispatch(new WebRequest("POST", "/imports", "{files:['one','two'], deleteAfterImport:true}"));
 		assertNotNull(response);
 		assertEquals(204, response.getResponseCode());
 	}

@@ -21,42 +21,51 @@ import com.google.gson.Gson;
 
 import jersey.repackaged.com.google.common.base.Throwables;
 
-class DataService {
+class PersistenceService {
 
 	private static final String SETTINGS_FILE = "settings.json";
 	private final DataGsonProvider gsonProvider;
 	private final DataDirectoryLocator dataDirectoryLocator;
 
 	@Inject
-	DataService(DataGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator) {
+	PersistenceService(DataGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator) {
 		this.gsonProvider = checkNotNull(gsonProvider);
 		this.dataDirectoryLocator = checkNotNull(dataDirectoryLocator);
 	}
 
-	public Data load() {
-		File dataFile = getSettingsFile();
-		if (dataFile.exists()) {
-			try (Reader reader = new InputStreamReader(new BufferedInputStream(new FileInputStream(dataFile)),
-					StandardCharsets.UTF_8)) {
-				return checkNotNull(gson().fromJson(reader, Data.class));
-			} catch (IOException e) {
-				throw Throwables.propagate(e);
-			}
+	public Settings loadSettings() {
+		File settingsFile = getSettingsFile();
+		if (settingsFile.exists()) {
+			return read(settingsFile, Settings.class);
 		}
-		return new Data();
+		return new Settings();
 	}
 
-	public void save(Data data) {
+	public void saveSettings(Settings data) {
 		checkNotNull(data);
-		File dataFile = getSettingsFile();
-		File dataFolder = dataFile.getParentFile();
+		save(getSettingsFile(), data);
+	}
+
+	private <T> T read(File file, Class<T> type) {
+		try (Reader reader = new InputStreamReader(new BufferedInputStream(new FileInputStream(file)),
+				StandardCharsets.UTF_8)) {
+			return checkNotNull(gson().fromJson(reader, type));
+		} catch (IOException e) {
+			throw Throwables.propagate(e);
+		}
+	}
+
+	private <T> void save(File file, T data) {
+		checkNotNull(file);
+		checkNotNull(data);
+		File dataFolder = file.getParentFile();
 		if (!dataFolder.exists()) {
 			if (!dataFolder.mkdirs()) {
 				throw new IllegalStateException(format("Cannot create folder {0}", dataFolder));
 			}
 		}
 		Gson gson = gson();
-		try (Writer writer = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(dataFile)),
+		try (Writer writer = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 				StandardCharsets.UTF_8)) {
 			gson.toJson(data, writer);
 		} catch (IOException e) {

@@ -16,17 +16,17 @@ import greensopinion.finance.services.encryption.EncryptorSettings;
 
 public class ConfigurationServiceTest {
 
-	private DataService dataService;
+	private PersistenceService persistenceService;
 	private ConfigurationService configurationService;
-	private Data data;
+	private Settings data;
 
 	@Before
 	public void before() {
-		data = new Data();
-		dataService = mock(DataService.class);
-		doReturn(data).when(dataService).load();
+		data = new Settings();
+		persistenceService = mock(PersistenceService.class);
+		doReturn(data).when(persistenceService).loadSettings();
 
-		configurationService = new ConfigurationService(dataService);
+		configurationService = new ConfigurationService(persistenceService);
 	}
 
 	@Test
@@ -34,23 +34,24 @@ public class ConfigurationServiceTest {
 		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("123");
 		data.setEncryptorSettings(encryptorSettings);
 
-		verifyNoMoreInteractions(dataService);
+		verifyNoMoreInteractions(persistenceService);
 		assertSame(encryptorSettings, configurationService.getEncryptorSettings());
-		verify(dataService).load();
+		verify(persistenceService).loadSettings();
 		assertSame(encryptorSettings, configurationService.getEncryptorSettings());
-		verifyNoMoreInteractions(dataService);
+		verifyNoMoreInteractions(persistenceService);
 	}
 
 	@Test
 	public void setEncryptorSettings() {
 		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("123");
 
-		verifyNoMoreInteractions(dataService);
+		verifyNoMoreInteractions(persistenceService);
 		configurationService.setEncryptorSettings(encryptorSettings);
-		verify(dataService).save(any(Data.class));
+		verify(persistenceService).loadSettings();
+		verify(persistenceService).saveSettings(any(Settings.class));
 
 		assertNull(data.getEncryptorSettings());
-		verifyNoMoreInteractions(dataService);
+		verifyNoMoreInteractions(persistenceService);
 		assertSame(encryptorSettings, configurationService.getEncryptorSettings());
 		assertNotSame(data, configurationService.data());
 	}

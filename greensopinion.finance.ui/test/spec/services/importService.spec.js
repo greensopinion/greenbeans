@@ -28,10 +28,10 @@ describe('Service: importService', function () {
   });
 
   it('importFiles() should invoke web service', function () {
-    importService.importFiles(['one','two']);
+    importService.importFiles(['one','two'],true);
     $rootScope.$digest();
     expect(payload.method).toBe('POST');
     expect(payload.path).toBe('/imports');
-    expect(payload.entity).toEqual(['one','two']);
+    expect(payload.entity).toEqual({files:['one','two'],deleteAfterImport:true});
   });
 });

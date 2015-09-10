@@ -2,7 +2,7 @@ package greensopinion.finance.services.data;
 
 import greensopinion.finance.services.encryption.EncryptorSettings;
 
-public class Data {
+public class Settings {
 	private EncryptorSettings encryptorSettings;
 
 	public void setEncryptorSettings(EncryptorSettings encryptorSettings) {
@@ -12,4 +12,5 @@ public class Data {
 	public EncryptorSettings getEncryptorSettings() {
 		return encryptorSettings;
 	}
+
 }

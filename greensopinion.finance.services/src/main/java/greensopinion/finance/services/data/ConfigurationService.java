@@ -2,18 +2,21 @@ package greensopinion.finance.services.data;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import greensopinion.finance.services.encryption.EncryptorSettings;
+import greensopinion.finance.services.transaction.Transaction;
 
 public class ConfigurationService {
-	private final DataService dataService;
+	private final PersistenceService persistenceService;
 	private final Object dataLock = new Object();
-	private Data data;
+	private Settings data;
 
 	@Inject
-	ConfigurationService(DataService dataService) {
-		this.dataService = checkNotNull(dataService);
+	ConfigurationService(PersistenceService persistenceService) {
+		this.persistenceService = checkNotNull(persistenceService);
 	}
 
 	public EncryptorSettings getEncryptorSettings() {
@@ -22,17 +25,27 @@ public class ConfigurationService {
 
 	public void setEncryptorSettings(EncryptorSettings encryptorSettings) {
 		synchronized (dataLock) {
-			Data copy = new Data();
+			Settings copy = createCopy(data());
 			copy.setEncryptorSettings(encryptorSettings);
-			dataService.save(copy);
+			persistenceService.saveSettings(copy);
 			this.data = copy;
 		}
 	}
 
-	Data data() {
+	private Settings createCopy(Settings original) {
+		Settings copy = new Settings();
+		copy.setEncryptorSettings(original.getEncryptorSettings());
+		return copy;
+	}
+
+	public void addTransactions(List<Transaction> transactions) {
+		throw new UnsupportedOperationException();
+	}
+
+	Settings data() {
 		synchronized (dataLock) {
 			if (data == null) {
-				data = dataService.load();
+				data = persistenceService.loadSettings();
 			}
 			return data;
 		}

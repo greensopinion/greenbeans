@@ -1,13 +1,12 @@
 package greensopinion.finance.services.web;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import greensopinion.finance.services.ImportFilesService;
+import greensopinion.finance.services.model.FileImport;
 import greensopinion.finance.services.model.FileSelection;
 
 @Path(ImportFilesWebService.BASE_PATH)
@@ -30,7 +29,7 @@ public class ImportFilesWebService {
 	}
 
 	@POST
-	public void importFiles(List<String> files) {
-		System.out.println("FILES: " + files);
+	public void importFiles(FileImport fileImport) {
+		importFilesService.importFiles(fileImport.getFiles(), fileImport.isDeleteAfterImport());
 	}
 }

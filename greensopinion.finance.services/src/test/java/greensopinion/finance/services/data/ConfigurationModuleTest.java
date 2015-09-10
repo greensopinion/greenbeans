@@ -15,7 +15,7 @@ public class ConfigurationModuleTest {
 
 	@Test
 	public void providesDataService() {
-		assertSingletonBinding(createInjector(), DataService.class);
+		assertSingletonBinding(createInjector(), PersistenceService.class);
 	}
 
 	@Test
