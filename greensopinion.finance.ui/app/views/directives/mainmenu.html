@@ -1,0 +1,6 @@
+<div class="container">
+    <ul class="nav navbar-nav">
+      <li ng-repeat="element in menuElements"
+        ng-class="getClass(element.path)"><a href="{{'#'+element.path}}">{{element.label}}</a></li>
+    </ul>
+</div>
