@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.ArgumentCaptor;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
 import greensopinion.finance.services.data.ConfigurationService;
@@ -25,7 +26,6 @@ import greensopinion.finance.services.data.Transactions;
 import greensopinion.finance.services.transaction.MockTransaction;
 import greensopinion.finance.services.transaction.Transaction;
 import javafx.stage.Window;
-import jersey.repackaged.com.google.common.base.Throwables;
 
 public class ImportFilesServiceTest {
 

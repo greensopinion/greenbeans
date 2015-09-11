@@ -15,10 +15,9 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.PathParam;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import jersey.repackaged.com.google.common.base.Throwables;
 
 class Handler {
 	static final String NAME_ENTITY = "<request-entity>";

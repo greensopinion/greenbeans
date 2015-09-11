@@ -4,7 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import jersey.repackaged.com.google.common.base.Throwables;
+import com.google.common.base.Throwables;
 
 public class MockTransaction {
 	/**

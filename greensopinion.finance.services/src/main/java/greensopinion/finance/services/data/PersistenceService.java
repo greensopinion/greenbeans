@@ -17,9 +17,8 @@ import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
 
+import com.google.common.base.Throwables;
 import com.google.gson.Gson;
-
-import jersey.repackaged.com.google.common.base.Throwables;
 
 class PersistenceService {
 

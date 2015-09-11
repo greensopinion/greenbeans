@@ -4,13 +4,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.text.MessageFormat.format;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
-
-import jersey.repackaged.com.google.common.base.Joiner;
 
 public class ExceptionContent {
 	private final String errorCode;

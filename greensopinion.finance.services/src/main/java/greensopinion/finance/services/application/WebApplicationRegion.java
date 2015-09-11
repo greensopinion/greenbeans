@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
 
+import com.google.common.base.Throwables;
 import com.google.common.io.Resources;
 
 import greensopinion.finance.services.bridge.ConsoleBridge;
@@ -20,7 +21,6 @@ import javafx.geometry.VPos;
 import javafx.scene.layout.Region;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import jersey.repackaged.com.google.common.base.Throwables;
 import netscape.javascript.JSObject;
 
 class WebApplicationRegion extends Region {
