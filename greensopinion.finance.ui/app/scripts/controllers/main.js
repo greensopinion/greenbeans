@@ -8,7 +8,7 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('MainCtrl',['$scope','errorService','encryptionSettingsService','$q','ErrorModel','$location', function ($scope,errorService,encryptionSettingsService,$q,ErrorModel,$location) {
+  .controller('MainCtrl',['$scope','errorService','encryptionSettingsService','$q','ErrorModel','$location','initializationService', function ($scope,errorService,encryptionSettingsService,$q,ErrorModel,$location,initializationService) {
 
     $scope.formData = {
       masterPassword: '',
@@ -19,6 +19,7 @@ angular.module('greensopinionfinanceApp')
         $scope.encryptionSettings = encryptionSettings;
 
         if (!$scope.needsInitialization() && !$scope.needsConfiguration()) {
+          initializationService.initialized(true);
           $location.path('/import');
         }
       });

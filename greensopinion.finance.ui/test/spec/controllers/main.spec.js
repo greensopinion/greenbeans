@@ -6,11 +6,12 @@ describe('Controller: MainCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var MainCtrl,
-    scope, mockEncryptionSettingsService, encryptionSettings,$rootScope;
+    scope, mockEncryptionSettingsService, encryptionSettings,$rootScope,initializationService;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, _$rootScope_, $q) {
+  beforeEach(inject(function ($controller, _$rootScope_, $q,_initializationService_) {
     $rootScope = _$rootScope_;
+    initializationService = _initializationService_;
     encryptionSettings = { initialized: false, configured: true };
     scope = $rootScope.$new();
     mockEncryptionSettingsService = {
@@ -32,7 +33,8 @@ describe('Controller: MainCtrl', function () {
     };
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
-      encryptionSettingsService: mockEncryptionSettingsService
+      encryptionSettingsService: mockEncryptionSettingsService,
+      initializationService: initializationService
     });
   }));
 
@@ -95,9 +97,13 @@ describe('Controller: MainCtrl', function () {
     expect(scope.errorMessage).toBe('Passwords entered do not match.');
 
     scope.formData.masterPassword2 = '1234';
+    expect(initializationService.isInitialized()).toBe(false);
     scope.configure();
+    encryptionSettings.initialized = true;
+    encryptionSettings.configured = true;
     $rootScope.$digest();
     expect(scope.errorMessage).toBeUndefined();
+    expect(initializationService.isInitialized()).toBe(true);
   });
 
   it('exposes initialize()', function() {
@@ -107,8 +113,12 @@ describe('Controller: MainCtrl', function () {
     expect(scope.errorMessage).toBe('You must enter a master password.');
 
     scope.formData.masterPassword = '1234';
+    expect(initializationService.isInitialized()).toBe(false);
     scope.initialize();
+    encryptionSettings.initialized = true;
+    encryptionSettings.configured = true;
     $rootScope.$digest();
     expect(scope.errorMessage).toBeUndefined();
+    expect(initializationService.isInitialized()).toBe(true);
   });
 });

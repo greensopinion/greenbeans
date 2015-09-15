@@ -7,7 +7,7 @@
  * # mainmenu
  */
 angular.module('greensopinionfinanceApp')
-  .directive('mainmenu',['$location', function ($location) {
+  .directive('mainmenu',['$location','initializationService', function ($location,initializationService) {
     return {
       templateUrl: 'views/directives/mainmenu.html',
       restrict: 'E',
@@ -21,10 +21,19 @@ angular.module('greensopinionfinanceApp')
           }
           return '';
         };
+        scope.isVisible = function(element) {
+          if (!initializationService.isInitialized()) {
+              return element.insecure === true;
+          } else if (element.path === '/') {
+              return false;
+          }
+          return true;
+        };
         scope.menuElements = [
           {
-            label: 'Home',
-            path: '/'
+            label: 'Secure Your Data',
+            path: '/',
+            insecure: true
           },
           {
             label: 'Import',
@@ -32,7 +41,8 @@ angular.module('greensopinionfinanceApp')
           },
           {
             label: 'About',
-            path: '/about'
+            path: '/about',
+            insecure: true
           }
         ];
       }
