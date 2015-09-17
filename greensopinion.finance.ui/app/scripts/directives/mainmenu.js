@@ -36,6 +36,10 @@ angular.module('greensopinionfinanceApp')
             insecure: true
           },
           {
+            label: 'Reports',
+            path: '/reports'
+          },
+          {
             label: 'Import',
             path: '/import'
           },

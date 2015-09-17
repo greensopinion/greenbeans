@@ -1,0 +1,19 @@
+<div ng-if="report">
+  <h3><i class="fa fa-line-chart fa-2x"></i> {{report.title}}</h3>
+  <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+            <th>Month</th>
+            <th>Income</th>
+            <th>Expenses</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="month in report.months">
+          <td>{{month.name}}</td>
+          <td>{{month.incomeTotal}}</td>
+          <td>{{month.expensesTotal}}</td>
+        </tr>
+      </tbody>
+  </table>
+</div>
