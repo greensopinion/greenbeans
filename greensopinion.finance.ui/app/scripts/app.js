@@ -38,6 +38,11 @@ angular
         controller: 'ReportsCtrl',
         controllerAs: 'reports'
       })
+      .when('/categories', {
+        templateUrl: 'views/categories.html',
+        controller: 'CategoriesCtrl',
+        controllerAs: 'categories'
+      })
       .otherwise({
         redirectTo: '/'
       });

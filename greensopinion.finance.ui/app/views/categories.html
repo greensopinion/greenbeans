@@ -1,0 +1,19 @@
+<h3><i class="fa fa-archive fa-2x"></i> Categories</h3>
+<p>
+    Categories provide a way of breaking down your income and expenses.
+</p>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+        <th>Name</th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="category in categoryList | orderBy:sortType:sortReverse">
+      <td>{{category.name}}</td>
+      <td>
+      </td>
+    </tr>
+  </tbody>
+</table>

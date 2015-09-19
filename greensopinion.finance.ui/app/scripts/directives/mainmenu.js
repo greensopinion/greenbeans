@@ -40,6 +40,10 @@ angular.module('greensopinionfinanceApp')
             path: '/reports'
           },
           {
+            label: 'Categories',
+            path: '/categories'
+          },
+          {
             label: 'Import',
             path: '/import'
           },
