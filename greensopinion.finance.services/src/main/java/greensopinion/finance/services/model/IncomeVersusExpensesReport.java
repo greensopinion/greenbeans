@@ -1,9 +1,13 @@
 package greensopinion.finance.services.model;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+
+import greensopinion.finance.services.transaction.Transaction;
 
 public class IncomeVersusExpensesReport extends Report {
 
@@ -12,8 +16,19 @@ public class IncomeVersusExpensesReport extends Report {
 		private final long incomeTotal;
 		private final long expensesTotal;
 
-		public Month(String name, long incomeTotal, long expensesTotal) {
-			this.name = name;
+		public Month(String name, List<Transaction> transactions) {
+			this.name = checkNotNull(name);
+			checkNotNull(transactions);
+			long incomeTotal = 0L;
+			long expensesTotal = 0L;
+			for (Transaction transaction : transactions) {
+				long amount = transaction.getAmount();
+				if (amount <= 0) {
+					expensesTotal += Math.abs(amount);
+				} else {
+					incomeTotal += amount;
+				}
+			}
 			this.incomeTotal = incomeTotal;
 			this.expensesTotal = expensesTotal;
 		}

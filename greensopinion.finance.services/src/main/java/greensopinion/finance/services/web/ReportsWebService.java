@@ -1,10 +1,13 @@
 package greensopinion.finance.services.web;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import greensopinion.finance.services.model.IncomeVersusExpensesReport;
-import greensopinion.finance.services.model.IncomeVersusExpensesReport.Month;
+import greensopinion.finance.services.reports.ReportsService;
 
 @Path(ReportsWebService.BASE_PATH)
 public class ReportsWebService {
@@ -12,15 +15,16 @@ public class ReportsWebService {
 
 	static final String PATH_INCOME_VS_EXPENSES = "income-vs-expenses";
 
+	private final ReportsService reportsService;
+
+	@Inject
+	ReportsWebService(ReportsService reportsService) {
+		this.reportsService = checkNotNull(reportsService);
+	}
+
 	@Path(PATH_INCOME_VS_EXPENSES)
 	@GET
 	public IncomeVersusExpensesReport incomeVersusExpenses() {
-		IncomeVersusExpensesReport report = new IncomeVersusExpensesReport();
-		report.addMonth(new Month("2015-07", 1000000, 653543));
-		report.addMonth(new Month("2015-08", 1000000, 540009));
-		report.addMonth(new Month("2015-09", 1000000, 720014));
-		report.addMonth(new Month("2015-10", 1000023, 944590));
-		report.addMonth(new Month("2015-11", 1000000, 1234000));
-		return report;
+		return reportsService.incomeVersusExpenses();
 	}
 }
