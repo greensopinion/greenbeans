@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import greensopinion.finance.services.transaction.Transaction;
+import greensopinion.finance.services.transaction.TransactionNormalizer;
 
 public class IncomeVersusExpensesReport extends Report {
 
@@ -21,9 +22,11 @@ public class IncomeVersusExpensesReport extends Report {
 			this.id = id;
 			this.name = checkNotNull(name);
 			checkNotNull(transactions);
+
+			TransactionNormalizer transactionNormalizer = new TransactionNormalizer();
 			long incomeTotal = 0L;
 			long expensesTotal = 0L;
-			for (Transaction transaction : transactions) {
+			for (Transaction transaction : transactionNormalizer.normalize(transactions)) {
 				long amount = transaction.getAmount();
 				if (amount <= 0) {
 					expensesTotal += Math.abs(amount);

@@ -42,16 +42,16 @@ public class ReportsServiceTest {
 		List<Month> months = report.getMonths();
 		assertNotNull(months);
 		assertEquals(2, months.size());
-		assertMonth("January 2015", 102300, 3004, months.get(0));
+		assertMonth("January 2015", 102300, 1500, months.get(0));
 		assertMonth("February 2015", 0, 12345, months.get(1));
 	}
 
 	@Test
-	public void foo() {
+	public void transactionsForMonth() {
 		PeriodTransactions transactionsForMonth = service.transactionsForMonth(201502);
 		assertEquals("February 2015", transactionsForMonth.getName());
 		assertEquals(1, transactionsForMonth.getTransactions().size());
-		assertTransaction(createTransactions().getTransactions().get(3), transactionsForMonth.getTransactions().get(0));
+		assertTransaction(createTransactions().getTransactions().get(4), transactionsForMonth.getTransactions().get(0));
 	}
 
 	private void assertTransaction(Transaction transaction, TransactionModel transactionModel) {
@@ -71,7 +71,8 @@ public class ReportsServiceTest {
 		transactions.add(new Transaction(date("2015-01-03"), "test1", 102300));
 		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500));
 		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504));
-		transactions.add(new Transaction(date("2015-02-15"), "test4", -12345));
+		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504));
+		transactions.add(new Transaction(date("2015-02-15"), "test5", -12345));
 		return new Transactions(transactions);
 	}
 
