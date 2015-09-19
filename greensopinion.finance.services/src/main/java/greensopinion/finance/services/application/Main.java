@@ -4,8 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import greensopinion.finance.services.data.ConfigurationModule;
 import greensopinion.finance.services.encryption.EncryptionModule;
+import greensopinion.finance.services.persistence.ConfigurationModule;
 import greensopinion.finance.services.web.WebServiceModule;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;

@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.text.MessageFormat.format;
@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
@@ -24,8 +25,7 @@ abstract class PersistenceService<T> {
 	private final DataDirectoryLocator dataDirectoryLocator;
 	private final Class<T> type;
 
-	PersistenceService(PersistenceGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator,
-			Class<T> type) {
+	PersistenceService(PersistenceGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator, Class<T> type) {
 		this.gsonProvider = checkNotNull(gsonProvider);
 		this.dataDirectoryLocator = checkNotNull(dataDirectoryLocator);
 		this.type = checkNotNull(type);
@@ -45,11 +45,16 @@ abstract class PersistenceService<T> {
 	}
 
 	private T read(File file) {
-		try (Reader reader = new InputStreamReader(new BufferedInputStream(new FileInputStream(file)),
-				StandardCharsets.UTF_8)) {
-			return checkNotNull(gson().fromJson(reader, type));
+		try (InputStream stream = new FileInputStream(file)) {
+			return read(stream);
 		} catch (IOException e) {
 			throw Throwables.propagate(e);
+		}
+	}
+
+	protected T read(InputStream stream) throws IOException {
+		try (Reader reader = new InputStreamReader(new BufferedInputStream(stream), StandardCharsets.UTF_8)) {
+			return checkNotNull(gson().fromJson(reader, type));
 		}
 	}
 

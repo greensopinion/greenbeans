@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.junit.Test;
+
+import greensopinion.finance.services.persistence.DataDirectoryLocator;
 
 public class DataDirectoryLocatorTest {
 

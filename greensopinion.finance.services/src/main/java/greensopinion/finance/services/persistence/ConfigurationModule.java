@@ -1,7 +1,11 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
+
+import greensopinion.finance.services.domain.CategoriesService;
+import greensopinion.finance.services.domain.SettingsService;
+import greensopinion.finance.services.domain.TransactionsService;
 
 public class ConfigurationModule extends AbstractModule {
 
@@ -12,6 +16,9 @@ public class ConfigurationModule extends AbstractModule {
 
 		bind(TransactionsPersistenceService.class).in(Scopes.SINGLETON);
 		bind(TransactionsService.class).in(Scopes.SINGLETON);
+
+		bind(CategoriesPersistenceService.class).in(Scopes.SINGLETON);
+		bind(CategoriesService.class).in(Scopes.SINGLETON);
 
 		bind(DataDirectoryLocator.class).in(Scopes.SINGLETON);
 	}

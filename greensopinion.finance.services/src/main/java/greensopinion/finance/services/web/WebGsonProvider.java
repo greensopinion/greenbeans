@@ -7,7 +7,7 @@ import javax.inject.Provider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import greensopinion.finance.services.data.DateTypeAdapter;
+import greensopinion.finance.services.persistence.DateTypeAdapter;
 
 class WebGsonProvider implements Provider<Gson> {
 

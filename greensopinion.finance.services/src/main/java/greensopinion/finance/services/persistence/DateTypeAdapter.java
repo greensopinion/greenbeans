@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static java.text.MessageFormat.format;
 

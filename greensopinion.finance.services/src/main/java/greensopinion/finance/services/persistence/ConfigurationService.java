@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -7,7 +7,7 @@ public class ConfigurationService<T> {
 	private final Object dataLock = new Object();
 	private T data;
 
-	ConfigurationService(PersistenceService<T> persistenceService) {
+	public ConfigurationService(PersistenceService<T> persistenceService) {
 		this.persistenceService = checkNotNull(persistenceService);
 	}
 

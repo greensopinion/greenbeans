@@ -1,10 +1,10 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import javax.inject.Inject;
 
 import greensopinion.finance.services.domain.Settings;
 
-class SettingsPersistenceService extends PersistenceService<Settings> {
+public class SettingsPersistenceService extends PersistenceService<Settings> {
 
 	private static final String FILENAME = "settings.json";
 

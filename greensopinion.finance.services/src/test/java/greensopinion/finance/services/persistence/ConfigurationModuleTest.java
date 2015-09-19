@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static greensopinion.finance.services.InjectorAsserts.assertSingletonBinding;
 
@@ -6,6 +6,13 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import greensopinion.finance.services.domain.SettingsService;
+import greensopinion.finance.services.domain.TransactionsService;
+import greensopinion.finance.services.persistence.ConfigurationModule;
+import greensopinion.finance.services.persistence.DataDirectoryLocator;
+import greensopinion.finance.services.persistence.SettingsPersistenceService;
+import greensopinion.finance.services.persistence.TransactionsPersistenceService;
 
 public class ConfigurationModuleTest {
 

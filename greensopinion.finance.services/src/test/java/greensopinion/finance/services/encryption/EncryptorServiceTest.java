@@ -16,9 +16,9 @@ import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 
-import greensopinion.finance.services.data.SettingsService;
 import greensopinion.finance.services.domain.EncryptorSettings;
 import greensopinion.finance.services.domain.Settings;
+import greensopinion.finance.services.domain.SettingsService;
 
 public class EncryptorServiceTest {
 	@Rule

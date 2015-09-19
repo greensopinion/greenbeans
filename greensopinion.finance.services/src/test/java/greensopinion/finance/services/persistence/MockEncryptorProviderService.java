@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import greensopinion.finance.services.domain.EncryptorSettings;
 import greensopinion.finance.services.encryption.Encryptor;

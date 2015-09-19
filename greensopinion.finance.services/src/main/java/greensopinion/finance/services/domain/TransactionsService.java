@@ -1,8 +1,9 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.domain;
 
 import javax.inject.Inject;
 
-import greensopinion.finance.services.domain.Transactions;
+import greensopinion.finance.services.persistence.ConfigurationService;
+import greensopinion.finance.services.persistence.TransactionsPersistenceService;
 
 public class TransactionsService extends ConfigurationService<Transactions> {
 
@@ -10,5 +11,4 @@ public class TransactionsService extends ConfigurationService<Transactions> {
 	TransactionsService(TransactionsPersistenceService persistenceService) {
 		super(persistenceService);
 	}
-
 }

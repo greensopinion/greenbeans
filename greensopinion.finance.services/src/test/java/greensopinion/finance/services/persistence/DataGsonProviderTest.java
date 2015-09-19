@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,6 +12,8 @@ import com.google.gson.Gson;
 
 import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.encryption.EncryptorProviderService;
+import greensopinion.finance.services.persistence.PersistenceGsonProvider;
+import greensopinion.finance.services.persistence.TransactionsTypeAdapter;
 
 public class DataGsonProviderTest {
 

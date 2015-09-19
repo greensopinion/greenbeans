@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -20,6 +20,8 @@ import com.google.common.io.Files;
 import greensopinion.finance.services.TestResources;
 import greensopinion.finance.services.domain.EncryptorSettings;
 import greensopinion.finance.services.domain.Settings;
+import greensopinion.finance.services.persistence.DataDirectoryLocator;
+import greensopinion.finance.services.persistence.SettingsPersistenceService;
 
 public class SettingsPersistenceServiceTest {
 

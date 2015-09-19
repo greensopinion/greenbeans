@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import greensopinion.finance.services.persistence.DataDirectoryLocator;
+import greensopinion.finance.services.persistence.PersistenceService;
 
 public class PersistenceServiceTest {
 	public static class TestConfig {

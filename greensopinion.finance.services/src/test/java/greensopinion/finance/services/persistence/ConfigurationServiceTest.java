@@ -1,4 +1,4 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.persistence;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.doReturn;
@@ -7,6 +7,9 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import greensopinion.finance.services.persistence.ConfigurationService;
+import greensopinion.finance.services.persistence.PersistenceService;
 
 public class ConfigurationServiceTest {
 	public static class TestConfig {
