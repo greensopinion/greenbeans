@@ -42,6 +42,7 @@ class WebApplicationRegion extends Region {
 	public void initialize() {
 		checkState(webView == null);
 		webView = new WebView();
+		webView.setContextMenuEnabled(false);
 		webEngine = webView.getEngine();
 		installConsoleBridge();
 		installServiceLocator(serviceLocator);
