@@ -4,15 +4,17 @@
       <thead>
         <tr>
             <th>Month</th>
-            <th>Income</th>
-            <th>Expenses</th>
+            <th class="text-right">Income</th>
+            <th class="text-right">Expenses</th>
+            <th class="text-right">Difference</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="month in report.months">
           <td>{{month.name}}</td>
-          <td>{{month.incomeTotal}}</td>
-          <td>{{month.expensesTotal}}</td>
+          <td class="text-right">{{formatCurrency(month.incomeTotal)}}</td>
+          <td class="text-right">{{formatCurrency(month.expensesTotal)}}</td>
+          <td class="text-right" ng-class="classOfAmount(month.incomeTotal-month.expensesTotal)">{{formatCurrency(month.incomeTotal-month.expensesTotal)}}</td>
         </tr>
       </tbody>
   </table>

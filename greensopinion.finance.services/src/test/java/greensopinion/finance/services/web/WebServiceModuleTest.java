@@ -47,6 +47,11 @@ public class WebServiceModuleTest {
 	}
 
 	@Test
+	public void providesReportsWebService() {
+		assertSingletonBinding(createInjector(), ReportsWebService.class);
+	}
+
+	@Test
 	public void providesGson() {
 		Gson gson = assertSingletonBinding(createInjector(), Gson.class);
 		assertHtmlEscapingDisabled(gson);
