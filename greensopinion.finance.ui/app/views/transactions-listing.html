@@ -7,19 +7,19 @@
         <tr>
             <th>
               <a ng-click="switchSortType(dateOf)">Date</a>
-              <span ng-show="sortType === dateOf &amp;&amp; !sortReverse" class="fa fa-caret-up"></span>
-              <span ng-show="sortType === dateOf &amp;&amp; sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType === dateOf &amp;&amp; !sortReverse" class="fa fa-sort-amount-asc"></span>
+              <span ng-show="sortType === dateOf &amp;&amp; sortReverse" class="fa fa-sort-amount-desc"></span>
             </th>
             <th>Description</th>
             <th class="text-right">
               <a ng-click="switchSortType(sortIncome)">Income</a>
-              <span ng-show="sortType === sortIncome &amp;&amp; !sortReverse" class="fa fa-caret-up"></span>
-              <span ng-show="sortType === sortIncome &amp;&amp; sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType === sortIncome &amp;&amp; !sortReverse" class="fa fa-sort-amount-asc"></span>
+              <span ng-show="sortType === sortIncome &amp;&amp; sortReverse" class="fa fa-sort-amount-desc"></span>
             </th>
             <th class="text-right">
               <a ng-click="switchSortType(sortExpense)">Expense</a>
-              <span ng-show="sortType === sortExpense &amp;&amp; !sortReverse" class="fa fa-caret-up"></span>
-              <span ng-show="sortType === sortExpense &amp;&amp; sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType === sortExpense &amp;&amp; !sortReverse" class="fa fa-sort-amount-asc"></span>
+              <span ng-show="sortType === sortExpense &amp;&amp; sortReverse" class="fa fa-sort-amount-desc"></span>
             </th>
         </tr>
       </thead>
