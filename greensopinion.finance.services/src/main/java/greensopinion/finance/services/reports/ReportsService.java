@@ -20,6 +20,7 @@ import greensopinion.finance.services.data.ConfigurationService;
 import greensopinion.finance.services.data.Transactions;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport.Month;
+import greensopinion.finance.services.model.PeriodTransactions;
 import greensopinion.finance.services.transaction.Transaction;
 
 public class ReportsService {
@@ -43,13 +44,25 @@ public class ReportsService {
 		List<Long> sortedMonths = new ArrayList<>(transactionsByMonth.keySet());
 		Collections.sort(sortedMonths);
 		for (final Long yearMonth : sortedMonths) {
-			String name = montName(yearMonth);
-			report.addMonth(new Month(name, transactionsByMonth.get(yearMonth)));
+			String name = monthName(yearMonth);
+			report.addMonth(new Month(yearMonth, name, transactionsByMonth.get(yearMonth)));
 		}
 		return report;
 	}
 
-	private String montName(final Long yearMonth) {
+	public PeriodTransactions transactionsForMonth(long yearMonth) {
+		Transactions transactions = configurationService.getTransactions();
+		List<Transaction> elements = new ArrayList<>();
+		for (Transaction transaction : transactions.getTransactions()) {
+			Long transactionYearMonth = yearMonth(transaction.getDate());
+			if (transactionYearMonth.equals(yearMonth)) {
+				elements.add(transaction);
+			}
+		}
+		return new PeriodTransactions(monthName(yearMonth), elements);
+	}
+
+	private String monthName(final Long yearMonth) {
 		try {
 			return readableYearMonthFormat().format(yearMonthFormat().parse(yearMonth.toString()));
 		} catch (ParseException e) {

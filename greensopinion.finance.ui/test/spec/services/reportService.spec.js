@@ -45,4 +45,15 @@ describe('Service: reportService', function () {
     expect(report.title).toBe('Monthly Income vs Expenses');
   });
 
+  it('should provide transactionsForMonth()',function() {
+    var report;
+    reportService.transactionsForMonth(201509).then(function(result) {
+      report = result;
+    });
+    $rootScope.$digest();
+
+    expect(report.path).toBe('/reports/transactions/201509');
+    expect(report.method).toBe('GET');
+  });
+
 });

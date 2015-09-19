@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="month in report.months">
+        <tr ng-repeat="month in report.months" ng-click="openTransactions(month)" class="clickable">
           <td>{{month.name}}</td>
           <td class="text-right">{{formatCurrency(month.incomeTotal)}}</td>
           <td class="text-right">{{formatCurrency(month.expensesTotal)}}</td>

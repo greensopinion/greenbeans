@@ -12,11 +12,13 @@ import greensopinion.finance.services.transaction.Transaction;
 public class IncomeVersusExpensesReport extends Report {
 
 	public static class Month {
+		private final long id;
 		private final String name;
 		private final long incomeTotal;
 		private final long expensesTotal;
 
-		public Month(String name, List<Transaction> transactions) {
+		public Month(long id, String name, List<Transaction> transactions) {
+			this.id = id;
 			this.name = checkNotNull(name);
 			checkNotNull(transactions);
 			long incomeTotal = 0L;
@@ -31,6 +33,10 @@ public class IncomeVersusExpensesReport extends Report {
 			}
 			this.incomeTotal = incomeTotal;
 			this.expensesTotal = expensesTotal;
+		}
+
+		public long getId() {
+			return id;
 		}
 
 		public String getName() {

@@ -13,6 +13,9 @@ angular.module('greensopinionfinanceApp')
     return {
       incomeVersusExpenses: function() {
           return rest.get(API_BASE+'income-vs-expenses');
+      },
+      transactionsForMonth: function(monthId) {
+        return rest.get(API_BASE+'transactions/'+monthId);
       }
     };
 

@@ -4,6 +4,8 @@ import static greensopinion.finance.services.InjectorAsserts.assertSingletonBind
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
+import java.util.Date;
+
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -55,6 +57,11 @@ public class WebServiceModuleTest {
 	public void providesGson() {
 		Gson gson = assertSingletonBinding(createInjector(), Gson.class);
 		assertHtmlEscapingDisabled(gson);
+		assertDate(gson);
+	}
+
+	private void assertDate(Gson gson) {
+		assertEquals("\"2015-09-19T16:47:00.000Z\"", gson.toJson(new Date(1442681220000L)));
 	}
 
 	private void assertHtmlEscapingDisabled(Gson gson) {

@@ -92,3 +92,11 @@ body {
     border-bottom: 0;
   }
 }
+
+a.amount {
+  color: $text-color;
+}
+
+tr.clickable {
+  cursor: pointer;
+}

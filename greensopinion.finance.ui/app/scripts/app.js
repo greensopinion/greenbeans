@@ -13,7 +13,8 @@ angular
     'ngAnimate',
     'ngMessages',
     'ngResource',
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider

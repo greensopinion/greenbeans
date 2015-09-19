@@ -21,6 +21,8 @@ import greensopinion.finance.services.data.ConfigurationService;
 import greensopinion.finance.services.data.Transactions;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport.Month;
+import greensopinion.finance.services.model.PeriodTransactions;
+import greensopinion.finance.services.model.TransactionModel;
 import greensopinion.finance.services.transaction.Transaction;
 
 public class ReportsServiceTest {
@@ -44,6 +46,20 @@ public class ReportsServiceTest {
 		assertMonth("February 2015", 0, 12345, months.get(1));
 	}
 
+	@Test
+	public void foo() {
+		PeriodTransactions transactionsForMonth = service.transactionsForMonth(201502);
+		assertEquals("February 2015", transactionsForMonth.getName());
+		assertEquals(1, transactionsForMonth.getTransactions().size());
+		assertTransaction(createTransactions().getTransactions().get(3), transactionsForMonth.getTransactions().get(0));
+	}
+
+	private void assertTransaction(Transaction transaction, TransactionModel transactionModel) {
+		assertEquals(transaction.getDate(), transactionModel.getDate());
+		assertEquals(transaction.getAmount(), transactionModel.getAmount());
+		assertEquals(transaction.getDescription(), transactionModel.getDescription());
+	}
+
 	private void assertMonth(String monthName, long incomeTotal, long expensesTotal, Month month) {
 		assertEquals(monthName, month.getName());
 		assertEquals(incomeTotal, month.getIncomeTotal());
@@ -55,7 +71,7 @@ public class ReportsServiceTest {
 		transactions.add(new Transaction(date("2015-01-03"), "test1", 102300));
 		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500));
 		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504));
-		transactions.add(new Transaction(date("2015-02-15"), "test3", -12345));
+		transactions.add(new Transaction(date("2015-02-15"), "test4", -12345));
 		return new Transactions(transactions);
 	}
 
