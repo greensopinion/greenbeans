@@ -8,14 +8,25 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 public class ConfigurationModuleTest {
+
 	@Test
-	public void providesConfigurationService() {
-		assertSingletonBinding(createInjector(), ConfigurationService.class);
+	public void providesSettingsPersistenceService() {
+		assertSingletonBinding(createInjector(), SettingsPersistenceService.class);
 	}
 
 	@Test
-	public void providesDataService() {
-		assertSingletonBinding(createInjector(), PersistenceService.class);
+	public void providesSettingsService() {
+		assertSingletonBinding(createInjector(), SettingsService.class);
+	}
+
+	@Test
+	public void providesTransactionsPersistenceService() {
+		assertSingletonBinding(createInjector(), TransactionsPersistenceService.class);
+	}
+
+	@Test
+	public void providesTransactionsService() {
+		assertSingletonBinding(createInjector(), TransactionsService.class);
 	}
 
 	@Test

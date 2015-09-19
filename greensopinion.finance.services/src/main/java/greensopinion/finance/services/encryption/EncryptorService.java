@@ -6,23 +6,23 @@ import static com.google.common.base.Preconditions.checkState;
 
 import javax.inject.Inject;
 
-import greensopinion.finance.services.data.ConfigurationService;
+import greensopinion.finance.services.data.Settings;
+import greensopinion.finance.services.data.SettingsService;
 
 public class EncryptorService {
 
-	private final ConfigurationService configurationService;
+	private final SettingsService settingsService;
 	private final EncryptorProviderService encryptorProviderService;
 	private final Object configurationLock = new Object();
 
 	@Inject
-	public EncryptorService(ConfigurationService configurationService,
-			EncryptorProviderService encryptorProviderService) {
-		this.configurationService = checkNotNull(configurationService);
+	public EncryptorService(SettingsService settingsService, EncryptorProviderService encryptorProviderService) {
+		this.settingsService = checkNotNull(settingsService);
 		this.encryptorProviderService = checkNotNull(encryptorProviderService);
 	}
 
 	public boolean isConfigured() {
-		return configurationService.getEncryptorSettings() != null;
+		return settingsService.retrieve().getEncryptorSettings() != null;
 	}
 
 	public boolean isInitialized() {
@@ -39,7 +39,10 @@ public class EncryptorService {
 
 			EncryptorSettings encryptorSettings = EncryptorSettings.newSettings(masterPassword);
 			encryptorProviderService.setEncryptor(new Encryptor(encryptorSettings, masterPassword));
-			configurationService.setEncryptorSettings(encryptorSettings);
+
+			Settings settings = settingsService.retrieve();
+			settings = settings.withEncryptorSettings(encryptorSettings);
+			settingsService.update(settings);
 		}
 	}
 
@@ -50,7 +53,7 @@ public class EncryptorService {
 			checkState(!isInitialized(), "Cannot initialize encryption settings more than once");
 			checkState(isConfigured(), "Must configure encryption settings before initializing");
 
-			EncryptorSettings encryptorSettings = configurationService.getEncryptorSettings();
+			EncryptorSettings encryptorSettings = settingsService.retrieve().getEncryptorSettings();
 			if (!encryptorSettings.validateMasterPassword(masterPassword)) {
 				throw new InvalidMasterPasswordException();
 			}

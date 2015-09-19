@@ -24,8 +24,8 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 
-import greensopinion.finance.services.data.ConfigurationService;
 import greensopinion.finance.services.data.Transactions;
+import greensopinion.finance.services.data.TransactionsService;
 import greensopinion.finance.services.transaction.CsvTransactionReader;
 import greensopinion.finance.services.transaction.Transaction;
 import javafx.stage.FileChooser;
@@ -35,12 +35,12 @@ import javafx.stage.Window;
 public class ImportFilesService {
 
 	private final Window window;
-	private final ConfigurationService configurationService;
+	private final TransactionsService transactionsService;
 
 	@Inject
-	ImportFilesService(Window window, ConfigurationService configurationService) {
+	ImportFilesService(Window window, TransactionsService transactionsService) {
 		this.window = checkNotNull(window);
-		this.configurationService = checkNotNull(configurationService);
+		this.transactionsService = checkNotNull(transactionsService);
 	}
 
 	public List<String> selectedFiles() {
@@ -76,7 +76,7 @@ public class ImportFilesService {
 
 	private void addTransactions(List<Transaction> provided) {
 		List<Transaction> newTransactions = new ArrayList<>(provided);
-		Transactions transactions = configurationService.getTransactions();
+		Transactions transactions = transactionsService.retrieve();
 		Set<Transaction> existingTransactions = new HashSet<>(transactions.getTransactions());
 		for (Transaction newTransaction : ImmutableList.copyOf(newTransactions)) {
 			if (existingTransactions.contains(newTransaction)) {
@@ -85,7 +85,7 @@ public class ImportFilesService {
 		}
 		newTransactions.addAll(transactions.getTransactions());
 		Collections.sort(newTransactions);
-		configurationService.setTransactions(new Transactions(newTransactions));
+		transactionsService.update(new Transactions(newTransactions));
 	}
 
 	private void deleteFiles(List<String> files) {

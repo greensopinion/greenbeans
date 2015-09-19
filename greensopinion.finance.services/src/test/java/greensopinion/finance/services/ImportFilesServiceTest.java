@@ -21,8 +21,8 @@ import org.mockito.ArgumentCaptor;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
-import greensopinion.finance.services.data.ConfigurationService;
 import greensopinion.finance.services.data.Transactions;
+import greensopinion.finance.services.data.TransactionsService;
 import greensopinion.finance.services.transaction.MockTransaction;
 import greensopinion.finance.services.transaction.Transaction;
 import javafx.stage.Window;
@@ -32,9 +32,9 @@ public class ImportFilesServiceTest {
 	@Rule
 	public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-	private final ConfigurationService configurationService = mock(ConfigurationService.class);
+	private final TransactionsService transactionsService = mock(TransactionsService.class);
 
-	private final ImportFilesService service = new ImportFilesService(mock(Window.class), configurationService);
+	private final ImportFilesService service = new ImportFilesService(mock(Window.class), transactionsService);
 
 	@Test
 	public void importFiles() {
@@ -50,7 +50,7 @@ public class ImportFilesServiceTest {
 		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263);
 		Transaction txn2 = MockTransaction.create("2015-06-11", "description2", -1500);
 		Transactions originalTransactions = new Transactions(ImmutableList.of(txn2, txn1));
-		doReturn(originalTransactions).when(configurationService).getTransactions();
+		doReturn(originalTransactions).when(transactionsService).retrieve();
 
 		File file1 = new File(temporaryFolder.getRoot(), "test1.csv");
 		write(file1, "06/12/2015,description,12.63,,5356.53\n06/15/2015,return,,103.41,5356.53");
@@ -61,7 +61,7 @@ public class ImportFilesServiceTest {
 		assertEquals(!deleteFileAfterImport, file1.exists());
 
 		ArgumentCaptor<Transactions> transactionsCaptor = ArgumentCaptor.forClass(Transactions.class);
-		verify(configurationService).setTransactions(transactionsCaptor.capture());
+		verify(transactionsService).update(transactionsCaptor.capture());
 
 		Transaction txn3 = MockTransaction.create("2015-06-15", "return", 10341);
 		Transactions transactions = transactionsCaptor.getValue();

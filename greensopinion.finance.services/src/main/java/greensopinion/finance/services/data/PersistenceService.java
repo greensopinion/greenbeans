@@ -15,51 +15,36 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-import javax.inject.Inject;
-
 import com.google.common.base.Throwables;
 import com.google.gson.Gson;
 
-class PersistenceService {
+abstract class PersistenceService<T> {
 
-	private static final String SETTINGS_FILE = "settings.json";
-	private static final String TRANSACTIONS_FILE = "transactions.json";
 	private final PersistenceGsonProvider gsonProvider;
 	private final DataDirectoryLocator dataDirectoryLocator;
+	private final Class<T> type;
 
-	@Inject
-	PersistenceService(PersistenceGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator) {
+	PersistenceService(PersistenceGsonProvider gsonProvider, DataDirectoryLocator dataDirectoryLocator,
+			Class<T> type) {
 		this.gsonProvider = checkNotNull(gsonProvider);
 		this.dataDirectoryLocator = checkNotNull(dataDirectoryLocator);
+		this.type = checkNotNull(type);
 	}
 
-	public Settings loadSettings() {
-		File settingsFile = getSettingsFile();
+	public T load() {
+		File settingsFile = getFile();
 		if (settingsFile.exists()) {
-			return read(settingsFile, Settings.class);
+			return read(settingsFile);
 		}
-		return new Settings();
+		return defaultInstance();
 	}
 
-	public Transactions loadTransactions() {
-		File transactionsFile = getTransactionsFile();
-		if (transactionsFile.exists()) {
-			return read(transactionsFile, Transactions.class);
-		}
-		return new Transactions();
+	public void save(T value) {
+		checkNotNull(value);
+		save(getFile(), value);
 	}
 
-	public void saveSettings(Settings settings) {
-		checkNotNull(settings);
-		save(getSettingsFile(), settings);
-	}
-
-	public void saveTransactions(Transactions transactions) {
-		checkNotNull(transactions);
-		save(getTransactionsFile(), transactions);
-	}
-
-	private <T> T read(File file, Class<T> type) {
+	private T read(File file) {
 		try (Reader reader = new InputStreamReader(new BufferedInputStream(new FileInputStream(file)),
 				StandardCharsets.UTF_8)) {
 			return checkNotNull(gson().fromJson(reader, type));
@@ -68,15 +53,10 @@ class PersistenceService {
 		}
 	}
 
-	private <T> void save(File file, T data) {
+	private void save(File file, T data) {
 		checkNotNull(file);
 		checkNotNull(data);
-		File dataFolder = file.getParentFile();
-		if (!dataFolder.exists()) {
-			if (!dataFolder.mkdirs()) {
-				throw new IllegalStateException(format("Cannot create folder {0}", dataFolder));
-			}
-		}
+		ensureFolder(file);
 		Gson gson = gson();
 		try (Writer writer = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 				StandardCharsets.UTF_8)) {
@@ -86,15 +66,24 @@ class PersistenceService {
 		}
 	}
 
+	private void ensureFolder(File file) {
+		File dataFolder = file.getParentFile();
+		if (!dataFolder.exists()) {
+			if (!dataFolder.mkdirs()) {
+				throw new IllegalStateException(format("Cannot create folder {0}", dataFolder));
+			}
+		}
+	}
+
 	private Gson gson() {
 		return gsonProvider.get();
 	}
 
-	File getTransactionsFile() {
-		return new File(dataDirectoryLocator.locate(), TRANSACTIONS_FILE);
+	File getFile() {
+		return new File(dataDirectoryLocator.locate(), getFilename());
 	}
 
-	File getSettingsFile() {
-		return new File(dataDirectoryLocator.locate(), SETTINGS_FILE);
-	}
+	abstract String getFilename();
+
+	abstract T defaultInstance();
 }

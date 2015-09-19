@@ -16,20 +16,22 @@ import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 
-import greensopinion.finance.services.data.ConfigurationService;
+import greensopinion.finance.services.data.Settings;
+import greensopinion.finance.services.data.SettingsService;
 
 public class EncryptorServiceTest {
 	@Rule
 	public final ExpectedException thrown = ExpectedException.none();
-	private ConfigurationService configurationService;
+	private SettingsService settingsService;
 	private EncryptorProviderService encryptorProviderService;
 	private EncryptorService encryptorService;
 
 	@Before
 	public void before() {
-		configurationService = mock(ConfigurationService.class);
+		settingsService = mock(SettingsService.class);
+		doReturn(new Settings()).when(settingsService).retrieve();
 		encryptorProviderService = spy(new EncryptorProviderService());
-		encryptorService = new EncryptorService(configurationService, encryptorProviderService);
+		encryptorService = new EncryptorService(settingsService, encryptorProviderService);
 	}
 
 	@Test
@@ -42,21 +44,22 @@ public class EncryptorServiceTest {
 	@Test
 	public void isConfigured() {
 		assertFalse(encryptorService.isConfigured());
-		doReturn(mock(EncryptorSettings.class)).when(configurationService).getEncryptorSettings();
+		Settings settings = new Settings(mock(EncryptorSettings.class));
+		doReturn(settings).when(settingsService).retrieve();
 		assertTrue(encryptorService.isConfigured());
 	}
 
 	@Test
 	public void configure() {
 		encryptorService.configure("1234");
-		ArgumentCaptor<EncryptorSettings> settingsCaptor = ArgumentCaptor.forClass(EncryptorSettings.class);
+		ArgumentCaptor<Settings> settingsCaptor = ArgumentCaptor.forClass(Settings.class);
 
-		InOrder order = inOrder(encryptorProviderService, configurationService);
+		InOrder order = inOrder(encryptorProviderService, settingsService);
 		order.verify(encryptorProviderService).setEncryptor(any(Encryptor.class));
-		order.verify(configurationService).setEncryptorSettings(settingsCaptor.capture());
+		order.verify(settingsService).update(settingsCaptor.capture());
 
-		EncryptorSettings settings = settingsCaptor.getValue();
-		assertTrue(settings.validateMasterPassword("1234"));
+		Settings settings = settingsCaptor.getValue();
+		assertTrue(settings.getEncryptorSettings().validateMasterPassword("1234"));
 	}
 
 	@Test
@@ -83,7 +86,8 @@ public class EncryptorServiceTest {
 	@Test
 	public void initializeWrongPassword() {
 		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("1234");
-		doReturn(encryptorSettings).when(configurationService).getEncryptorSettings();
+		Settings settings = new Settings(encryptorSettings);
+		doReturn(settings).when(settingsService).retrieve();
 
 		thrown.expect(InvalidMasterPasswordException.class);
 		encryptorService.initialize("not-the-same");
@@ -92,7 +96,8 @@ public class EncryptorServiceTest {
 	@Test
 	public void initialize() {
 		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("1234");
-		doReturn(encryptorSettings).when(configurationService).getEncryptorSettings();
+		Settings settings = new Settings(encryptorSettings);
+		doReturn(settings).when(settingsService).retrieve();
 
 		assertFalse(encryptorService.isInitialized());
 		encryptorService.initialize("1234");

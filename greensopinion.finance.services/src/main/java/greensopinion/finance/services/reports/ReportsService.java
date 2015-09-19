@@ -16,25 +16,25 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
-import greensopinion.finance.services.data.ConfigurationService;
 import greensopinion.finance.services.data.Transactions;
+import greensopinion.finance.services.data.TransactionsService;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport.Month;
 import greensopinion.finance.services.model.PeriodTransactions;
 import greensopinion.finance.services.transaction.Transaction;
 
 public class ReportsService {
-	private final ConfigurationService configurationService;
+	private final TransactionsService transactionsService;
 
 	@Inject
-	ReportsService(ConfigurationService configurationService) {
-		this.configurationService = checkNotNull(configurationService);
+	ReportsService(TransactionsService transactionsService) {
+		this.transactionsService = checkNotNull(transactionsService);
 	}
 
 	public IncomeVersusExpensesReport incomeVersusExpenses() {
 		IncomeVersusExpensesReport report = new IncomeVersusExpensesReport();
 
-		Transactions transactions = configurationService.getTransactions();
+		Transactions transactions = transactionsService.retrieve();
 
 		ListMultimap<Long, Transaction> transactionsByMonth = ArrayListMultimap.create();
 		for (Transaction transaction : transactions.getTransactions()) {
@@ -51,7 +51,7 @@ public class ReportsService {
 	}
 
 	public PeriodTransactions transactionsForMonth(long yearMonth) {
-		Transactions transactions = configurationService.getTransactions();
+		Transactions transactions = transactionsService.retrieve();
 		List<Transaction> elements = new ArrayList<>();
 		for (Transaction transaction : transactions.getTransactions()) {
 			Long transactionYearMonth = yearMonth(transaction.getDate());

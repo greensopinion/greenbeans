@@ -1,58 +1,47 @@
 package greensopinion.finance.services.data;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import greensopinion.finance.services.encryption.EncryptorSettings;
-
 public class ConfigurationServiceTest {
+	public static class TestConfig {
+		String value;
 
-	private PersistenceService persistenceService;
-	private ConfigurationService configurationService;
-	private Settings data;
+		public TestConfig(String value) {
+			this.value = value;
+		}
+	}
 
+	private PersistenceService<TestConfig> persistenceService;
+	private ConfigurationService<TestConfig> configurationService;
+	private TestConfig data;
+
+	@SuppressWarnings("unchecked")
 	@Before
 	public void before() {
-		data = new Settings();
+		data = new TestConfig("a");
 		persistenceService = mock(PersistenceService.class);
-		doReturn(data).when(persistenceService).loadSettings();
+		doReturn(data).when(persistenceService).load();
 
-		configurationService = new ConfigurationService(persistenceService);
+		configurationService = new ConfigurationService<TestConfig>(persistenceService);
 	}
 
 	@Test
-	public void getEncryptorSettings() {
-		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("123");
-		data.setEncryptorSettings(encryptorSettings);
-
-		verifyNoMoreInteractions(persistenceService);
-		assertSame(encryptorSettings, configurationService.getEncryptorSettings());
-		verify(persistenceService).loadSettings();
-		assertSame(encryptorSettings, configurationService.getEncryptorSettings());
-		verifyNoMoreInteractions(persistenceService);
+	public void retrieve() {
+		assertSame(data, configurationService.retrieve());
+		assertSame(data, configurationService.retrieve());
 	}
 
 	@Test
-	public void setEncryptorSettings() {
-		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("123");
-
-		verifyNoMoreInteractions(persistenceService);
-		configurationService.setEncryptorSettings(encryptorSettings);
-		verify(persistenceService).loadSettings();
-		verify(persistenceService).saveSettings(any(Settings.class));
-
-		assertNull(data.getEncryptorSettings());
-		verifyNoMoreInteractions(persistenceService);
-		assertSame(encryptorSettings, configurationService.getEncryptorSettings());
-		assertNotSame(data, configurationService.settings());
+	public void update() {
+		TestConfig data2 = new TestConfig("b");
+		configurationService.update(data2);
+		verify(persistenceService).save(data2);
+		assertSame(data2, configurationService.retrieve());
 	}
 }

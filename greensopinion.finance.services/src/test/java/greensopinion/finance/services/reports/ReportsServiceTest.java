@@ -17,8 +17,8 @@ import org.junit.Test;
 
 import com.google.common.base.Throwables;
 
-import greensopinion.finance.services.data.ConfigurationService;
 import greensopinion.finance.services.data.Transactions;
+import greensopinion.finance.services.data.TransactionsService;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport;
 import greensopinion.finance.services.model.IncomeVersusExpensesReport.Month;
 import greensopinion.finance.services.model.PeriodTransactions;
@@ -27,13 +27,13 @@ import greensopinion.finance.services.transaction.Transaction;
 
 public class ReportsServiceTest {
 
-	private final ConfigurationService configurationService = mock(ConfigurationService.class);
-	private final ReportsService service = new ReportsService(configurationService);
+	private final TransactionsService transactionsService = mock(TransactionsService.class);
+	private final ReportsService service = new ReportsService(transactionsService);
 	private final Transactions transactions = createTransactions();
 
 	@Before
 	public void before() {
-		doReturn(transactions).when(configurationService).getTransactions();
+		doReturn(transactions).when(transactionsService).retrieve();
 	}
 
 	@Test
