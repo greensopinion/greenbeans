@@ -1,8 +1,8 @@
 package greensopinion.finance.services.data;
 
+import greensopinion.finance.services.domain.EncryptorSettings;
 import greensopinion.finance.services.encryption.Encryptor;
 import greensopinion.finance.services.encryption.EncryptorProviderService;
-import greensopinion.finance.services.encryption.EncryptorSettings;
 
 public class MockEncryptorProviderService {
 

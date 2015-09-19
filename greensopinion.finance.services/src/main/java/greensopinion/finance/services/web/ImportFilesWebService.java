@@ -6,8 +6,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import greensopinion.finance.services.ImportFilesService;
-import greensopinion.finance.services.model.FileImport;
-import greensopinion.finance.services.model.FileSelection;
+import greensopinion.finance.services.web.model.FileImport;
+import greensopinion.finance.services.web.model.FileSelection;
 
 @Path(ImportFilesWebService.BASE_PATH)
 public class ImportFilesWebService {

@@ -1,6 +1,4 @@
-package greensopinion.finance.services.data;
-
-import greensopinion.finance.services.encryption.EncryptorSettings;
+package greensopinion.finance.services.domain;
 
 public class Settings {
 	private EncryptorSettings encryptorSettings;

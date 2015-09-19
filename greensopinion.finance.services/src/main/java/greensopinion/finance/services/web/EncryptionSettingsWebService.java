@@ -7,8 +7,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
 import greensopinion.finance.services.encryption.EncryptorService;
-import greensopinion.finance.services.model.EncryptionSettings;
-import greensopinion.finance.services.model.NewEncryptionSettings;
+import greensopinion.finance.services.web.model.EncryptionSettings;
+import greensopinion.finance.services.web.model.NewEncryptionSettings;
 
 @Path(EncryptionSettingsWebService.BASE_PATH)
 public class EncryptionSettingsWebService {

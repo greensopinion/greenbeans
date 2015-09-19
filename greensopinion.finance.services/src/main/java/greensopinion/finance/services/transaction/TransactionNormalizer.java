@@ -8,6 +8,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 
+import greensopinion.finance.services.domain.Transaction;
+
 public class TransactionNormalizer {
 	/**
 	 * Removes transaction pairs that are self-canceling.

@@ -24,10 +24,10 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 
-import greensopinion.finance.services.data.Transactions;
 import greensopinion.finance.services.data.TransactionsService;
+import greensopinion.finance.services.domain.Transaction;
+import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.transaction.CsvTransactionReader;
-import greensopinion.finance.services.transaction.Transaction;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;

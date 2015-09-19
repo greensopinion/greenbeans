@@ -1,10 +1,12 @@
-package greensopinion.finance.services.model;
+package greensopinion.finance.services.web.model;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
 import org.junit.Test;
+
+import greensopinion.finance.services.web.model.ExceptionContent;
 
 public class ExceptionContentTest {
 

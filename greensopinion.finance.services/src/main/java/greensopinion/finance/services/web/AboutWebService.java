@@ -7,7 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import greensopinion.finance.services.AboutService;
-import greensopinion.finance.services.model.About;
+import greensopinion.finance.services.web.model.About;
 
 @Path(AboutWebService.BASE_PATH)
 public class AboutWebService {

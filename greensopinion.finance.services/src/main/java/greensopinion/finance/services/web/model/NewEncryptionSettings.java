@@ -1,4 +1,4 @@
-package greensopinion.finance.services.model;
+package greensopinion.finance.services.web.model;
 
 public class NewEncryptionSettings {
 	private String masterPassword;

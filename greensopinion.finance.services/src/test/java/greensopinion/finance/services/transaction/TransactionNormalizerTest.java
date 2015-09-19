@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
 
+import greensopinion.finance.services.domain.Transaction;
+
 public class TransactionNormalizerTest {
 	private final TransactionNormalizer normalizer = new TransactionNormalizer();
 

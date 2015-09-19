@@ -1,4 +1,4 @@
-package greensopinion.finance.services.encryption;
+package greensopinion.finance.services.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import greensopinion.finance.services.domain.EncryptorSettings;
 
 public class EncryptorSettingsTest {
 	@Test

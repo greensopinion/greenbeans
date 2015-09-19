@@ -27,7 +27,7 @@ import com.google.inject.Binding;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 
-import greensopinion.finance.services.model.ExceptionContent;
+import greensopinion.finance.services.web.model.ExceptionContent;
 
 public class WebDispatch {
 

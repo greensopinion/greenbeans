@@ -1,4 +1,4 @@
-package greensopinion.finance.services.transaction;
+package greensopinion.finance.services.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

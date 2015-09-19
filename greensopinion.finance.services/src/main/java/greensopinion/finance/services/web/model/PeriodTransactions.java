@@ -1,4 +1,4 @@
-package greensopinion.finance.services.model;
+package greensopinion.finance.services.web.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 
-import greensopinion.finance.services.transaction.Transaction;
+import greensopinion.finance.services.domain.Transaction;
 
 public class PeriodTransactions {
 	private final String name;

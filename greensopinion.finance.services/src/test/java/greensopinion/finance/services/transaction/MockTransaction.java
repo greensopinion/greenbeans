@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 
 import com.google.common.base.Throwables;
 
+import greensopinion.finance.services.domain.Transaction;
+
 public class MockTransaction {
 	/**
 	 * @param date

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import greensopinion.finance.services.domain.EncryptorSettings;
+
 public class EncryptorTest {
 	private EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("12345");
 	private Encryptor encryptor = new Encryptor(encryptorSettings, "12345");

@@ -6,8 +6,9 @@ import static com.google.common.base.Preconditions.checkState;
 
 import javax.inject.Inject;
 
-import greensopinion.finance.services.data.Settings;
 import greensopinion.finance.services.data.SettingsService;
+import greensopinion.finance.services.domain.EncryptorSettings;
+import greensopinion.finance.services.domain.Settings;
 
 public class EncryptorService {
 

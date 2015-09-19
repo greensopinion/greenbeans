@@ -1,6 +1,6 @@
 package greensopinion.finance.services;
 
-import greensopinion.finance.services.model.About;
+import greensopinion.finance.services.web.model.About;
 
 public class AboutService {
 

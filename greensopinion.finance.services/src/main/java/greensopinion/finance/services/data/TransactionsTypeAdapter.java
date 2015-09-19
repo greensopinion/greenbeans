@@ -13,8 +13,9 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import greensopinion.finance.services.domain.Transaction;
+import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.encryption.EncryptorProviderService;
-import greensopinion.finance.services.transaction.Transaction;
 
 class TransactionsTypeAdapter extends TypeAdapter<Transactions> {
 

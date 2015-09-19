@@ -1,7 +1,9 @@
-package greensopinion.finance.services.encryption;
+package greensopinion.finance.services.domain;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
+
+import greensopinion.finance.services.encryption.Encryptor;
 
 public class EncryptorSettings {
 	private static final String KNOWN_STATE = "9f682f9b-0a9a-4e15-9111-09276247c658";

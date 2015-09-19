@@ -6,7 +6,7 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import greensopinion.finance.services.model.CategoryModel;
+import greensopinion.finance.services.web.model.CategoryModel;
 
 @Path(CategoryWebService.BASE_PATH)
 public class CategoryWebService {

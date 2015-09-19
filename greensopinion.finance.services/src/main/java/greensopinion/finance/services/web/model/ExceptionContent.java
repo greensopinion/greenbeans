@@ -1,4 +1,4 @@
-package greensopinion.finance.services.model;
+package greensopinion.finance.services.web.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.text.MessageFormat.format;

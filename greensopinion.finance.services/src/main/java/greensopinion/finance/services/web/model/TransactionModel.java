@@ -1,8 +1,8 @@
-package greensopinion.finance.services.model;
+package greensopinion.finance.services.web.model;
 
 import java.util.Date;
 
-import greensopinion.finance.services.transaction.Transaction;
+import greensopinion.finance.services.domain.Transaction;
 
 public class TransactionModel {
 	private final Date date;

@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
+import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.encryption.EncryptorProviderService;
 
 public class DataGsonProviderTest {

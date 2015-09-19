@@ -1,4 +1,4 @@
-package greensopinion.finance.services.model;
+package greensopinion.finance.services.web.model;
 
 import java.util.List;
 

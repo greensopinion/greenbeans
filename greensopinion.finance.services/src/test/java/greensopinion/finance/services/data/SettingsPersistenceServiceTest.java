@@ -18,7 +18,8 @@ import org.junit.rules.TemporaryFolder;
 import com.google.common.io.Files;
 
 import greensopinion.finance.services.TestResources;
-import greensopinion.finance.services.encryption.EncryptorSettings;
+import greensopinion.finance.services.domain.EncryptorSettings;
+import greensopinion.finance.services.domain.Settings;
 
 public class SettingsPersistenceServiceTest {
 

@@ -7,9 +7,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import greensopinion.finance.services.model.IncomeVersusExpensesReport;
-import greensopinion.finance.services.model.PeriodTransactions;
 import greensopinion.finance.services.reports.ReportsService;
+import greensopinion.finance.services.web.model.IncomeVersusExpensesReport;
+import greensopinion.finance.services.web.model.PeriodTransactions;
 
 @Path(ReportsWebService.BASE_PATH)
 public class ReportsWebService {

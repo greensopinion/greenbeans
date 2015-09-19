@@ -19,6 +19,8 @@ import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.ImmutableList;
 
+import greensopinion.finance.services.domain.Transaction;
+
 public class CsvTransactionReaderTest {
 	@Rule
 	public final ExpectedException thrown = ExpectedException.none();

@@ -6,6 +6,8 @@ import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.crypto.encrypt.BytesEncryptor;
 import org.springframework.security.crypto.encrypt.Encryptors;
 
+import greensopinion.finance.services.domain.EncryptorSettings;
+
 public class Encryptor {
 
 	private BytesEncryptor encryptor;

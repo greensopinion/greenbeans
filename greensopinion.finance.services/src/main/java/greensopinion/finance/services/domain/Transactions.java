@@ -1,10 +1,8 @@
-package greensopinion.finance.services.data;
+package greensopinion.finance.services.domain;
 
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-
-import greensopinion.finance.services.transaction.Transaction;
 
 public class Transactions {
 	private final List<Transaction> transactions;

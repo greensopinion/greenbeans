@@ -21,6 +21,8 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
+import greensopinion.finance.services.domain.Transaction;
+
 public class CsvTransactionReader implements Closeable {
 
 	private final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

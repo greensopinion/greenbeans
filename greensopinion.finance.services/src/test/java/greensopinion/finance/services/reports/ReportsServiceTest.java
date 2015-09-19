@@ -17,13 +17,13 @@ import org.junit.Test;
 
 import com.google.common.base.Throwables;
 
-import greensopinion.finance.services.data.Transactions;
 import greensopinion.finance.services.data.TransactionsService;
-import greensopinion.finance.services.model.IncomeVersusExpensesReport;
-import greensopinion.finance.services.model.IncomeVersusExpensesReport.Month;
-import greensopinion.finance.services.model.PeriodTransactions;
-import greensopinion.finance.services.model.TransactionModel;
-import greensopinion.finance.services.transaction.Transaction;
+import greensopinion.finance.services.domain.Transaction;
+import greensopinion.finance.services.domain.Transactions;
+import greensopinion.finance.services.web.model.IncomeVersusExpensesReport;
+import greensopinion.finance.services.web.model.PeriodTransactions;
+import greensopinion.finance.services.web.model.TransactionModel;
+import greensopinion.finance.services.web.model.IncomeVersusExpensesReport.Month;
 
 public class ReportsServiceTest {
 

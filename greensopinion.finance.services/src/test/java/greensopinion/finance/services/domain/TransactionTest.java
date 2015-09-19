@@ -1,10 +1,12 @@
-package greensopinion.finance.services.transaction;
+package greensopinion.finance.services.domain;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
 import org.junit.Test;
+
+import greensopinion.finance.services.domain.Transaction;
 
 public class TransactionTest {
 	@Test
