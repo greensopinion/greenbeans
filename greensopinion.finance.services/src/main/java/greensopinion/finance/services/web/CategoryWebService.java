@@ -6,9 +6,11 @@ import static greensopinion.finance.services.ValidationPreconditions.validateNot
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
@@ -44,5 +46,11 @@ public class CategoryWebService {
 	public void create(CategoryModel model) {
 		validateNotNull(model, "Must provide a category.");
 		categoriesService.create(new Category(model.getName()));
+	}
+
+	@DELETE
+	@Path("{name}")
+	public void delete(@PathParam("name") String name) {
+		categoriesService.deleteByName(name);
 	}
 }

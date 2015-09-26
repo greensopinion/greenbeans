@@ -33,6 +33,13 @@ describe('Controller: CategoriesCtrl', function () {
         return $q(function(resolve) {
           resolve();
         });
+      },
+      delete: function(name) {
+        expect(name).toBe('One');
+        categoryList = [ {name: 'Two'}];
+        return $q(function(resolve) {
+          resolve();
+        });
       }
     };
 
@@ -58,4 +65,11 @@ describe('Controller: CategoriesCtrl', function () {
     expect(scope.categoryList.length).toBe(3);
     expect(scope.categoryList[2].name).toBe('a name');
   });
+    it('should expose deleteCategory()', function () {
+      expect(scope.deleteCategory).toBeDefined();
+      scope.deleteCategory({ name: 'One' });
+      $rootScope.$digest();
+      expect(scope.categoryList.length).toBe(1);
+      expect(scope.categoryList[0].name).toBe('Two');
+    });
 });

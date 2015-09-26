@@ -3,15 +3,19 @@ package greensopinion.finance.services.web.dispatch;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 public class WebPath {
-	private String httpMethod;
+	private final String httpMethod;
 	private Pattern pattern;
 	private List<String> variableNames;
 
@@ -29,11 +33,20 @@ public class WebPath {
 		if (matcher.matches()) {
 			ImmutableMap.Builder<String, String> variablesBuilder = ImmutableMap.builder();
 			for (int x = 0; x < variableNames.size(); ++x) {
-				variablesBuilder.put(variableNames.get(x), matcher.group(x + 1));
+				String variable = matcher.group(x + 1);
+				variablesBuilder.put(variableNames.get(x), decode(variable));
 			}
 			return new MatchResult(true, variablesBuilder.build());
 		}
 		return MatchResult.NO_MATCH;
+	}
+
+	private String decode(String variable) {
+		try {
+			return URLDecoder.decode(variable, StandardCharsets.UTF_8.name());
+		} catch (UnsupportedEncodingException e) {
+			throw Throwables.propagate(e);
+		}
 	}
 
 	private void compile(String path) {

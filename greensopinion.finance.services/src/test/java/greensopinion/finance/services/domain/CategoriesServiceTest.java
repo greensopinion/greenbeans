@@ -72,4 +72,25 @@ public class CategoriesServiceTest {
 		assertNotNull(savedCategories.getCategoryByName("B"));
 		assertNotNull(savedCategories.getCategoryByName("A"));
 	}
+
+	@Test
+	public void deleteByNameNoName() {
+		thrown.expect(ValidationException.class);
+		thrown.expectMessage("Category name must be specified.");
+		categoriesService.deleteByName(" ");
+	}
+
+	@Test
+	public void deleteByNameNotFound() {
+		thrown.expect(ValidationException.class);
+		thrown.expectMessage("Category with name \"not-present\" not found.");
+		categoriesService.deleteByName("not-present");
+	}
+
+	@Test
+	public void deleteByName() {
+		categoriesService.deleteByName("a");
+		assertNotNull(savedCategories);
+		assertEquals(ImmutableList.of(), savedCategories.getCategories());
+	}
 }

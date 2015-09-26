@@ -5,6 +5,7 @@
 <div class="alert alert-danger" ng-show="errorMessage">
     {{errorMessage}}
 </div>
+
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -21,6 +22,11 @@
     </td></tr>
     <tr ng-repeat="category in categoryList | orderBy:sortType:sortReverse">
       <td>{{category.name}}</td>
+      <td class="text-right">
+          <form name="category{{category.name}}Form">
+            <button type="submit" class="btn btn-default" ng-click="deleteCategory(category)" title="Delete '{{category.name}}'"><i class="fa fa-trash-o"></i></button>
+          </form>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -18,6 +18,6 @@ public class ValidationExceptionTest {
 
 	@Test
 	public void getMessage() {
-		assertEquals("a message", new ValidationException("a message"));
+		assertEquals("a message", new ValidationException("a message").getMessage());
 	}
 }

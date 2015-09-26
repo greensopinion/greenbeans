@@ -5,6 +5,9 @@ import static greensopinion.finance.services.ValidationPreconditions.validateNot
 import static greensopinion.finance.services.ValidationPreconditions.validateRequired;
 import static java.text.MessageFormat.format;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import com.google.common.collect.ImmutableList;
@@ -31,6 +34,19 @@ public class CategoriesService extends ConfigurationService<Categories> {
 
 		Categories newCategories = new Categories(
 				ImmutableList.<Category> builder().addAll(categories.getCategories()).add(new Category(name)).build());
-		super.update(newCategories);
+		update(newCategories);
+	}
+
+	public void deleteByName(String name) {
+		validateRequired(name, "Category name");
+
+		Categories categories = retrieve();
+		Category category = categories.getCategoryByName(name.trim());
+		validate(category != null, format("Category with name \"{0}\" not found.", name));
+
+		List<Category> values = new ArrayList<>(categories.getCategories());
+		values.remove(category);
+
+		update(new Categories(values));
 	}
 }

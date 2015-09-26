@@ -78,6 +78,9 @@ public class Invoker {
 		} else if (type == Long.class) {
 			String v = value.toString();
 			return v.isEmpty() ? null : Long.parseLong(v);
+		} else if (type == String.class) {
+			String v = value.toString().trim();
+			return v.isEmpty() ? null : v;
 		}
 		ByteArrayInputStream stream = new ByteArrayInputStream(value.toString().getBytes(StandardCharsets.UTF_8));
 		Class clazz = classOf(type);

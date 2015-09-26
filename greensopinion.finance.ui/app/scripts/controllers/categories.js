@@ -23,6 +23,15 @@ angular.module('greensopinionfinanceApp')
         });
     };
 
+    $scope.deleteCategory = function(category) {
+      return errorService.maintainErrorMessageInScope(categoryService.delete(category.name),$scope)
+        .then(function() {
+          return categoryService.list();
+        }).then(function(result) {
+          $scope.categoryList = result;
+        });
+    };
+
     categoryService.list().then(function(result) {
       $scope.categoryList = result;
     });

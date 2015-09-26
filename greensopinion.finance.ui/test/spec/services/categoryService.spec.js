@@ -32,16 +32,28 @@ describe('Service: categoryService', function () {
     expect(result.method).toBe('GET');
   });
 
-    it('should expose create()', function () {
-      expect(categoryService.create).toBeDefined();
-      var result;
-      categoryService.create('a name').then(function (value) {
-        result = value;
-      });
-      $rootScope.$digest();
-
-      expect(result.path).toBe('/categories');
-      expect(result.method).toBe('POST');
-      expect(result.entity.name).toBe('a name');
+  it('should expose create()', function () {
+    expect(categoryService.create).toBeDefined();
+    var result;
+    categoryService.create('a name').then(function (value) {
+      result = value;
     });
+    $rootScope.$digest();
+
+    expect(result.path).toBe('/categories');
+    expect(result.method).toBe('POST');
+    expect(result.entity.name).toBe('a name');
+  });
+
+  it('should expose delete()', function () {
+    expect(categoryService.delete).toBeDefined();
+    var result;
+    categoryService.delete('a name/2').then(function (value) {
+      result = value;
+    });
+    $rootScope.$digest();
+
+    expect(result.path).toBe('/categories/a%20name%2F2');
+    expect(result.method).toBe('DELETE');
+  });
 });

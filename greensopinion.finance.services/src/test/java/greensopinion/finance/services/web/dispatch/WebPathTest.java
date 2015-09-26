@@ -58,6 +58,14 @@ public class WebPathTest {
 		assertNoMatch("/one/abc/something/def/", webPath);
 	}
 
+	@Test
+	public void decodeVariables() {
+		WebPath webPath = new WebPath("GET", "/one/{two}/{three}");
+		MatchResult match = webPath.match("GET", "/one/a%20b/+c");
+		assertEquals("a b", match.getVariables().get("two"));
+		assertEquals(" c", match.getVariables().get("three"));
+	}
+
 	private void assertNoMatch(String path, WebPath webPath) {
 		MatchResult match = webPath.match(webPath.getHttpMethod(), path);
 		assertNoMatch(match);

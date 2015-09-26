@@ -33,7 +33,7 @@ class DefaultResponse extends Response {
 
 	@Override
 	public StatusType getStatusInfo() {
-		throw new UnsupportedOperationException();
+		return Status.fromStatusCode(status);
 	}
 
 	@Override
