@@ -15,6 +15,14 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 
 body {
   padding: 0;
+  padding-top: $navbar-height;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  margin-top: ($line-height-computed/3);
+  margin-bottom: ($line-height-computed / 4);
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
