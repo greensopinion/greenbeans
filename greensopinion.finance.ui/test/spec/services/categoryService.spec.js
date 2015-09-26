@@ -27,9 +27,21 @@ describe('Service: categoryService', function () {
       result = value;
     });
     $rootScope.$digest();
-    
+
     expect(result.path).toBe('/categories');
     expect(result.method).toBe('GET');
   });
 
+    it('should expose create()', function () {
+      expect(categoryService.create).toBeDefined();
+      var result;
+      categoryService.create('a name').then(function (value) {
+        result = value;
+      });
+      $rootScope.$digest();
+
+      expect(result.path).toBe('/categories');
+      expect(result.method).toBe('POST');
+      expect(result.entity.name).toBe('a name');
+    });
 });

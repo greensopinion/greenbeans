@@ -13,6 +13,9 @@ angular.module('greensopinionfinanceApp')
     return {
       list: function() {
           return rest.get(API_BASE);
+      },
+      create: function(categoryName) {
+        return rest.post(API_BASE, { name: categoryName } );
       }
     };
   }]);

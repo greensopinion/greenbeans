@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 import com.google.common.base.Throwables;
 import com.google.gson.Gson;
 
-abstract class PersistenceService<T> {
+public abstract class PersistenceService<T> {
 
 	private final PersistenceGsonProvider gsonProvider;
 	private final DataDirectoryLocator dataDirectoryLocator;

@@ -1,11 +1,13 @@
 package greensopinion.finance.services.web;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static greensopinion.finance.services.ValidationPreconditions.validateNotNull;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import com.google.common.base.Function;
@@ -36,5 +38,11 @@ public class CategoryWebService {
 						return new CategoryModel(category.getName());
 					}
 				}).toList();
+	}
+
+	@POST
+	public void create(CategoryModel model) {
+		validateNotNull(model, "Must provide a category.");
+		categoriesService.create(new Category(model.getName()));
 	}
 }

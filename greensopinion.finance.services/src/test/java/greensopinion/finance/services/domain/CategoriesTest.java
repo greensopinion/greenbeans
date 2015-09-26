@@ -1,6 +1,7 @@
 package greensopinion.finance.services.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -20,5 +21,16 @@ public class CategoriesTest {
 		Category category2 = new Category("b");
 		Categories categories = new Categories(ImmutableList.of(category1, category2));
 		assertEquals(ImmutableList.of(category1, category2), categories.getCategories());
+	}
+
+	@Test
+	public void foo() {
+		Category category1 = new Category("a");
+		Category category2 = new Category("b");
+		Categories categories = new Categories(ImmutableList.of(category1, category2));
+
+		assertNull(categories.getCategoryByName("nope"));
+		assertEquals(category1, categories.getCategoryByName("a"));
+		assertEquals(category1, categories.getCategoryByName("A"));
 	}
 }

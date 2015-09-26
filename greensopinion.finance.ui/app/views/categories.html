@@ -2,6 +2,9 @@
 <p>
     Categories provide a way of breaking down your income and expenses.
 </p>
+<div class="alert alert-danger" ng-show="errorMessage">
+    {{errorMessage}}
+</div>
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -10,10 +13,14 @@
     </tr>
   </thead>
   <tbody>
+    <tr><td>
+      <form name="addCategoryForm" class="form-inline">
+          <input type="text" id="new-category-name" ng-model="newCategoryName" class="form-control category-name"></input>
+          <button id="import-files" type="submit" class="btn btn-default" ng-click="addCategory()">Add</button>
+      </form>
+    </td></tr>
     <tr ng-repeat="category in categoryList | orderBy:sortType:sortReverse">
       <td>{{category.name}}</td>
-      <td>
-      </td>
     </tr>
   </tbody>
 </table>

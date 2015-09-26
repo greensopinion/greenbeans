@@ -19,4 +19,13 @@ public class Categories {
 	public List<Category> getCategories() {
 		return categories;
 	}
+
+	public Category getCategoryByName(String name) {
+		for (Category category : getCategories()) {
+			if (category.getName().equalsIgnoreCase(name.trim())) {
+				return category;
+			}
+		}
+		return null;
+	}
 }
