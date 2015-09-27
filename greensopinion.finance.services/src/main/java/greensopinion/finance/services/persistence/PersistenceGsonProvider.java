@@ -23,6 +23,7 @@ class PersistenceGsonProvider {
 		GsonBuilder gsonBuilder = builder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
 		gsonBuilder.registerTypeAdapterFactory(TransactionsTypeAdapter.factory(encryptorProviderService));
+		gsonBuilder.registerTypeAdapterFactory(CategoriesTypeAdapter.factory(encryptorProviderService));
 		return gsonBuilder.create();
 	}
 

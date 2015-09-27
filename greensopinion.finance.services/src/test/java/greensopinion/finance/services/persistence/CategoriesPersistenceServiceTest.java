@@ -1,6 +1,5 @@
 package greensopinion.finance.services.persistence;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -46,9 +45,20 @@ public class CategoriesPersistenceServiceTest {
 
 	@Test
 	public void defaultInstance() {
-		Categories defaultInstance = service.defaultInstance();
-		checkNotNull(defaultInstance);
-		assertFalse(defaultInstance.getCategories().isEmpty());
+		Categories categories = service.defaultInstance();
+		assertDefaultCategories(categories);
+	}
+
+	@Test
+	public void loadDefaultInstance() {
+		Categories categories = service.load();
+		assertDefaultCategories(categories);
+	}
+
+	private void assertDefaultCategories(Categories categories) {
+		assertNotNull(categories);
+		assertFalse(categories.getCategories().isEmpty());
+		assertNotNull(categories.getCategoryByName("Groceries"));
 	}
 
 	@Test

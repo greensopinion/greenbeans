@@ -9,5 +9,5 @@
 6. Wipe data (lost password)
 7. About page
 8. Help
-9. Toast (see https://github.com/jirikavi/AngularJS-Toaster)
+9. Toast placement
 10. Encryption of categories

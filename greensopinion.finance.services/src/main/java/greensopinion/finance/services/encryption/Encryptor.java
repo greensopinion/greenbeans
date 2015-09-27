@@ -1,5 +1,7 @@
 package greensopinion.finance.services.encryption;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.security.crypto.codec.Hex;
@@ -10,10 +12,14 @@ import greensopinion.finance.services.domain.EncryptorSettings;
 
 public class Encryptor {
 
-	private BytesEncryptor encryptor;
+	private final BytesEncryptor encryptor;
 
 	public Encryptor(EncryptorSettings settings, String masterPassword) {
-		encryptor = Encryptors.stronger(masterPassword, new String(Hex.encode(settings.getSalt())));
+		this(Encryptors.stronger(masterPassword, new String(Hex.encode(settings.getSalt()))));
+	}
+
+	public Encryptor(BytesEncryptor bytesEncryptor) {
+		this.encryptor = checkNotNull(bytesEncryptor);
 	}
 
 	public String encrypt(String data) {
