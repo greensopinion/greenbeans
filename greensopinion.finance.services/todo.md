@@ -11,3 +11,4 @@
 8. Help
 9. Toast placement
 10. Encryption of categories
+11. toast and error can occur simultaneously

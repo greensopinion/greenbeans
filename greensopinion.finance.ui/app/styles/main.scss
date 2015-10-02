@@ -113,7 +113,25 @@ tr.clickable {
   width: 60%;
 }
 
+
+/* toast */
+
+
 .toast {
-  margin-bottom: 0px;
-  padding: 14px;
+  position: absolute;
+  left: 50%;
+  top: 30px;
 }
+.toast div {
+  position:relative;
+  left:-50%;
+}
+
+body {
+  position: relative;
+}
+
+/* angular-ui */
+
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
