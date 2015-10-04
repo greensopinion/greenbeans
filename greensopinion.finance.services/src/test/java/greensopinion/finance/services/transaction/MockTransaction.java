@@ -19,8 +19,12 @@ public class MockTransaction {
 	 * @return
 	 */
 	public static Transaction create(String date, String description, long amount) {
+		return create(date, description, amount, null);
+	}
+
+	public static Transaction create(String date, String description, long amount, String accountNumber) {
 		try {
-			return new Transaction(dateFormat().parse(date), description, amount, null);
+			return new Transaction(dateFormat().parse(date), description, amount, accountNumber);
 		} catch (ParseException e) {
 			throw Throwables.propagate(e);
 		}

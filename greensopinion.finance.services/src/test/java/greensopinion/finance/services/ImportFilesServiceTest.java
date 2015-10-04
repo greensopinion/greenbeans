@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,13 +48,13 @@ public class ImportFilesServiceTest {
 	}
 
 	private void assertImportFiles(boolean deleteFileAfterImport) {
-		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263);
-		Transaction txn2 = MockTransaction.create("2015-06-11", "description2", -1500);
+		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263, "1234123412341234");
+		Transaction txn2 = MockTransaction.create("2015-06-11", "description2", -1500, "1234123412341234");
 		Transactions originalTransactions = new Transactions(ImmutableList.of(txn2, txn1));
 		doReturn(originalTransactions).when(transactionsService).retrieve();
 
-		File file1 = new File(temporaryFolder.getRoot(), "test1.csv");
-		write(file1, "06/12/2015,description,12.63,,5356.53\n06/15/2015,return,,103.41,5356.53");
+		File file1 = new File(temporaryFolder.getRoot(), "test1.qfx");
+		write(file1, TestResources.load(ImportFilesServiceTest.class, "test1.qfx"));
 		assertTrue(file1.exists());
 
 		service.importFiles(ImmutableList.of(file1.getPath()), deleteFileAfterImport);
@@ -63,9 +64,16 @@ public class ImportFilesServiceTest {
 		ArgumentCaptor<Transactions> transactionsCaptor = ArgumentCaptor.forClass(Transactions.class);
 		verify(transactionsService).update(transactionsCaptor.capture());
 
-		Transaction txn3 = MockTransaction.create("2015-06-15", "return", 10341);
+		Transaction txn3 = MockTransaction.create("2015-06-15", "return", 10341, "1234123412341234");
 		Transactions transactions = transactionsCaptor.getValue();
-		assertEquals(ImmutableList.of(txn2, txn1, txn3), transactions.getTransactions());
+		assertTransactions(ImmutableList.of(txn2, txn1, txn3), transactions.getTransactions());
+	}
+
+	private void assertTransactions(List<Transaction> expected, List<Transaction> transactions) {
+		assertEquals(expected.size(), transactions.size());
+		for (int x = 0; x < expected.size(); ++x) {
+			assertEquals(expected.get(x), transactions.get(x));
+		}
 	}
 
 	private void write(File file, String text) {

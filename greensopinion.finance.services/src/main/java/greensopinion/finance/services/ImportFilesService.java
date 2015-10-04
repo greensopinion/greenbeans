@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,7 +25,7 @@ import com.google.common.collect.Ordering;
 import greensopinion.finance.services.domain.Transaction;
 import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.domain.TransactionsService;
-import greensopinion.finance.services.transaction.CsvTransactionReader;
+import greensopinion.finance.services.transaction.OfxTransactionReader;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
@@ -47,7 +45,12 @@ public class ImportFilesService {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(initialDirectory());
 		fileChooser.setTitle("Select Files to Import");
-		fileChooser.getExtensionFilters().setAll(new ExtensionFilter("CSV files (*.csv)", ImmutableList.of("*.csv")));
+		// ofx Microsoft Money
+		// qfx Intuit Quicken
+		// qbo Intuit Quick Books
+		// aso Simply Accounting
+		fileChooser.getExtensionFilters().setAll(new ExtensionFilter("Transaction files (*.ofx, *.qfx, *.qbo, *.aso)",
+				ImmutableList.of("*.ofx", "*.qfx", "*.qbo", "*.aso")));
 		List<File> files = fileChooser.showOpenMultipleDialog(window);
 		if (files == null) {
 			return ImmutableList.of();
@@ -114,8 +117,8 @@ public class ImportFilesService {
 		File file = new File(path);
 		checkArgument(file.exists(), "File does not exist: %s", file);
 		checkArgument(file.isFile(), "Not a file: %s", file);
-		try (CsvTransactionReader reader = new CsvTransactionReader(
-				new InputStreamReader(new BufferedInputStream(new FileInputStream(file)), StandardCharsets.UTF_8))) {
+		try (OfxTransactionReader reader = new OfxTransactionReader(
+				new BufferedInputStream(new FileInputStream(file)))) {
 			return reader.transactions();
 		} catch (Exception e) {
 			throw new RuntimeException(format("Cannot read file {0}: {1}", path, e.getMessage()), e);
