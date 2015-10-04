@@ -43,7 +43,7 @@ public class CsvTransactionReader implements Closeable {
 					String description = record.get(1);
 					String debitAmount = record.get(2);
 					String creditAmount = record.get(3);
-					builder.add(new Transaction(parseDate(date), description, amount(debitAmount, creditAmount)));
+					builder.add(new Transaction(parseDate(date), description, amount(debitAmount, creditAmount), null));
 				} catch (Exception e) {
 					throw new InvalidTransactionException(
 							format("{0} in record {1}", e.getMessage(), record.getRecordNumber()), e);

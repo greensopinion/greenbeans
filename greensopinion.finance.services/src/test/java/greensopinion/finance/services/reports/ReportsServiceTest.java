@@ -21,9 +21,9 @@ import greensopinion.finance.services.domain.Transaction;
 import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.domain.TransactionsService;
 import greensopinion.finance.services.web.model.IncomeVersusExpensesReport;
+import greensopinion.finance.services.web.model.IncomeVersusExpensesReport.Month;
 import greensopinion.finance.services.web.model.PeriodTransactions;
 import greensopinion.finance.services.web.model.TransactionModel;
-import greensopinion.finance.services.web.model.IncomeVersusExpensesReport.Month;
 
 public class ReportsServiceTest {
 
@@ -68,11 +68,11 @@ public class ReportsServiceTest {
 
 	private Transactions createTransactions() {
 		List<Transaction> transactions = new ArrayList<>();
-		transactions.add(new Transaction(date("2015-01-03"), "test1", 102300));
-		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500));
-		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504));
-		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504));
-		transactions.add(new Transaction(date("2015-02-15"), "test5", -12345));
+		transactions.add(new Transaction(date("2015-01-03"), "test1", 102300, null));
+		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500, null));
+		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504, null));
+		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504, null));
+		transactions.add(new Transaction(date("2015-02-15"), "test5", -12345, null));
 		return new Transactions(transactions);
 	}
 

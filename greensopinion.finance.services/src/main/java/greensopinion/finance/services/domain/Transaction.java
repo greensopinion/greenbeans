@@ -13,11 +13,13 @@ public class Transaction implements Comparable<Transaction> {
 	private final Date date;
 	private final String description;
 	private final long amount;
+	private final String accountNumber;
 
-	public Transaction(Date date, String description, long amount) {
+	public Transaction(Date date, String description, long amount, String accountNumber) {
 		this.date = checkNotNull(date, "Must provide a date");
 		this.description = checkNotNull(description, "Must provide a description");
 		this.amount = amount;
+		this.accountNumber = accountNumber;
 	}
 
 	public Date getDate() {
@@ -32,9 +34,13 @@ public class Transaction implements Comparable<Transaction> {
 		return amount;
 	}
 
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, description, amount);
+		return Objects.hash(date, description, amount, accountNumber);
 	}
 
 	@Override
@@ -50,7 +56,8 @@ public class Transaction implements Comparable<Transaction> {
 		}
 		Transaction other = (Transaction) obj;
 		return amount == other.getAmount() && Objects.equals(getDate(), other.getDate())
-				&& Objects.equals(getDescription(), other.getDescription());
+				&& Objects.equals(getDescription(), other.getDescription())
+				&& Objects.equals(accountNumber, other.getAccountNumber());
 	}
 
 	@Override
@@ -71,6 +78,6 @@ public class Transaction implements Comparable<Transaction> {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		return MoreObjects.toStringHelper(Transaction.class).add("date", dateFormat.format(date))//
 				.add("amount", amount)//
-				.add("description", description).toString();
+				.add("description", description).add("accountNumber", accountNumber).toString();
 	}
 }

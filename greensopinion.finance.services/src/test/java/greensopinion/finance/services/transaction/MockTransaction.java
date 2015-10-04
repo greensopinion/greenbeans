@@ -20,7 +20,7 @@ public class MockTransaction {
 	 */
 	public static Transaction create(String date, String description, long amount) {
 		try {
-			return new Transaction(dateFormat().parse(date), description, amount);
+			return new Transaction(dateFormat().parse(date), description, amount, null);
 		} catch (ParseException e) {
 			throw Throwables.propagate(e);
 		}
