@@ -20,6 +20,7 @@ import com.google.common.io.Files;
 import greensopinion.finance.services.TestResources;
 import greensopinion.finance.services.domain.Categories;
 import greensopinion.finance.services.domain.Category;
+import greensopinion.finance.services.domain.MatchRule;
 
 public class CategoriesPersistenceServiceTest {
 
@@ -65,8 +66,11 @@ public class CategoriesPersistenceServiceTest {
 	public void settingsRoundTrip() throws IOException {
 		assertFalse(dataFolder.exists());
 
-		Category category = new Category("a");
-		Categories data = new Categories(ImmutableList.of(category));
+		MatchRule rule = MatchRule.withPattern("abc");
+
+		Category categoryA = new Category("a");
+		Category categoryB = new Category("b").withMatchRule(rule);
+		Categories data = new Categories(ImmutableList.of(categoryA, categoryB));
 
 		service.save(data);
 		assertTrue(dataFolder.exists());
@@ -76,8 +80,11 @@ public class CategoriesPersistenceServiceTest {
 
 		Categories loaded = service.load();
 		assertNotNull(loaded);
-		assertEquals(1, loaded.getCategories().size());
+		assertEquals(2, loaded.getCategories().size());
 		assertEquals("a", loaded.getCategories().get(0).getName());
+		assertEquals(ImmutableList.of(), loaded.getCategories().get(0).getMatchRules());
+		assertEquals("b", loaded.getCategories().get(1).getName());
+		assertEquals(ImmutableList.of(rule), loaded.getCategories().get(1).getMatchRules());
 	}
 
 	private CategoriesPersistenceService createService() {
