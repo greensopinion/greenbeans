@@ -2,6 +2,7 @@ package greensopinion.finance.services.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.io.Files;
 
 import greensopinion.finance.services.TestResources;
+import greensopinion.finance.services.domain.Category;
 import greensopinion.finance.services.domain.Transaction;
 import greensopinion.finance.services.domain.Transactions;
 
@@ -52,8 +54,8 @@ public class TransactionsPersistenceServiceTest {
 
 	@Test
 	public void transactionsRoundTrip() throws IOException {
-		Transactions transactions = new Transactions(
-				ImmutableList.of(new Transaction(new Date(1443322433000L), "a desc", 12345, null)));
+		Transactions transactions = new Transactions(ImmutableList
+				.of(new Transaction(new Date(1443322433000L), "a desc", 12345, new Category("A category"), null)));
 		service.save(transactions);
 
 		String value = Files.toString(service.getFile(), StandardCharsets.UTF_8);
@@ -63,5 +65,12 @@ public class TransactionsPersistenceServiceTest {
 		Transactions loaded = service.load();
 		assertNotNull(loaded);
 		assertEquals(transactions.getTransactions(), loaded.getTransactions());
+		assertCategoriesNotStored(loaded);
+	}
+
+	private void assertCategoriesNotStored(Transactions loaded) {
+		for (Transaction transaction : loaded.getTransactions()) {
+			assertNull(transaction.getCategory());
+		}
 	}
 }

@@ -79,7 +79,7 @@ public class OfxTransactionReader implements Closeable {
 		while ((token = sgmlReader.readToken()) != null) {
 			if (isCloseTag(token, tagName)) {
 				if (date != null && amount != null && name != null) {
-					return new Transaction(date, name, amount, accountNumber);
+					return new Transaction(date, name, amount, null, accountNumber);
 				}
 				return null;
 			}

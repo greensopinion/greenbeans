@@ -68,11 +68,11 @@ public class ReportsServiceTest {
 
 	private Transactions createTransactions() {
 		List<Transaction> transactions = new ArrayList<>();
-		transactions.add(new Transaction(date("2015-01-03"), "test1", 102300, null));
-		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500, null));
-		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504, null));
-		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504, null));
-		transactions.add(new Transaction(date("2015-02-15"), "test5", -12345, null));
+		transactions.add(new Transaction(date("2015-01-03"), "test1", 102300, null, null));
+		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500, null, null));
+		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504, null, null));
+		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504, null, null));
+		transactions.add(new Transaction(date("2015-02-15"), "test5", -12345, null, null));
 		return new Transactions(transactions);
 	}
 
