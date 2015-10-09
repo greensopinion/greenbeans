@@ -2,11 +2,14 @@ package greensopinion.finance.services.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.regex.Pattern;
+
 import com.google.common.base.MoreObjects;
 
 public class MatchRule {
 
 	private final String pattern;
+	private transient Pattern $pattern;
 
 	public static MatchRule withPattern(String pattern) {
 		return new MatchRule(pattern);
@@ -18,6 +21,12 @@ public class MatchRule {
 
 	private MatchRule(String regex) {
 		this.pattern = checkNotNull(regex);
+		this.$pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+	}
+
+	public boolean matches(Transaction transaction) {
+		checkNotNull(transaction);
+		return $pattern.matcher(transaction.getDescription()).find();
 	}
 
 	@Override

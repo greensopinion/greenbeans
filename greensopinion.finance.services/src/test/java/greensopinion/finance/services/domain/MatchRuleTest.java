@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import greensopinion.finance.services.transaction.MockTransaction;
+
 public class MatchRuleTest {
 
 	@Test
@@ -30,6 +32,25 @@ public class MatchRuleTest {
 		assertEquality(matchRule, MatchRule.withPattern("abc"));
 
 		assertTrue(matchRule.equals(MatchRule.withPattern("abc")));
+	}
+
+	@Test
+	public void matches() {
+		MatchRule matchRule = MatchRule.withPattern("abc");
+		assertMatches(matchRule, "123 abc def");
+		assertMatches(matchRule, "abc");
+		assertMatches(matchRule, "ABC");
+		assertMatches(matchRule, "ABc");
+		assertMatches(matchRule, "1234abcfsdf");
+		assertNoMatches(matchRule, "absdfc");
+	}
+
+	private void assertNoMatches(MatchRule matchRule, String description) {
+		assertEquals(false, matchRule.matches(MockTransaction.create("2015-01-01", description, 1234)));
+	}
+
+	private void assertMatches(MatchRule matchRule, String description) {
+		assertEquals(true, matchRule.matches(MockTransaction.create("2015-01-01", description, 1234)));
 	}
 
 	private void assertEquality(MatchRule matchRule, MatchRule matchRule2) {

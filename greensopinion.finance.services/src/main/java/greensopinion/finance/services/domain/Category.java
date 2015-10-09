@@ -28,6 +28,16 @@ public class Category {
 		return MoreObjects.firstNonNull(matchRules, ImmutableList.<MatchRule> of());
 	}
 
+	public boolean matches(Transaction transaction) {
+		checkNotNull(transaction);
+		for (MatchRule matchRule : getMatchRules()) {
+			if (matchRule.matches(transaction)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public Category withMatchRule(MatchRule rule) {
 		checkNotNull(rule);
 		ImmutableList.Builder<MatchRule> newRules = ImmutableList.builder();

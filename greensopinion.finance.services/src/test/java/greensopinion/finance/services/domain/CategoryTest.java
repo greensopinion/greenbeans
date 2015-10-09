@@ -1,14 +1,18 @@
 package greensopinion.finance.services.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
+
+import greensopinion.finance.services.transaction.MockTransaction;
 
 public class CategoryTest {
 
@@ -39,5 +43,16 @@ public class CategoryTest {
 		assertEquals(ImmutableList.of(), category.getMatchRules());
 		assertEquals(ImmutableList.of(rule), category2.getMatchRules());
 		assertEquals(ImmutableList.of(rule, rule2), category2.withMatchRule(rule2).getMatchRules());
+	}
+
+	@Test
+	public void matches() {
+		MatchRule rule = MatchRule.withPattern("abc");
+		MatchRule rule2 = MatchRule.withPattern("def");
+		Category category = new Category("a name", ImmutableList.of(rule, rule2));
+		assertTrue(category.matches(MockTransaction.create("2015-01-01", "aaabc", 123)));
+		assertTrue(category.matches(MockTransaction.create("2015-01-01", "def", 123)));
+		assertFalse(category.matches(MockTransaction.create("2015-01-01", "ghi", 123)));
+		assertFalse(new Category("nope").matches(MockTransaction.create("2015-01-01", "def", 123)));
 	}
 }
