@@ -1,8 +1,13 @@
 package greensopinion.finance.services.application;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 
 import greensopinion.finance.services.encryption.EncryptionModule;
 import greensopinion.finance.services.persistence.ConfigurationModule;
@@ -28,13 +33,21 @@ public class Main extends Application {
 	}
 
 	Injector createInjector(Stage primaryStage) {
-		return Guice.createInjector(new AbstractModule() {
+		List<Module> modules = new ArrayList<>();
+		modules.add(new AbstractModule() {
 
 			@Override
 			protected void configure() {
 				bind(Window.class).toInstance(primaryStage);
 			}
-		}, new SceneModule(getParameters()), new EncryptionModule(), new ConfigurationModule(), new WebServiceModule());
+		});
+		modules.add(new SceneModule(getParameters()));
+		modules.addAll(applicationModules());
+		return Guice.createInjector(modules);
+	}
+
+	public static List<Module> applicationModules() {
+		return ImmutableList.of(new EncryptionModule(), new ConfigurationModule(), new WebServiceModule());
 	}
 
 	private void setSizeAndLocation(Stage primaryStage) {

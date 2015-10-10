@@ -14,7 +14,7 @@ public class ConfigurationService<T> {
 	public T retrieve() {
 		synchronized (dataLock) {
 			if (data == null) {
-				data = persistenceService.load();
+				data = load();
 			}
 			return data;
 		}
@@ -26,5 +26,9 @@ public class ConfigurationService<T> {
 			persistenceService.save(value);
 			data = value;
 		}
+	}
+
+	protected T load() {
+		return persistenceService.load();
 	}
 }
