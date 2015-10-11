@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Ordering;
 
 import greensopinion.finance.services.domain.CategoriesService;
 import greensopinion.finance.services.domain.Category;
@@ -39,7 +40,7 @@ public class CategoryWebService {
 					public CategoryModel apply(Category category) {
 						return new CategoryModel(category.getName());
 					}
-				}).toList();
+				}).toSortedList(Ordering.natural());
 	}
 
 	@POST

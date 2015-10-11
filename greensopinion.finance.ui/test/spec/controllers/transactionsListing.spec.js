@@ -6,12 +6,20 @@ describe('Controller: TransactionsListingCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var TransactionsListingCtrl,
-    scope,$rootScope,mockReportService, periodTransactions;
+    scope,$rootScope,mockReportService, periodTransactions,categoryList,mockCategoryService;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, _$rootScope_, $q) {
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
+    categoryList = [
+      {
+        name: 'One'
+      },
+      {
+        name: 'Two'
+      }
+    ];
     periodTransactions = {
       name: 'August 2015',
       transactions: [
@@ -29,6 +37,13 @@ describe('Controller: TransactionsListingCtrl', function () {
         }
       ]
     };
+    mockCategoryService = {
+      list: function() {
+        return $q(function(resolve) {
+          resolve(categoryList);
+        });
+      }
+    };
     mockReportService = {
       transactionsForMonth: function() {
         return $q(function(resolve) {
@@ -40,6 +55,7 @@ describe('Controller: TransactionsListingCtrl', function () {
       $scope: scope,
       $modalInstance: {},
       reportService: mockReportService,
+      categoryService: mockCategoryService,
       month: {
         name: 'August 2015',
         id: 201508
@@ -68,6 +84,11 @@ describe('Controller: TransactionsListingCtrl', function () {
     expect(scope.dateOf({date:'2015-02-28T23:41:00.023Z'})).toBe('2015-02-28');
   });
 
+  it('should expose categoryList in scope',function() {
+    $rootScope.$digest();
+    expect(scope.categoryList).toBe(categoryList);
+  });
+  
   it('should expose periodTransactions in scope',function() {
     $rootScope.$digest();
     expect(scope.periodTransactions).toBe(periodTransactions);

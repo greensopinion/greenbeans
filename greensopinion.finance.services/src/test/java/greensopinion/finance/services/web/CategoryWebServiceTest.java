@@ -31,13 +31,17 @@ public class CategoryWebServiceTest {
 	public void list() {
 		List<CategoryModel> list = service.list();
 		assertNotNull(list);
-		assertEquals(1, list.size());
+		assertEquals(3, list.size());
 		assertEquals("a", list.get(0).getName());
+		assertEquals("B", list.get(1).getName());
+		assertEquals("c", list.get(2).getName());
 	}
 
 	private Categories createCategories() {
 		List<Category> values = new ArrayList<>();
 		values.add(new Category("a"));
+		values.add(new Category("c"));
+		values.add(new Category("B"));
 		return new Categories(values);
 	}
 }

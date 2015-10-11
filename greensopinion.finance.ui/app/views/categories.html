@@ -23,7 +23,7 @@
       </td>
       <td></td>
     </tr>
-    <tr ng-repeat="category in categoryList | orderBy:sortType:sortReverse">
+    <tr ng-repeat="category in categoryList">
       <td>{{category.name}}</td>
       <td class="text-right">
           <form name="category{{category.name}}Form">

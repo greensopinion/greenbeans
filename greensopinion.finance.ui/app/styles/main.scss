@@ -137,3 +137,17 @@ body {
 
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+
+.modal-transactions-listing {
+  width: 750px;
+  min-height: 700px;
+}
+
+.transactions-listing select {
+  width: 100px;
+  height: 20px;
+}
+td.transaction-category {
+  min-width: 104px;
+}
