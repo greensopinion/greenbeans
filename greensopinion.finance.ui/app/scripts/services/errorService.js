@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('greensopinionfinanceApp')
-  .service('errorService',['ErrorModel',function(ErrorModel) {
+  .service('errorService',['$q','ErrorModel',function($q,ErrorModel) {
     var getErrorMessage = function(result) {
         if (result instanceof ErrorModel) {
           return result.message;
@@ -15,11 +15,15 @@ angular.module('greensopinionfinanceApp')
       maintainErrorMessageInScope: function(promise,scope) {
           return promise.then(function success(result) {
               delete scope.errorMessage;
-              return result;
+              return $q(function(resolve) {
+                resolve(result);
+              });
           },function failure(result) {
               scope.errorMessage = getErrorMessage(result);
-              console.log('Error: '+result);
-              return result;
+              console.log('Error: '+JSON.stringify(result));
+              return $q(function(resolve, reject) {
+                reject(result);
+              });
           });
       }
     };
