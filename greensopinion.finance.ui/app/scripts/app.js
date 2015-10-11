@@ -33,10 +33,10 @@ angular
         controller: 'ImportCtrl',
         controllerAs: 'import'
       })
-      .when('/reports', {
-        templateUrl: 'views/reports.html',
-        controller: 'ReportsCtrl',
-        controllerAs: 'reports'
+      .when('/transactions', {
+        templateUrl: 'views/transactions.html',
+        controller: 'TransactionsCtrl',
+        controllerAs: 'transactions'
       })
       .when('/categories', {
         templateUrl: 'views/categories.html',

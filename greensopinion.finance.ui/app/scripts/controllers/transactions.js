@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name greensopinionfinanceApp.controller:ReportsCtrl
+ * @name greensopinionfinanceApp.controller:TransactionsCtrl
  * @description
- * # ReportsCtrl
+ * # TransactionsCtrl
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('ReportsCtrl',[ '$scope','$location','reportService','money', function ($scope,$location,reportService,money) {
+  .controller('TransactionsCtrl',[ '$scope','$location','reportService','money', function ($scope,$location,reportService,money) {
 
     reportService.incomeVersusExpenses().then(function(result) {
       $scope.report = result;

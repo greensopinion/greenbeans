@@ -153,5 +153,7 @@ describe('Controller: TransactionsListingCtrl', function () {
     scope.setCategory(transaction);
     expect(modalOptions.templateUrl).toBe('views/category-dialog.html');
     expect(modalOptions.resolve.transaction()).toBe(transaction);
+
+    
   });
 });

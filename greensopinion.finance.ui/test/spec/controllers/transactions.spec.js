@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: ReportsCtrl', function () {
+describe('Controller: TransactionsCtrl', function () {
 
   // load the controller's module
   beforeEach(module('greensopinionfinanceApp'));
 
-  var ReportsCtrl, mockReportService, incomeVersusExpensesReport,
+  var TransactionsCtrl, mockReportService, incomeVersusExpensesReport,
     scope, $rootScope, openedPath;
 
   beforeEach(module(function ($provide) {
@@ -46,7 +46,7 @@ describe('Controller: ReportsCtrl', function () {
           });
       }
     };
-    ReportsCtrl = $controller('ReportsCtrl', {
+    TransactionsCtrl = $controller('TransactionsCtrl', {
       $scope: scope,
       $location: _$location_,
       reportService: mockReportService
