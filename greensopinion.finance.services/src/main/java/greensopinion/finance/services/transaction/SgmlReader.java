@@ -85,6 +85,16 @@ public class SgmlReader implements Closeable {
 				} else {
 					throw new InvalidFileFormatException("Unexpected character '>'");
 				}
+			case '&':
+				String entity = "";
+				while ((c = reader.read()) != -1 && c != ';') {
+					entity += (char) c;
+				}
+				if (tokenType == null) {
+					tokenType = TokenType.DATA;
+				}
+				buffer.append(EntityReferences.instance().namedEntityToString(entity));
+				break;
 			default:
 				boolean isWhitespace = Character.isWhitespace((char) c);
 				if (tokenType == null) {

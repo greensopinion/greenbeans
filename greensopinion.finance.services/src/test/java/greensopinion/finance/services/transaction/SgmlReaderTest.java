@@ -127,6 +127,16 @@ public class SgmlReaderTest {
 		reader.readToken();
 	}
 
+	@Test
+	public void entities() throws IOException {
+		SgmlReader reader = newReader("<SDF>\n<QRS>One &amp; Two &#195;</SDF>");
+		assertToken(Token.openTag("SDF"), reader.readToken());
+		assertToken(Token.openTag("QRS"), reader.readToken());
+		assertToken(Token.data("One & Two Ã"), reader.readToken());
+		assertToken(Token.closeTag("SDF"), reader.readToken());
+		assertNull(reader.readToken());
+	}
+
 	private void assertToken(Token expected, Token token) {
 		assertNotNull(token);
 		assertEquals(expected.getType(), token.getType());
