@@ -48,6 +48,11 @@ angular
         controller: 'TransactionsListingCtrl',
         controllerAs: 'transactions-listing'
       })
+      .when('/reports', {
+        templateUrl: 'views/reports.html',
+        controller: 'ReportsCtrl',
+        controllerAs: 'reports'
+      })
       .otherwise({
         redirectTo: '/'
       });
