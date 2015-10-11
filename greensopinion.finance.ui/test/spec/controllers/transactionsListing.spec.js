@@ -53,17 +53,14 @@ describe('Controller: TransactionsListingCtrl', function () {
     };
     TransactionsListingCtrl = $controller('TransactionsListingCtrl', {
       $scope: scope,
-      $modalInstance: {},
+      $routeParams: { month: 201508},
       reportService: mockReportService,
-      categoryService: mockCategoryService,
-      month: {
-        name: 'August 2015',
-        id: 201508
-      }
+      categoryService: mockCategoryService
     });
   }));
 
   it('should expose title in scope', function () {
+    $rootScope.$digest();
     expect(scope.title).toBe('Transactions: August 2015');
   });
 

@@ -8,14 +8,17 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('TransactionsListingCtrl',['$scope','$modalInstance','reportService','categoryService','money','month', function ($scope,$modalInstance,reportService,categoryService,money,month) {
+  .controller('TransactionsListingCtrl',['$scope','$routeParams','reportService','categoryService','money', function ($scope,$routeParams,reportService,categoryService,money) {
 
-    $scope.title = 'Transactions: '+ month.name;
+    var monthId = $routeParams.month;
+
+    $scope.title = 'Transactions: '+ monthId;
 
     categoryService.list().then(function(result) {
       $scope.categoryList = result;
     });
-    reportService.transactionsForMonth(month.id).then(function(periodTransactions) {
+    reportService.transactionsForMonth(monthId).then(function(periodTransactions) {
+      $scope.title = 'Transactions: '+ periodTransactions.name;
       $scope.periodTransactions = periodTransactions;
     });
 
@@ -27,9 +30,6 @@ angular.module('greensopinionfinanceApp')
     };
     $scope.dateOf = function(transaction) {
       return transaction.date.slice(0,10);
-    };
-    $scope.ok = function() {
-      $modalInstance.close();
     };
     $scope.sortExpense = function (transaction) {
       return -transaction.amount;

@@ -43,6 +43,11 @@ angular
         controller: 'CategoriesCtrl',
         controllerAs: 'categories'
       })
+      .when('/transactions-listing/:month', {
+        templateUrl: 'views/transactions-listing.html',
+        controller: 'TransactionsListingCtrl',
+        controllerAs: 'transactions-listing'
+      })
       .otherwise({
         redirectTo: '/'
       });

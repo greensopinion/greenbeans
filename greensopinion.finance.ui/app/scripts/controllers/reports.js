@@ -8,7 +8,7 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('ReportsCtrl',[ '$scope','$modal','reportService','money', function ($scope,$modal,reportService,money) {
+  .controller('ReportsCtrl',[ '$scope','$location','reportService','money', function ($scope,$location,reportService,money) {
 
     reportService.incomeVersusExpenses().then(function(result) {
       $scope.report = result;
@@ -24,16 +24,6 @@ angular.module('greensopinionfinanceApp')
       return '';
     };
     $scope.openTransactions = function(month) {
-      $modal.open({
-        animation: true,
-        templateUrl: 'views/transactions-listing.html',
-        controller: 'TransactionsListingCtrl',
-        size: 'transactions-listing',
-        resolve: {
-          month: function () {
-            return month;
-          }
-        }
-      });
+      $location.path('/transactions-listing/'+month.id);
     };
   }]);

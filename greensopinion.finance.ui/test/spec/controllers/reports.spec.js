@@ -6,20 +6,20 @@ describe('Controller: ReportsCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var ReportsCtrl, mockReportService, incomeVersusExpensesReport,
-    scope, $rootScope, openedDialog;
+    scope, $rootScope, openedPath;
 
   beforeEach(module(function ($provide) {
-    $provide.factory('$modal', function() {
+    $provide.factory('$location', function() {
       return {
-        open: function(dialogDetails) {
-          openedDialog = dialogDetails;
+        path: function(pathName) {
+          openedPath = pathName;
         }
       };
     });
   }));
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, _$rootScope_,_$modal_, $q) {
+  beforeEach(inject(function ($controller, _$rootScope_,_$location_, $q) {
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
     incomeVersusExpensesReport = {
@@ -48,7 +48,7 @@ describe('Controller: ReportsCtrl', function () {
     };
     ReportsCtrl = $controller('ReportsCtrl', {
       $scope: scope,
-      $modal: _$modal_,
+      $location: _$location_,
       reportService: mockReportService
     });
   }));
@@ -76,9 +76,7 @@ describe('Controller: ReportsCtrl', function () {
     };
     expect(scope.openTransactions).toBeDefined();
     scope.openTransactions(month);
-    expect(openedDialog).toBeDefined();
-    expect(openedDialog.resolve.month).toBeDefined();
-    var result = openedDialog.resolve.month();
-    expect(result).toBe(month);
+    expect(openedPath).toBeDefined();
+    expect(openedPath).toBe('/transactions-listing/201502');
   });
 });
