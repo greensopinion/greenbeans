@@ -88,10 +88,14 @@ describe('Controller: TransactionsListingCtrl', function () {
     $rootScope.$digest();
     expect(scope.categoryList).toBe(categoryList);
   });
-  
+
   it('should expose periodTransactions in scope',function() {
     $rootScope.$digest();
     expect(scope.periodTransactions).toBe(periodTransactions);
+  });
+  it ('should expose sortCategory() in scope',function() {
+    expect(scope.sortCategory).toBeDefined();
+    expect(scope.sortCategory({categoryName:'One'})).toBe('One');
   });
 
   it('should expose sorting',function() {

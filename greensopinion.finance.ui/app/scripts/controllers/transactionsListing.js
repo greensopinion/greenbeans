@@ -18,7 +18,7 @@ angular.module('greensopinionfinanceApp')
     reportService.transactionsForMonth(month.id).then(function(periodTransactions) {
       $scope.periodTransactions = periodTransactions;
     });
-    
+
     $scope.incomeOf = function(transaction) {
       return transaction.amount > 0? money.format(transaction.amount) : '';
     };
@@ -32,9 +32,10 @@ angular.module('greensopinionfinanceApp')
       $modalInstance.close();
     };
     $scope.sortExpense = function (transaction) {
-      var sortable = -transaction.amount;
-      console.log(''+sortable);
-      return sortable;
+      return -transaction.amount;
+    };
+    $scope.sortCategory = function (transaction) {
+      return transaction.categoryName;
     };
     $scope.sortIncome = function (transaction) {
       return transaction.amount;

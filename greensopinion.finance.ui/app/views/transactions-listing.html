@@ -11,7 +11,11 @@
               <span ng-show="sortType === dateOf &amp;&amp; sortReverse" class="fa fa-sort-amount-desc"></span>
             </th>
             <th>Description</th>
-            <th>Category</th>
+            <th>
+                <a ng-click="switchSortType(sortCategory)">Category</a>
+                <span ng-show="sortType === sortCategory &amp;&amp; !sortReverse" class="fa fa-sort-amount-asc"></span>
+                <span ng-show="sortType === sortCategory &amp;&amp; sortReverse" class="fa fa-sort-amount-desc"></span>
+            </th>
             <th class="text-right">
               <a ng-click="switchSortType(sortIncome)">Income</a>
               <span ng-show="sortType === sortIncome &amp;&amp; !sortReverse" class="fa fa-sort-amount-asc"></span>
