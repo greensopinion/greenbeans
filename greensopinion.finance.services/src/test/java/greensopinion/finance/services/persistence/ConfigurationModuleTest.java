@@ -7,12 +7,9 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import greensopinion.finance.services.domain.EntityEventSupport;
 import greensopinion.finance.services.domain.SettingsService;
 import greensopinion.finance.services.domain.TransactionsService;
-import greensopinion.finance.services.persistence.ConfigurationModule;
-import greensopinion.finance.services.persistence.DataDirectoryLocator;
-import greensopinion.finance.services.persistence.SettingsPersistenceService;
-import greensopinion.finance.services.persistence.TransactionsPersistenceService;
 
 public class ConfigurationModuleTest {
 
@@ -39,6 +36,11 @@ public class ConfigurationModuleTest {
 	@Test
 	public void providesDataDirectoryLocator() {
 		assertSingletonBinding(createInjector(), DataDirectoryLocator.class);
+	}
+
+	@Test
+	public void providesEntityEventSupport() {
+		assertSingletonBinding(createInjector(), EntityEventSupport.class);
 	}
 
 	private Injector createInjector() {

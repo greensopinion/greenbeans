@@ -20,6 +20,12 @@ public class MatchRuleTest {
 	}
 
 	@Test
+	public void foO() {
+		MatchRule matchRule = MatchRule.withPatternFromText(" A  B \n\\  ");
+		assertEquals("A\\s+B\\s+\\Q\\\\E", matchRule.getPattern());
+	}
+
+	@Test
 	public void hashCodeEquals() {
 		MatchRule matchRule = MatchRule.withPattern("abc");
 		MatchRule matchRule2 = MatchRule.withPattern("def");

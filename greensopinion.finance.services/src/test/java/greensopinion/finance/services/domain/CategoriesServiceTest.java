@@ -23,7 +23,8 @@ public class CategoriesServiceTest {
 	@Rule
 	public final ExpectedException thrown = ExpectedException.none();
 	private final CategoriesPersistenceService persistenceService = mock(CategoriesPersistenceService.class);
-	private final CategoriesService categoriesService = new CategoriesService(persistenceService);
+	private final CategoriesService categoriesService = new CategoriesService(persistenceService,
+			new EntityEventSupport());
 	private final Categories categories = new Categories(ImmutableList.of(new Category("A")));
 
 	private Categories savedCategories;
@@ -92,5 +93,21 @@ public class CategoriesServiceTest {
 		categoriesService.deleteByName("a");
 		assertNotNull(savedCategories);
 		assertEquals(ImmutableList.of(), savedCategories.getCategories());
+	}
+
+	@Test
+	public void addRuleByNameNotFound() {
+		thrown.expect(ValidationException.class);
+		thrown.expectMessage("Category name must be specified.");
+		categoriesService.addRuleByName(" ", MatchRule.withPattern("yo"));
+	}
+
+	@Test
+	public void addRuleByName() {
+		MatchRule matchRule = MatchRule.withPattern("yo");
+		categoriesService.addRuleByName("a", matchRule);
+
+		Category category = savedCategories.getCategoryByName("a");
+		assertEquals(ImmutableList.of(matchRule), category.getMatchRules());
 	}
 }

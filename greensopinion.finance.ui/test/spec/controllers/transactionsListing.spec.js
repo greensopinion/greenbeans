@@ -6,12 +6,14 @@ describe('Controller: TransactionsListingCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var TransactionsListingCtrl,
-    scope,$rootScope,mockReportService, periodTransactions,categoryList,mockCategoryService;
+    scope,$rootScope,$modal,mockReportService, periodTransactions,categoryList,mockCategoryService,modalOptions;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, _$rootScope_, $q) {
+  beforeEach(inject(function ($controller, _$rootScope_,_$modal_, $q) {
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
+    $modal = _$modal_;
+
     categoryList = [
       {
         name: 'One'
@@ -51,9 +53,29 @@ describe('Controller: TransactionsListingCtrl', function () {
         });
       }
     };
+    var fakeModal = {
+        result: {
+            then: function (confirmCallback, cancelCallback) {
+                this.confirmCallBack = confirmCallback;
+                this.cancelCallback = cancelCallback;
+            }
+        },
+        close: function () {
+            this.result.confirmCallBack();
+        },
+        dismiss: function () {
+            this.result.cancelCallback();
+        }
+    };
+    spyOn(_$modal_, 'open').and.callFake(function(options){
+        modalOptions = options;
+
+        return fakeModal;
+    });
     TransactionsListingCtrl = $controller('TransactionsListingCtrl', {
       $scope: scope,
       $routeParams: { month: 201508},
+      $modal: _$modal_,
       reportService: mockReportService,
       categoryService: mockCategoryService
     });
@@ -120,5 +142,16 @@ describe('Controller: TransactionsListingCtrl', function () {
     scope.switchSortType(scope.sortExpense);
     expect(scope.sortType).toBe(scope.sortExpense);
     expect(scope.sortReverse).toBe(true);
+  });
+
+  it('should expose setCategory()', function() {
+    expect(scope.setCategory).toBeDefined();
+    var transaction = {
+      date: '2015-02-28T23:41:00.023Z', description: 'a purchase', amount: -123456
+    };
+
+    scope.setCategory(transaction);
+    expect(modalOptions.templateUrl).toBe('views/category-dialog.html');
+    expect(modalOptions.resolve.transaction()).toBe(transaction);
   });
 });

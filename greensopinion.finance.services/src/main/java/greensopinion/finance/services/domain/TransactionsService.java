@@ -12,9 +12,17 @@ public class TransactionsService extends ConfigurationService<Transactions> {
 	private final CategorizerService categorizerService;
 
 	@Inject
-	TransactionsService(TransactionsPersistenceService persistenceService, CategorizerService categorizerService) {
-		super(persistenceService);
+	TransactionsService(TransactionsPersistenceService persistenceService, CategorizerService categorizerService,
+			EntityEventSupport eventSupport) {
+		super(persistenceService, eventSupport);
 		this.categorizerService = checkNotNull(categorizerService);
+		eventSupport.addListener(new EntityListener<Categories>(Categories.class) {
+
+			@Override
+			public void updated(Categories entity) {
+				clearState();
+			}
+		});
 	}
 
 	@Override

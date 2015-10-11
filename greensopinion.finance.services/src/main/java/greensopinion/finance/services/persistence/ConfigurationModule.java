@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 
 import greensopinion.finance.services.domain.CategoriesService;
+import greensopinion.finance.services.domain.EntityEventSupport;
 import greensopinion.finance.services.domain.SettingsService;
 import greensopinion.finance.services.domain.TransactionsService;
 
@@ -11,6 +12,8 @@ public class ConfigurationModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(EntityEventSupport.class).in(Scopes.SINGLETON);
+
 		bind(SettingsPersistenceService.class).in(Scopes.SINGLETON);
 		bind(SettingsService.class).in(Scopes.SINGLETON);
 

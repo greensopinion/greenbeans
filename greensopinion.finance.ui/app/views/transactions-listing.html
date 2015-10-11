@@ -36,7 +36,8 @@
             <span ng-if="!transaction.edit">{{transaction.categoryName}}</span>
             <select ng-if="transaction.edit"
               ng-model="transaction.categoryName"
-              ng-options="category.name as category.name for category in categoryList">
+              ng-options="category.name as category.name for category in categoryList"
+              ng-change="setCategory(transaction)">
             </select>
           </td>
           <td class="text-right">{{incomeOf(transaction)}}</td>

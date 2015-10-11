@@ -19,6 +19,9 @@ angular.module('greensopinionfinanceApp')
       },
       delete: function(categoryName) {
         return rest.delete(API_BASE+'/'+encodeURIComponent(categoryName) );
+      },
+      addRuleByName: function(categoryName,rule) {
+        return rest.post(API_BASE+'/'+encodeURIComponent(categoryName)+'/rules', rule);
       }
     };
   }]);

@@ -8,7 +8,7 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('TransactionsListingCtrl',['$scope','$routeParams','reportService','categoryService','money', function ($scope,$routeParams,reportService,categoryService,money) {
+  .controller('TransactionsListingCtrl',['$scope','$routeParams', '$modal','reportService','categoryService','money', function ($scope,$routeParams,$modal,reportService,categoryService,money) {
 
     var monthId = $routeParams.month;
 
@@ -17,10 +17,14 @@ angular.module('greensopinionfinanceApp')
     categoryService.list().then(function(result) {
       $scope.categoryList = result;
     });
-    reportService.transactionsForMonth(monthId).then(function(periodTransactions) {
-      $scope.title = 'Transactions: '+ periodTransactions.name;
-      $scope.periodTransactions = periodTransactions;
-    });
+
+    var reloadTransactions = function() {
+      reportService.transactionsForMonth(monthId).then(function(periodTransactions) {
+        $scope.title = 'Transactions: '+ periodTransactions.name;
+        $scope.periodTransactions = periodTransactions;
+      });
+    };
+    reloadTransactions();
 
     $scope.incomeOf = function(transaction) {
       return transaction.amount > 0? money.format(transaction.amount) : '';
@@ -56,5 +60,23 @@ angular.module('greensopinionfinanceApp')
       } else {
         $scope.sortReverse = !$scope.sortReverse;
       }
+    };
+
+    $scope.setCategory = function(transaction) {
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: 'views/category-dialog.html',
+        controller: 'CategoryDialogCtrl',
+        resolve: {
+          transaction: function () {
+            return transaction;
+          }
+        }
+      });
+      modalInstance.result.then(function(){
+        reloadTransactions();
+      },function() {
+        reloadTransactions();
+      });
     };
   }]);

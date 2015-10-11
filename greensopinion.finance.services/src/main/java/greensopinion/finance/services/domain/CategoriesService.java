@@ -18,8 +18,8 @@ import greensopinion.finance.services.persistence.ConfigurationService;
 public class CategoriesService extends ConfigurationService<Categories> {
 
 	@Inject
-	CategoriesService(CategoriesPersistenceService persistenceService) {
-		super(persistenceService);
+	CategoriesService(CategoriesPersistenceService persistenceService, EntityEventSupport eventSupport) {
+		super(persistenceService, eventSupport);
 	}
 
 	public void create(Category category) {
@@ -38,15 +38,31 @@ public class CategoriesService extends ConfigurationService<Categories> {
 	}
 
 	public void deleteByName(String name) {
-		validateRequired(name, "Category name");
-
 		Categories categories = retrieve();
-		Category category = categories.getCategoryByName(name.trim());
-		validate(category != null, format("Category with name \"{0}\" not found.", name));
+		Category category = findCategoryByName(categories, name);
 
 		List<Category> values = new ArrayList<>(categories.getCategories());
 		values.remove(category);
 
 		update(new Categories(values));
+	}
+
+	public void addRuleByName(String name, MatchRule matchRule) {
+		Categories categories = retrieve();
+		Category category = findCategoryByName(categories, name);
+
+		List<Category> values = new ArrayList<>(categories.getCategories());
+		int indexOf = values.indexOf(category);
+		values.set(indexOf, category.withMatchRule(matchRule));
+
+		update(new Categories(values));
+	}
+
+	private Category findCategoryByName(Categories categories, String name) {
+		validateRequired(name, "Category name");
+
+		Category category = categories.getCategoryByName(name.trim());
+		validate(category != null, format("Category with name \"{0}\" not found.", name));
+		return category;
 	}
 }

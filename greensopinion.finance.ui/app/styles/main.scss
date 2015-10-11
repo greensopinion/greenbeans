@@ -138,10 +138,8 @@ body {
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-
-.modal-transactions-listing {
-  width: 750px;
-  min-height: 700px;
+.modal-backdrop {
+  height: 100%;
 }
 
 .transactions-listing select {

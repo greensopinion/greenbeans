@@ -56,4 +56,17 @@ describe('Service: categoryService', function () {
     expect(result.path).toBe('/categories/a%20name%2F2');
     expect(result.method).toBe('DELETE');
   });
+    it('should expose addRuleByName()', function () {
+      expect(categoryService.addRuleByName).toBeDefined();
+      var rule = { matchDescription: '123'};
+      var result;
+      categoryService.addRuleByName('a name/2',rule).then(function (value) {
+        result = value;
+      });
+      $rootScope.$digest();
+
+      expect(result.path).toBe('/categories/a%20name%2F2/rules');
+      expect(result.method).toBe('POST');
+      expect(result.entity).toBe(rule);
+    });
 });

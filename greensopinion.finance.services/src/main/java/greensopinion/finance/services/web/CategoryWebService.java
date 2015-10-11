@@ -2,6 +2,7 @@ package greensopinion.finance.services.web;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static greensopinion.finance.services.ValidationPreconditions.validateNotNull;
+import static greensopinion.finance.services.ValidationPreconditions.validateNotNullOrEmpty;
 
 import java.util.List;
 
@@ -18,7 +19,9 @@ import com.google.common.collect.Ordering;
 
 import greensopinion.finance.services.domain.CategoriesService;
 import greensopinion.finance.services.domain.Category;
+import greensopinion.finance.services.domain.MatchRule;
 import greensopinion.finance.services.web.model.CategoryModel;
+import greensopinion.finance.services.web.model.CategoryRuleModel;
 
 @Path(CategoryWebService.BASE_PATH)
 public class CategoryWebService {
@@ -53,5 +56,19 @@ public class CategoryWebService {
 	@Path("{name}")
 	public void delete(@PathParam("name") String name) {
 		categoriesService.deleteByName(name);
+	}
+
+	@POST
+	@Path("{name}/rules")
+	public void addRule(@PathParam("name") String name, CategoryRuleModel ruleModel) {
+		validateNotNull(ruleModel, "Must provide a rule model.");
+
+		categoriesService.addRuleByName(name, toMatchRule(ruleModel));
+	}
+
+	private MatchRule toMatchRule(CategoryRuleModel ruleModel) {
+		String matchDescription = ruleModel.getMatchDescription();
+		validateNotNullOrEmpty(matchDescription, "Description text must be provided.");
+		return MatchRule.withPatternFromText(matchDescription);
 	}
 }

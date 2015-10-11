@@ -8,6 +8,7 @@ import com.google.common.base.MoreObjects;
 
 public class MatchRule {
 
+	private static final String REGEX_MULTIPLE_SPACES = "\\s+";
 	private final String pattern;
 	private transient Pattern $pattern;
 
@@ -15,18 +16,40 @@ public class MatchRule {
 		return new MatchRule(pattern);
 	}
 
+	public static MatchRule withPatternFromText(String matchDescription) {
+		String pattern = "";
+		for (char c : matchDescription.trim().toCharArray()) {
+			if (Character.isLetterOrDigit(c)) {
+				pattern += c;
+			} else if (Character.isWhitespace(c)) {
+				if (!pattern.endsWith(REGEX_MULTIPLE_SPACES)) {
+					pattern += REGEX_MULTIPLE_SPACES;
+				}
+			} else {
+				pattern += Pattern.quote(Character.toString(c));
+			}
+		}
+		return withPattern(pattern);
+	}
+
 	String getPattern() {
 		return pattern;
 	}
 
+	private Pattern pattern() {
+		if ($pattern == null) {
+			$pattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+		}
+		return $pattern;
+	}
+
 	private MatchRule(String regex) {
 		this.pattern = checkNotNull(regex);
-		this.$pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 	}
 
 	public boolean matches(Transaction transaction) {
 		checkNotNull(transaction);
-		return $pattern.matcher(transaction.getDescription()).find();
+		return pattern().matcher(transaction.getDescription()).find();
 	}
 
 	@Override

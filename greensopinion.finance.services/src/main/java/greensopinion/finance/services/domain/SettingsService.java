@@ -8,7 +8,7 @@ import greensopinion.finance.services.persistence.SettingsPersistenceService;
 public class SettingsService extends ConfigurationService<Settings> {
 
 	@Inject
-	SettingsService(SettingsPersistenceService persistenceService) {
-		super(persistenceService);
+	SettingsService(SettingsPersistenceService persistenceService, EntityEventSupport eventSupport) {
+		super(persistenceService, eventSupport);
 	}
 }
