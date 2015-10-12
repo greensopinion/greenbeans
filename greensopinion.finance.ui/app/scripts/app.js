@@ -54,6 +54,11 @@ angular
         controller: 'ReportsCtrl',
         controllerAs: 'reports'
       })
+      .when('/month-detail/:month', {
+        templateUrl: 'views/month-detail.html',
+        controller: 'MonthDetailCtrl',
+        controllerAs: 'month-detail'
+      })
       .otherwise({
         redirectTo: '/'
       });
