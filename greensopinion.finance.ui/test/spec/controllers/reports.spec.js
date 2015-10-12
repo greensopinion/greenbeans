@@ -6,18 +6,45 @@ describe('Controller: ReportsCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var ReportsCtrl,
-    scope;
+    scope,$rootScope,mockReportService;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, _$rootScope_, $q) {
+    $rootScope = _$rootScope_;
     scope = $rootScope.$new();
+
+    mockReportService = {
+      incomeVersusExpenses:  function() {
+          return $q(function(resolve) {
+            resolve({
+              title: 'Monthly Income vs Expenses',
+              months: [
+                {
+                  id: 201501,
+                  name: '2015-01',
+                  incomeTotal: 1000000,
+                  expensesTotal: 543201
+                },
+                {
+                  id: 201502,
+                  name: '2015-02',
+                  incomeTotal: 1000100,
+                  expensesTotal: 543202
+                }
+              ]
+            });
+          });
+      }
+    };
     ReportsCtrl = $controller('ReportsCtrl', {
-      $scope: scope
-      // place here mocked dependencies
+      $scope: scope,
+      reportService: mockReportService
     });
   }));
 
-  it('should do something', function () {
-    expect(scope.something).toBeDefined();
+  it('should expose report', function () {
+    $rootScope.$digest();
+    expect(scope.report).toBeDefined();
+    expect(scope.report.title).toBe('Monthly Income vs Expenses');
   });
 });

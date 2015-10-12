@@ -8,8 +8,9 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('ReportsCtrl',['$scope', function ($scope) {
+  .controller('ReportsCtrl',['$scope','reportService', function ($scope,reportService) {
 
-    $scope.something = 'yeah';
-
+    reportService.incomeVersusExpenses().then(function(result) {
+      $scope.report = result;
+    });
   }]);
