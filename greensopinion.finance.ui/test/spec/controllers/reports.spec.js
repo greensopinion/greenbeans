@@ -47,4 +47,15 @@ describe('Controller: ReportsCtrl', function () {
     expect(scope.report).toBeDefined();
     expect(scope.report.title).toBe('Monthly Income vs Expenses');
   });
+
+  it('should expose chart data', function () {
+    $rootScope.$digest();
+    expect(scope.incomeVersusExpenses).toBeDefined();
+    expect(scope.incomeVersusExpenses.series).toEqual([ 'Income', 'Expenses' ]);
+    expect(scope.incomeVersusExpenses.labels).toEqual([ '2015-01', '2015-02' ]);
+    expect(scope.incomeVersusExpenses.data).toEqual([
+      [ 10000.00, 10001.00 ],
+      [ 5432.01, 5432.02 ]
+    ]);
+  });
 });

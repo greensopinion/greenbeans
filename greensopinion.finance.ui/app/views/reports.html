@@ -1,5 +1,11 @@
 <h3><i class="fa fa-pie-chart fa-2x"></i> Reports</h3>
 <div ng-if="report">
   <h4>{{report.title}}</h4>
-  
+  <canvas id="line" class="chart chart-line"
+    chart-legend="true"
+    chart-data="incomeVersusExpenses.data"
+    chart-labels="incomeVersusExpenses.labels"
+    chart-series="incomeVersusExpenses.series"
+    width="800" height="500">
+  </canvas>
 </div>

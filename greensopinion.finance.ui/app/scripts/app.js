@@ -14,7 +14,8 @@ angular
     'ngMessages',
     'ngResource',
     'ngRoute',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'chart.js'
   ])
   .config(function ($routeProvider) {
     $routeProvider
