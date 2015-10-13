@@ -9,6 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
+import greensopinion.finance.services.demo.Demo;
 import greensopinion.finance.services.encryption.EncryptionModule;
 import greensopinion.finance.services.persistence.ConfigurationModule;
 import greensopinion.finance.services.web.WebServiceModule;
@@ -59,6 +60,9 @@ public class Main extends Application {
 	}
 
 	public static final void main(String[] args) {
+		if (Demo.isEnabled()) {
+			new Demo().setup();
+		}
 		launch(args);
 	}
 }
