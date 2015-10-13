@@ -17,11 +17,14 @@ import org.junit.Test;
 
 import com.google.common.base.Throwables;
 
+import greensopinion.finance.services.domain.Category;
 import greensopinion.finance.services.domain.Transaction;
 import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.domain.TransactionsService;
 import greensopinion.finance.services.web.model.IncomeVersusExpensesReport;
 import greensopinion.finance.services.web.model.IncomeVersusExpensesReport.Month;
+import greensopinion.finance.services.web.model.PeriodDetails;
+import greensopinion.finance.services.web.model.PeriodDetails.CategorySummary;
 import greensopinion.finance.services.web.model.PeriodTransactions;
 import greensopinion.finance.services.web.model.TransactionModel;
 
@@ -29,7 +32,7 @@ public class ReportsServiceTest {
 
 	private final TransactionsService transactionsService = mock(TransactionsService.class);
 	private final ReportsService service = new ReportsService(transactionsService);
-	private final Transactions transactions = createTransactions();
+	private Transactions transactions = createTransactions();
 
 	@Before
 	public void before() {
@@ -54,6 +57,34 @@ public class ReportsServiceTest {
 		assertTransaction(createTransactions().getTransactions().get(4), transactionsForMonth.getTransactions().get(0));
 	}
 
+	@Test
+	public void detailsForMonthNoCategories() {
+		PeriodDetails detailsForMonth = service.detailsForMonth(201502);
+		assertEquals("February 2015", detailsForMonth.getName());
+		assertEquals(1, detailsForMonth.getCategories().size());
+		CategorySummary categorySummary = detailsForMonth.getCategories().get(0);
+		assertEquals("Uncategorized", categorySummary.getName());
+		assertEquals(-12345L, categorySummary.getAmount());
+	}
+
+	@Test
+	public void detailsForMonthWithCategories() {
+		transactions = createTransactionsWithCategories();
+		doReturn(transactions).when(transactionsService).retrieve();
+
+		PeriodDetails detailsForMonth = service.detailsForMonth(201501);
+		assertEquals("January 2015", detailsForMonth.getName());
+		assertEquals(2, detailsForMonth.getCategories().size());
+
+		CategorySummary categorySummary = detailsForMonth.getCategories().get(0);
+		assertEquals("Burgers", categorySummary.getName());
+		assertEquals(102300L, categorySummary.getAmount());
+
+		categorySummary = detailsForMonth.getCategories().get(1);
+		assertEquals("Fries", categorySummary.getName());
+		assertEquals(-1500L, categorySummary.getAmount());
+	}
+
 	private void assertTransaction(Transaction transaction, TransactionModel transactionModel) {
 		assertEquals(transaction.getDate(), transactionModel.getDate());
 		assertEquals(transaction.getAmount(), transactionModel.getAmount());
@@ -73,6 +104,17 @@ public class ReportsServiceTest {
 		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504, null, null));
 		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504, null, null));
 		transactions.add(new Transaction(date("2015-02-15"), "test5", -12345, null, null));
+		return new Transactions(transactions);
+	}
+
+	private Transactions createTransactionsWithCategories() {
+		Category category1 = new Category("Burgers");
+		Category category2 = new Category("Fries");
+		List<Transaction> transactions = new ArrayList<>();
+		transactions.add(new Transaction(date("2015-01-03"), "test1", 102300, category1, null));
+		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500, category2, null));
+		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504, null, null));
+		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504, null, null));
 		return new Transactions(transactions);
 	}
 

@@ -6,7 +6,7 @@ describe('Controller: MonthDetailCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var MonthDetailCtrl,
-    scope,$rootScope, periodTransactions, mockReportService;
+    scope,$rootScope, monthDetails, mockReportService;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller,  $q, _$rootScope_) {
@@ -14,27 +14,21 @@ describe('Controller: MonthDetailCtrl', function () {
     scope = $rootScope.$new();
 
 
-    periodTransactions = {
+    monthDetails = {
       name: 'August 2015',
-      transactions: [
+      categories: [
         {
-          date: '2015-02-28T23:41:00.023Z', description: 'a purchase', amount: -123456
+          name: 'Groceries', amount: -123456
         },
         {
-          date: '2015-02-30T23:41:00.023Z', description: 'a purchase2', amount: -140456
-        },
-        {
-          date: '2015-02-30T23:41:00.023Z', description: 'deposit1', amount: 10243
-        },
-        {
-          date: '2015-02-31T23:41:00.023Z', description: 'deposit2', amount: 2043
+          name: 'Dog', amount: -7890
         }
       ]
     };
     mockReportService = {
-      transactionsForMonth: function() {
+      detailsForMonth: function() {
         return $q(function(resolve) {
-          resolve( periodTransactions);
+          resolve(monthDetails);
         });
       }
     };
@@ -45,8 +39,8 @@ describe('Controller: MonthDetailCtrl', function () {
     });
   }));
 
-  it('should expose periodTransactions', function () {
+  it('should expose monthDetails', function () {
     $rootScope.$digest();
-    expect(scope.periodTransactions).toBe(periodTransactions);
+    expect(scope.monthDetails).toBe(monthDetails);
   });
 });

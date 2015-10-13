@@ -2,3 +2,12 @@
   <a class="btn btn-default pull-right" href="#reports" role="button">Done</a>
 </h3>
 <h4>{{title}}</h4>
+<div ng-if="monthDetails">
+  <h5>Expenses</h5>
+  <canvas id="pie" class="chart chart-pie"
+    chart-legend="true"
+    chart-data="monthExpenses.data"
+    chart-labels="monthExpenses.labels"
+    width="800" height="500">
+  </canvas>
+</div>

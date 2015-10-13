@@ -16,6 +16,9 @@ angular.module('greensopinionfinanceApp')
       },
       transactionsForMonth: function(monthId) {
         return rest.get(API_BASE+'transactions/'+monthId);
+      },
+      detailsForMonth: function(monthId) {
+        return rest.get(API_BASE+'details/'+monthId);
       }
     };
 

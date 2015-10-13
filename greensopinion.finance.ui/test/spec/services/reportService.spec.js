@@ -12,18 +12,6 @@ describe('Service: reportService', function () {
     $provide.factory('rest', function(MockRest) {
       payload = {
         title: 'Monthly Income vs Expenses',
-        months: [
-          {
-            name: '2015-01',
-            incomeTotal: 1000000,
-            expensesTotal: 543201
-          },
-          {
-            name: '2015-02',
-            incomeTotal: 1000100,
-            expensesTotal: 543202
-          }
-        ]
       };
       return new MockRest(payload);
     });
@@ -56,4 +44,14 @@ describe('Service: reportService', function () {
     expect(report.method).toBe('GET');
   });
 
+  it('should provide detailsForMonth()',function() {
+    var report;
+    reportService.detailsForMonth(201509).then(function(result) {
+      report = result;
+    });
+    $rootScope.$digest();
+
+    expect(report.path).toBe('/reports/details/201509');
+    expect(report.method).toBe('GET');
+  });
 });
