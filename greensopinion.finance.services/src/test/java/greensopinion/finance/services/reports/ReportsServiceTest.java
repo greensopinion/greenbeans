@@ -77,12 +77,12 @@ public class ReportsServiceTest {
 		assertEquals(2, detailsForMonth.getCategories().size());
 
 		CategorySummary categorySummary = detailsForMonth.getCategories().get(0);
-		assertEquals("Burgers", categorySummary.getName());
-		assertEquals(102300L, categorySummary.getAmount());
-
-		categorySummary = detailsForMonth.getCategories().get(1);
 		assertEquals("Fries", categorySummary.getName());
 		assertEquals(-1500L, categorySummary.getAmount());
+
+		categorySummary = detailsForMonth.getCategories().get(1);
+		assertEquals("Burgers", categorySummary.getName());
+		assertEquals(102300L, categorySummary.getAmount());
 	}
 
 	private void assertTransaction(Transaction transaction, TransactionModel transactionModel) {

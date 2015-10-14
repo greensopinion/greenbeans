@@ -11,12 +11,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ListMultimap;
 
 import greensopinion.finance.services.domain.Category;
@@ -73,10 +73,10 @@ public class ReportsService {
 			amountByCategoryName.put(categoryName, amount.longValue() + transaction.getAmount());
 		}
 		List<PeriodDetails.CategorySummary> categorySummaries = new ArrayList<>();
-		for (String name : FluentIterable.from(amountByCategoryName.keySet())
-				.toSortedList(String.CASE_INSENSITIVE_ORDER)) {
-			categorySummaries.add(new PeriodDetails.CategorySummary(name, amountByCategoryName.get(name)));
+		for (Entry<String, Long> entry : amountByCategoryName.entrySet()) {
+			categorySummaries.add(new PeriodDetails.CategorySummary(entry.getKey(), entry.getValue()));
 		}
+		Collections.sort(categorySummaries, new CategorySummaryAmountDescendingComparator());
 		return new PeriodDetails(monthName(yearMonth), categorySummaries);
 	}
 

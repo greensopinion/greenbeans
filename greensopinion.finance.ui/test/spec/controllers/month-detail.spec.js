@@ -43,4 +43,13 @@ describe('Controller: MonthDetailCtrl', function () {
     $rootScope.$digest();
     expect(scope.monthDetails).toBe(monthDetails);
   });
+  it('should expose expense data', function () {
+    $rootScope.$digest();
+    expect(scope.expenseCategories).toEqual(monthDetails.categories);
+    expect(scope.monthExpenses).toBeDefined();
+  });
+  it('should expose formatAmount', function () {
+    expect(scope.formatAmount).toBeDefined();
+    expect(scope.formatAmount({amount: -12340})).toEqual('123.40');
+  });
 });
