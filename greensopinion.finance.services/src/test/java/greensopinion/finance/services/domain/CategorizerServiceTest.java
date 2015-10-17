@@ -29,10 +29,16 @@ public class CategorizerServiceTest {
 
 	@Test
 	public void categorize() {
-		List<Transaction> transactions = ImmutableList.of(MockTransaction.create("2015-01-01", "a two", 123));
+		List<Transaction> transactions = ImmutableList.of(MockTransaction.create("2015-01-01", "a two", 123),
+				MockTransaction.create("2015-01-02", "zzz", 123).withCategoryName("one"),
+				MockTransaction.create("2015-01-03", "zzz", 123),
+				MockTransaction.create("2015-01-02", "zzz", 123).withCategoryName("No Such Thing"));
 		List<Transaction> categorized = service.categorize(transactions);
 		assertEquals(transactions, categorized);
 		assertCategory("two", categorized.get(0));
+		assertCategory("one", categorized.get(1));
+		assertEquals(null, categorized.get(2).getCategory());
+		assertEquals(null, categorized.get(3).getCategory());
 	}
 
 	@Test

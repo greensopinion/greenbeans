@@ -55,4 +55,17 @@ public class CategoryTest {
 		assertFalse(category.matches(MockTransaction.create("2015-01-01", "ghi", 123)));
 		assertFalse(new Category("nope").matches(MockTransaction.create("2015-01-01", "def", 123)));
 	}
+
+	@Test
+	public void matchesWithCategoryName() {
+		Transaction transactionWithoutCategoryName = MockTransaction.create("2015-01-01", "abc", 123);
+		Transaction transactionWithCategoryName = transactionWithoutCategoryName.withCategoryName("a name");
+		MatchRule rule = MatchRule.withPattern("abc");
+		Category category = new Category("a name");
+		Category categoryWithRule = new Category("second name").withMatchRule(rule);
+
+		assertTrue(category.matches(transactionWithCategoryName));
+		assertFalse(categoryWithRule.matches(transactionWithCategoryName));
+		assertTrue(categoryWithRule.matches(transactionWithoutCategoryName));
+	}
 }

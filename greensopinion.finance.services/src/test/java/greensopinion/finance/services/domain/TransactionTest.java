@@ -1,6 +1,7 @@
 package greensopinion.finance.services.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 
 import java.util.Date;
@@ -43,8 +44,10 @@ public class TransactionTest {
 		Date date2 = new Date(1441850000000L);
 		Transaction transaction1 = new Transaction(date1, "a desc", 1003, null, null);
 		Transaction transaction2 = new Transaction(date1, "a desc", 1003, null, "123");
+		Transaction transaction3 = transaction1.withCategoryName("some category");
 
 		assertTransactionEquals(transaction1, transaction1);
+		assertTransactionEquals(transaction1, transaction3);
 		assertTransactionEquals(transaction1, new Transaction(date1, "a desc", 1003, null, null));
 		assertTransactionEquals(transaction2, new Transaction(date1, "a desc", 1003, null, "123"));
 
@@ -67,6 +70,16 @@ public class TransactionTest {
 		assertNotSame(transaction1, transaction2);
 		assertEquals(category, transaction2.getCategory());
 		assertEquals(null, transaction1.getCategory());
+	}
+
+	@Test
+	public void withCategoryName() {
+		Transaction transaction1 = new Transaction(new Date(), "a desc", 1003, null, "acct1");
+		Transaction transaction2 = transaction1.withCategoryName("A Category");
+		assertNotNull(transaction2);
+		assertNotSame(transaction1, transaction2);
+		assertEquals(null, transaction1.getCategoryName());
+		assertEquals("A Category", transaction2.getCategoryName());
 	}
 
 	private void assertTransactionNotEquals(Transaction t0, Object o1) {

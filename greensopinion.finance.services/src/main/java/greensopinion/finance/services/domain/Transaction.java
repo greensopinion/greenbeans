@@ -14,14 +14,21 @@ public class Transaction implements Comparable<Transaction> {
 	private final String description;
 	private final long amount;
 	private final String accountNumber;
+	private final String categoryName;
 
 	private transient final Category category;
 
 	public Transaction(Date date, String description, long amount, Category category, String accountNumber) {
+		this(date, description, amount, null, category, accountNumber);
+	}
+
+	private Transaction(Date date, String description, long amount, String categoryName, Category category,
+			String accountNumber) {
 		this.date = checkNotNull(date, "Must provide a date");
 		this.description = checkNotNull(description, "Must provide a description");
 		this.amount = amount;
 		this.accountNumber = accountNumber;
+		this.categoryName = categoryName;
 		this.category = category;
 	}
 
@@ -45,8 +52,19 @@ public class Transaction implements Comparable<Transaction> {
 		return category;
 	}
 
+	/**
+	 * The name of the category that applies to this one transaction.
+	 */
+	String getCategoryName() {
+		return categoryName;
+	}
+
 	public Transaction withCategory(Category category) {
 		return new Transaction(date, description, amount, category, accountNumber);
+	}
+
+	public Transaction withCategoryName(String categoryName) {
+		return new Transaction(date, description, amount, categoryName, category, accountNumber);
 	}
 
 	@Override

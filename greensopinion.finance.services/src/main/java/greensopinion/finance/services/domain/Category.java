@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
 public class Category {
@@ -30,6 +31,9 @@ public class Category {
 
 	public boolean matches(Transaction transaction) {
 		checkNotNull(transaction);
+		if (!Strings.isNullOrEmpty(transaction.getCategoryName())) {
+			return getName().equals(transaction.getCategoryName());
+		}
 		for (MatchRule matchRule : getMatchRules()) {
 			if (matchRule.matches(transaction)) {
 				return true;
