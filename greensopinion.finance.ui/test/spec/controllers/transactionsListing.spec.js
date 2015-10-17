@@ -6,7 +6,7 @@ describe('Controller: TransactionsListingCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var TransactionsListingCtrl,
-    scope,$rootScope,$modal,mockReportService, periodTransactions,categoryList,mockCategoryService,modalOptions;
+    scope,$rootScope,$modal,mockReportService, periodTransactions,categoryList,modalOptions;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, _$rootScope_,_$modal_, $q) {
@@ -14,14 +14,6 @@ describe('Controller: TransactionsListingCtrl', function () {
     scope = $rootScope.$new();
     $modal = _$modal_;
 
-    categoryList = [
-      {
-        name: 'One'
-      },
-      {
-        name: 'Two'
-      }
-    ];
     periodTransactions = {
       name: 'August 2015',
       transactions: [
@@ -38,13 +30,6 @@ describe('Controller: TransactionsListingCtrl', function () {
           date: '2015-02-31T23:41:00.023Z', description: 'deposit2', amount: 2043
         }
       ]
-    };
-    mockCategoryService = {
-      list: function() {
-        return $q(function(resolve) {
-          resolve(categoryList);
-        });
-      }
     };
     mockReportService = {
       transactionsForMonth: function() {
@@ -76,8 +61,7 @@ describe('Controller: TransactionsListingCtrl', function () {
       $scope: scope,
       $routeParams: { month: 201508},
       $modal: _$modal_,
-      reportService: mockReportService,
-      categoryService: mockCategoryService
+      reportService: mockReportService
     });
   }));
 
@@ -101,11 +85,6 @@ describe('Controller: TransactionsListingCtrl', function () {
   it('should expose dateOf() in scope',function() {
     expect(scope.dateOf).toBeDefined();
     expect(scope.dateOf({date:'2015-02-28T23:41:00.023Z'})).toBe('2015-02-28');
-  });
-
-  it('should expose categoryList in scope',function() {
-    $rootScope.$digest();
-    expect(scope.categoryList).toBe(categoryList);
   });
 
   it('should expose periodTransactions in scope',function() {
@@ -154,6 +133,6 @@ describe('Controller: TransactionsListingCtrl', function () {
     expect(modalOptions.templateUrl).toBe('views/category-dialog.html');
     expect(modalOptions.resolve.transaction()).toBe(transaction);
 
-    
+
   });
 });

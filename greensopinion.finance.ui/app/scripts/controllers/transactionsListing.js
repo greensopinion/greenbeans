@@ -8,15 +8,11 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('TransactionsListingCtrl',['$scope','$routeParams', '$modal','reportService','categoryService','money', function ($scope,$routeParams,$modal,reportService,categoryService,money) {
+  .controller('TransactionsListingCtrl',['$scope','$routeParams', '$modal','reportService','money', function ($scope,$routeParams,$modal,reportService,money) {
 
     var monthId = $routeParams.month;
 
     $scope.title = 'Transactions: '+ monthId;
-
-    categoryService.list().then(function(result) {
-      $scope.categoryList = result;
-    });
 
     var reloadTransactions = function() {
       reportService.transactionsForMonth(monthId).then(function(periodTransactions) {
