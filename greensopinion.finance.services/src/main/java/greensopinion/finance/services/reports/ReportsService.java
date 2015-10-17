@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -24,12 +26,27 @@ import greensopinion.finance.services.domain.Transaction;
 import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.domain.TransactionsService;
 import greensopinion.finance.services.transaction.TransactionNormalizer;
+import greensopinion.finance.services.web.model.CategorySummary;
+import greensopinion.finance.services.web.model.ExpensesByCategoryReport;
 import greensopinion.finance.services.web.model.IncomeVersusExpensesReport;
 import greensopinion.finance.services.web.model.IncomeVersusExpensesReport.Month;
 import greensopinion.finance.services.web.model.PeriodDetails;
 import greensopinion.finance.services.web.model.PeriodTransactions;
 
 public class ReportsService {
+	private static final ThreadLocal<DateFormat> yearMonthFormat = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat("yyyyMM");
+		}
+	};
+	private static final ThreadLocal<DateFormat> readableYearMonthFormat = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat("MMMMMMMMMMM yyyy");
+		}
+	};
+
 	private final TransactionsService transactionsService;
 
 	@Inject
@@ -56,6 +73,25 @@ public class ReportsService {
 		return report;
 	}
 
+	public ExpensesByCategoryReport expensesByCategory() {
+		ExpensesByCategoryReport report = new ExpensesByCategoryReport();
+
+		Set<Long> yearMonths = new HashSet<>();
+
+		Transactions transactions = transactionsService.retrieve();
+		for (Transaction transaction : transactions.getTransactions()) {
+			Long yearMonth = yearMonth(transaction.getDate());
+			yearMonths.add(yearMonth);
+		}
+		List<Long> sortedMonths = new ArrayList<>(yearMonths);
+		Collections.sort(sortedMonths);
+		for (final Long yearMonth : sortedMonths) {
+			report.add(detailsForMonth(yearMonth));
+		}
+
+		return report;
+	}
+
 	public PeriodTransactions transactionsForMonth(long yearMonth) {
 		return new PeriodTransactions(monthName(yearMonth), transactions(yearMonth));
 	}
@@ -72,9 +108,9 @@ public class ReportsService {
 			}
 			amountByCategoryName.put(categoryName, amount.longValue() + transaction.getAmount());
 		}
-		List<PeriodDetails.CategorySummary> categorySummaries = new ArrayList<>();
+		List<CategorySummary> categorySummaries = new ArrayList<>();
 		for (Entry<String, Long> entry : amountByCategoryName.entrySet()) {
-			categorySummaries.add(new PeriodDetails.CategorySummary(entry.getKey(), entry.getValue()));
+			categorySummaries.add(new CategorySummary(entry.getKey(), entry.getValue()));
 		}
 		Collections.sort(categorySummaries, new CategorySummaryAmountDescendingComparator());
 		return new PeriodDetails(monthName(yearMonth), categorySummaries);
@@ -105,11 +141,10 @@ public class ReportsService {
 	}
 
 	private DateFormat yearMonthFormat() {
-		return new SimpleDateFormat("yyyyMM");
+		return yearMonthFormat.get();
 	}
 
 	private DateFormat readableYearMonthFormat() {
-		return new SimpleDateFormat("MMMMMMMMMMM yyyy");
+		return readableYearMonthFormat.get();
 	}
-
 }

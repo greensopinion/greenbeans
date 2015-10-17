@@ -1,7 +1,16 @@
 <h3><i class="fa fa-pie-chart fa-2x"></i> Reports</h3>
-<div ng-if="report">
-  <h4>{{report.title}}</h4>
-  <canvas id="line" class="chart chart-line"
+<h4 class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="reportMenu"
+    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{title}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="reportMenu">
+    <li><a ng-click="switchReport('IncomeVsExpenses')">Monthly Income vs Expenses</a></li>
+    <li><a ng-click="switchReport('ExpensesByCategory')">Monthly Expenses by Category</a></li>
+  </ul>
+</h4>
+<div ng-if="showIncomeVersusExpenses()">
+  <canvas id="incomeVsExpensesChart" class="chart chart-line"
     chart-legend="true"
     chart-data="incomeVersusExpenses.data"
     chart-labels="incomeVersusExpenses.labels"
@@ -9,4 +18,26 @@
     chart-click="incomeVersusExpenses.onClick"
     width="800" height="500">
   </canvas>
+</div>
+<div ng-if="showExpensesByCategory()">
+  <canvas id="expensesByCategoryChart" class="chart chart-line"
+    chart-legend="true"
+    chart-data="expensesByCategory.data"
+    chart-labels="expensesByCategory.labels"
+    chart-series="expensesByCategory.series"
+    width="800" height="500">
+  </canvas>
+  <form name="categorySelector" class="form form-horizontal">
+      <div ng-repeat="index in [0,1,2,3]" class="form-group">
+          <label class="control-label col-sm-2" for="category{{index}}">Category {{index+1}}</label>
+          <div class="col-sm-10">
+            <select id="category{{index}}" ng-model="category[index]"
+              ng-options="category.name as category.name for category in categoryList"
+              ng-change="changeCategories()">
+              <option></option>
+            </select>
+          </div>
+      </div>
+  </form>
+  <a class="btn btn-default" role="button" ng-click="selectDefaultCategories()">Reset Selected Categories</a>
 </div>

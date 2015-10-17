@@ -4,11 +4,13 @@ angular.module('greensopinionfinanceApp')
   .service('rest',['$window','$q',function($window,$q) {
     var restRequest = function(method,path,entity) {
         return $q(function(resolve,reject) {
+            // console.log('-> HTTP '+method+' '+path);
+
             var webInvoker = $window.appServiceLocator.getWebInvoker();
             var result = webInvoker.invoke(method,path,JSON.stringify(entity));
             var responseCode = result.getResponseCode();
 
-            //console.log('HTTP '+responseCode+' '+method+' '+path+' result: '+result.getEntity());
+            // console.log('<- HTTP '+responseCode+' '+method+' '+path+' result: '+result.getEntity());
 
             if (responseCode === 200) {
                 resolve(JSON.parse(result.getEntity()));

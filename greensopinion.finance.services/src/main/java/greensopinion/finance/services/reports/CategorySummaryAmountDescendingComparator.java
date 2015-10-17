@@ -2,7 +2,7 @@ package greensopinion.finance.services.reports;
 
 import java.util.Comparator;
 
-import greensopinion.finance.services.web.model.PeriodDetails.CategorySummary;
+import greensopinion.finance.services.web.model.CategorySummary;
 
 class CategorySummaryAmountDescendingComparator implements Comparator<CategorySummary> {
 

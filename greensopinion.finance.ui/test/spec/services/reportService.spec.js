@@ -11,7 +11,7 @@ describe('Service: reportService', function () {
   beforeEach(module(function ($provide) {
     $provide.factory('rest', function(MockRest) {
       payload = {
-        title: 'Monthly Income vs Expenses',
+        title: 'Report Title',
       };
       return new MockRest(payload);
     });
@@ -30,7 +30,19 @@ describe('Service: reportService', function () {
 
     expect(report.path).toBe('/reports/income-vs-expenses');
     expect(report.method).toBe('GET');
-    expect(report.title).toBe('Monthly Income vs Expenses');
+    expect(report.title).toBe('Report Title');
+  });
+
+  it('should provide expensesByCategory()', function () {
+    var report;
+    reportService.expensesByCategory().then(function(result) {
+      report = result;
+    });
+    $rootScope.$digest();
+
+    expect(report.path).toBe('/reports/expenses-by-category');
+    expect(report.method).toBe('GET');
+    expect(report.title).toBe('Report Title');
   });
 
   it('should provide transactionsForMonth()',function() {

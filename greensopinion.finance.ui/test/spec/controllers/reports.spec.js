@@ -34,6 +34,14 @@ describe('Controller: ReportsCtrl', function () {
               ]
             });
           });
+      },
+      expensesByCategory: function() {
+        return $q(function(resolve) {
+          resolve({
+            title: 'Monthly Expenses by Category',
+            monthlyDetails: []
+          });
+        });
       }
     };
     ReportsCtrl = $controller('ReportsCtrl', {
@@ -44,8 +52,9 @@ describe('Controller: ReportsCtrl', function () {
 
   it('should expose report', function () {
     $rootScope.$digest();
-    expect(scope.report).toBeDefined();
-    expect(scope.report.title).toBe('Monthly Income vs Expenses');
+    expect(scope.incomeVersusExpenses).toBeDefined();
+    expect(scope.expensesByCategory).toBeDefined();
+    expect(scope.title).toBe('Monthly Income vs Expenses');
   });
 
   it('should expose chart data', function () {
@@ -57,5 +66,23 @@ describe('Controller: ReportsCtrl', function () {
       [ 10000.00, 10001.00 ],
       [ 5432.01, 5432.02 ]
     ]);
+  });
+
+  it('should expose switchReport()',function() {
+    $rootScope.$digest();
+    expect(scope.title).toBe('Monthly Income vs Expenses');
+    expect(scope.showIncomeVersusExpenses()).toBe(true);
+    expect(scope.showExpensesByCategory()).toBe(false);
+
+    scope.switchReport('ExpensesByCategory');
+
+    expect(scope.title).toBe('Monthly Expenses by Category');
+    expect(scope.showIncomeVersusExpenses()).toBe(false);
+    expect(scope.showExpensesByCategory()).toBe(true);
+  });
+
+  it ('should expose categoryList', function() {
+    $rootScope.$digest();
+    expect(scope.categoryList).toBeDefined();
   });
 });

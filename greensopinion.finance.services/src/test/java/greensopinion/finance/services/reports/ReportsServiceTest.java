@@ -1,6 +1,7 @@
 package greensopinion.finance.services.reports;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -21,10 +22,11 @@ import greensopinion.finance.services.domain.Category;
 import greensopinion.finance.services.domain.Transaction;
 import greensopinion.finance.services.domain.Transactions;
 import greensopinion.finance.services.domain.TransactionsService;
+import greensopinion.finance.services.web.model.CategorySummary;
+import greensopinion.finance.services.web.model.ExpensesByCategoryReport;
 import greensopinion.finance.services.web.model.IncomeVersusExpensesReport;
 import greensopinion.finance.services.web.model.IncomeVersusExpensesReport.Month;
 import greensopinion.finance.services.web.model.PeriodDetails;
-import greensopinion.finance.services.web.model.PeriodDetails.CategorySummary;
 import greensopinion.finance.services.web.model.PeriodTransactions;
 import greensopinion.finance.services.web.model.TransactionModel;
 
@@ -85,6 +87,22 @@ public class ReportsServiceTest {
 		assertEquals(102300L, categorySummary.getAmount());
 	}
 
+	@Test
+	public void expensesByCategory() {
+		transactions = createTransactionsWithCategories();
+		doReturn(transactions).when(transactionsService).retrieve();
+
+		ExpensesByCategoryReport expensesByCategory = service.expensesByCategory();
+		assertEquals("Monthly Expenses By Category", expensesByCategory.getTitle());
+		List<PeriodDetails> months = expensesByCategory.getMonthlyDetails();
+		assertNotNull(months);
+		assertEquals(2, months.size());
+		assertEquals("January 2015", months.get(0).getName());
+		assertFalse(months.get(0).getCategories().isEmpty());
+		assertEquals("March 2015", months.get(1).getName());
+		assertFalse(months.get(1).getCategories().isEmpty());
+	}
+
 	private void assertTransaction(Transaction transaction, TransactionModel transactionModel) {
 		assertEquals(transaction.getDate(), transactionModel.getDate());
 		assertEquals(transaction.getAmount(), transactionModel.getAmount());
@@ -115,6 +133,7 @@ public class ReportsServiceTest {
 		transactions.add(new Transaction(date("2015-01-03"), "test2", -1500, category2, null));
 		transactions.add(new Transaction(date("2015-01-05"), "test3", -1504, null, null));
 		transactions.add(new Transaction(date("2015-01-05"), "test4", 1504, null, null));
+		transactions.add(new Transaction(date("2015-03-05"), "test5", -253, category2, null));
 		return new Transactions(transactions);
 	}
 
