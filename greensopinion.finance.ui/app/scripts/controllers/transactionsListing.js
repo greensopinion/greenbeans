@@ -57,7 +57,12 @@ angular.module('greensopinionfinanceApp')
         $scope.sortReverse = !$scope.sortReverse;
       }
     };
-
+    $scope.editTransaction = function(transaction,enabled) {
+      for (var x = 0;x<$scope.periodTransactions.transactions.length;++x) {
+        $scope.periodTransactions.transactions[x].edit = false;
+      }
+      transaction.edit = enabled;
+    };
     $scope.setCategory = function(transaction) {
       var modalInstance = $modal.open({
         animation: false,

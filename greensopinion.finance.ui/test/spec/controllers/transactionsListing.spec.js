@@ -132,7 +132,21 @@ describe('Controller: TransactionsListingCtrl', function () {
     scope.setCategory(transaction);
     expect(modalOptions.templateUrl).toBe('views/category-dialog.html');
     expect(modalOptions.resolve.transaction()).toBe(transaction);
+  });
 
+  it('should expose editTransaction()', function() {
+    $rootScope.$digest();
+    expect(scope.editTransaction).toBeDefined();
 
+    scope.editTransaction(scope.periodTransactions.transactions[1],true);
+    expect(scope.periodTransactions.transactions[1].edit).toEqual(true);
+
+    scope.editTransaction(scope.periodTransactions.transactions[2],true);
+    expect(scope.periodTransactions.transactions[1].edit).toEqual(false);
+    expect(scope.periodTransactions.transactions[2].edit).toEqual(true);
+
+    scope.editTransaction(scope.periodTransactions.transactions[2],false);
+    expect(scope.periodTransactions.transactions[1].edit).toEqual(false);
+    expect(scope.periodTransactions.transactions[2].edit).toEqual(false);
   });
 });

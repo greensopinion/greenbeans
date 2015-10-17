@@ -32,7 +32,7 @@
         <tr ng-repeat="transaction in periodTransactions.transactions | orderBy:sortType:sortReverse">
           <td>{{dateOf(transaction)}}</td>
           <td>{{transaction.description}}</td>
-          <td ng-mouseenter="transaction.edit=true" ng-mouseleave="transaction.edit=false" class="transaction-category">
+          <td ng-mouseenter="editTransaction(transaction,true)" ng-mouseleave="editTransaction(transaction,false)" class="transaction-category">
             <span ng-if="!transaction.edit">{{transaction.categoryName}}</span>
             <a ng-if="transaction.edit" ng-click="setCategory(transaction)">Choose category...</a>
           </td>
