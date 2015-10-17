@@ -55,7 +55,7 @@ public class Main extends Application {
 		Screen primaryScreen = Screen.getPrimary();
 		Rectangle2D visualBounds = primaryScreen.getVisualBounds();
 
-		primaryStage.setWidth(Constants.DEFAULT_WIDTH);
+		primaryStage.setWidth(Math.min(Constants.DEFAULT_WIDTH, visualBounds.getWidth()));
 		primaryStage.setHeight(Math.min(Constants.DEFAULT_HEIGHT, visualBounds.getHeight()));
 	}
 

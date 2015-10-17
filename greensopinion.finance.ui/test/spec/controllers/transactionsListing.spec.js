@@ -6,7 +6,7 @@ describe('Controller: TransactionsListingCtrl', function () {
   beforeEach(module('greensopinionfinanceApp'));
 
   var TransactionsListingCtrl,
-    scope,$rootScope,$modal,mockReportService, periodTransactions,categoryList,modalOptions;
+    scope,$rootScope,$modal,mockReportService, periodTransactions,modalOptions;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, _$rootScope_,_$modal_, $q) {
