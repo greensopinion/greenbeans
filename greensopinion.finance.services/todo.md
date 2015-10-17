@@ -1,6 +1,13 @@
 
 # TODO
 
+## Primary
+
+1. Compare category by month
+2. Set transaction category individually
+
+## Secondary
+
 1. Chart?
 2. Import deleted files even when unchecked?
 3. Individual Categorization
