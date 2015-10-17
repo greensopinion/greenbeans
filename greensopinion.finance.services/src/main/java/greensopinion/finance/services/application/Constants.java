@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.application.Application.Parameters;
 import javafx.scene.paint.Color;
 
 class Constants {
@@ -16,8 +17,20 @@ class Constants {
 	public static final int DEFAULT_WIDTH = 800;
 	public static final Color DEFAULT_FILL_COLOUR = Color.web("#666970");
 	public static final Object PARAM_DEBUG_UI = "-XdebugUI";
+	public static final Object PARAM_EXTERNAL_UI = "-XexternalUI";
 
-	public static String webViewLocation() {
+	public static boolean isDebugUi(Parameters parameters) {
+		return parameters.getUnnamed().contains(Constants.PARAM_DEBUG_UI);
+	}
+
+	public static boolean isExternalUi(Parameters parameters) {
+		return parameters.getUnnamed().contains(Constants.PARAM_EXTERNAL_UI);
+	}
+
+	public static String webViewLocation(Parameters parameters) {
+		if (isExternalUi(parameters)) {
+			return "http://localhost:9000";
+		}
 		URL selfUri = checkNotNull(Constants.class.getResource(Constants.class.getSimpleName() + ".class"));
 		String protocol = selfUri.getProtocol();
 		if ("file".equals(protocol)) {

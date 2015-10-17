@@ -46,15 +46,11 @@ class WebApplicationRegion extends Region {
 		webEngine = webView.getEngine();
 		installConsoleBridge();
 		installServiceLocator(serviceLocator);
-		webEngine.load(Constants.webViewLocation());
-		if (isDebugUi(parameters)) {
+		webEngine.load(Constants.webViewLocation(parameters));
+		if (Constants.isDebugUi(parameters)) {
 			installFirebugLite();
 		}
 		getChildren().add(webView);
-	}
-
-	private boolean isDebugUi(Parameters parameters) {
-		return parameters.getUnnamed().contains(Constants.PARAM_DEBUG_UI);
 	}
 
 	private void installFirebugLite() {
