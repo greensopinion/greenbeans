@@ -4,7 +4,7 @@ angular.module('greensopinionfinanceApp')
   .service('rest',['$window','$q',function($window,$q) {
     var restRequest = function(method,path,entity) {
         return $q(function(resolve,reject) {
-            // console.log('-> HTTP '+method+' '+path);
+            // console.log('-> HTTP '+method+' '+path+ ' entity '+JSON.stringify(entity));
 
             var webInvoker = $window.appServiceLocator.getWebInvoker();
             var result = webInvoker.invoke(method,path,JSON.stringify(entity));

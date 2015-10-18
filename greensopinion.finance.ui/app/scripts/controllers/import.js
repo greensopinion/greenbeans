@@ -9,6 +9,7 @@
  */
 angular.module('greensopinionfinanceApp')
   .controller('ImportCtrl',['$scope','errorService','importService', function ($scope,errorService,importService) {
+
     var resetSelectedFiles = function() {
       $scope.deleteAfterImport = true;
       delete $scope.files;
@@ -25,8 +26,8 @@ angular.module('greensopinionfinanceApp')
     $scope.cancel = function() {
       resetSelectedFiles();
     };
-    $scope.importFiles = function() {
-      return errorService.maintainErrorMessageInScope(importService.importFiles($scope.files,$scope.deleteAfterImport),$scope)
+    $scope.importFiles = function(deleteAfterImport) {
+      return errorService.maintainErrorMessageInScope(importService.importFiles($scope.files,deleteAfterImport),$scope)
         .then(function() {
           resetSelectedFiles();
         });
