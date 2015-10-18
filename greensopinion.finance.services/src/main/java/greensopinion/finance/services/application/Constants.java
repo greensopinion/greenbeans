@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 class Constants {
 
 	public static final int DEFAULT_HEIGHT = 1024;
-	public static final int DEFAULT_WIDTH = 1000;
+	public static final int DEFAULT_WIDTH = 1024;
 	public static final Color DEFAULT_FILL_COLOUR = Color.web("#666970");
 	public static final Object PARAM_DEBUG_UI = "-XdebugUI";
 	public static final Object PARAM_EXTERNAL_UI = "-XexternalUI";
