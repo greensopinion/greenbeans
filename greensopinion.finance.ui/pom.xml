@@ -6,7 +6,7 @@
   <parent>
     <groupId>greensopinion</groupId>
     <artifactId>greensopinion.finance</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
   </parent>
 
   <name>Green's Opinion - Finance - UI</name>

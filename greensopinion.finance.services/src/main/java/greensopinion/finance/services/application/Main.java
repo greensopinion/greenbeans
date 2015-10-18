@@ -9,6 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
+import greensopinion.finance.services.GreenGap;
 import greensopinion.finance.services.demo.Demo;
 import greensopinion.finance.services.encryption.EncryptionModule;
 import greensopinion.finance.services.persistence.ConfigurationModule;
@@ -23,7 +24,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Title Placeholder");
+		primaryStage.setTitle(GreenGap.APP_NAME);
 
 		Injector injector = createInjector(primaryStage);
 		MainScene scene = injector.getInstance(MainScene.class);

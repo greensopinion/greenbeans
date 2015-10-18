@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 
+import greensopinion.finance.services.GreenGap;
 import greensopinion.finance.services.ImportFilesService;
 import greensopinion.finance.services.web.WebServiceModule;
 
@@ -22,7 +23,8 @@ public class WebDispatchTest {
 		assertNotNull(response);
 		assertEquals(200, response.getResponseCode());
 		assertEquals(
-				"{\"applicationName\":\"Green's Opinion - Finances\",\"copyrightNotice\":\"Copyright (c) 2015 David Green.  All rights reserved.\"}",
+				"{\"applicationName\":\"" + GreenGap.APP_NAME
+						+ "\",\"copyrightNotice\":\"Copyright (c) 2015 David Green.  All rights reserved.\"}",
 				response.getEntity());
 	}
 

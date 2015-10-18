@@ -9,7 +9,7 @@ public class AboutService {
 	}
 
 	private String getApplicationName() {
-		return "Green's Opinion - Finances";
+		return GreenGap.APP_NAME;
 	}
 
 	private String getCopyrightNotice() {

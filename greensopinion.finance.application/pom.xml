@@ -6,7 +6,7 @@
   <parent>
     <groupId>greensopinion</groupId>
     <artifactId>greensopinion.finance</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
   </parent>
 
   <name>Green's Opinion - Finance - Application</name>
@@ -21,12 +21,12 @@
     <dependency>
       <groupId>greensopinion</groupId>
       <artifactId>greensopinion.finance.services</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>greensopinion</groupId>
       <artifactId>greensopinion.finance.ui</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
       <type>tar.gz</type>
     </dependency>
   </dependencies>
@@ -64,14 +64,23 @@
 
                 <fx:jar destfile="target/greensopinnion-finance.jar">
                   <fx:application
-                    mainClass="greensopinion.finance.services.application.Main"
-                    name="Green's Opinion - Finance" version="0.1.0-SNAPSHOT" />
+                        mainClass="greensopinion.finance.services.application.Main"
+                        name="GreenGap" version="0.8.0-SNAPSHOT" />
                   <fileset dir="target/libs">
                     <exclude name="web-assets"/>
                   </fileset>
                 </fx:jar>
 
                 <fx:deploy nativeBundles="all" outdir="${basedir}/target">
+                  <fx:application
+                      mainClass="greensopinion.finance.services.application.Main"
+                      name="GreenGap" version="0.8.0-SNAPSHOT" />
+                  <fx:preferences install="false" menu="true"/>
+                  <fx:info 
+                    copyright="Copyright (c) 2015 David Green.  All rights reserved."
+                    description="Green Gap Cash App.  Get control of your cash flow."
+                    title="Green Gap Cash App"
+                    vendor="Green's Opinion"/>
                   <fx:resources>
                     <fx:fileset dir="target">
                       <include name="greensopinnion-finance.jar" />
