@@ -6,17 +6,23 @@ import greensopinion.finance.services.domain.Category;
 import greensopinion.finance.services.domain.Transaction;
 
 public class TransactionModel {
+	private final String id;
 	private final Date date;
 	private final long amount;
 	private final String description;
 	private final String categoryName;
 
 	public TransactionModel(Transaction transaction) {
+		id = transaction.getId();
 		date = transaction.getDate();
 		amount = transaction.getAmount();
 		description = transaction.getDescription();
 		Category category = transaction.getCategory();
 		categoryName = category == null ? null : category.getName();
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public long getAmount() {

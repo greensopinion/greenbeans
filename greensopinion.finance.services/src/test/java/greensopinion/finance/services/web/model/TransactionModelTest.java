@@ -14,6 +14,7 @@ public class TransactionModelTest {
 	public void create() {
 		Transaction transaction = MockTransaction.create("2015-01-03", "a desc", 1234);
 		TransactionModel model = new TransactionModel(transaction);
+		assertEquals(transaction.getId(), model.getId());
 		assertEquals(transaction.getDate(), model.getDate());
 		assertEquals(transaction.getDescription(), model.getDescription());
 		assertEquals(transaction.getAmount(), model.getAmount());

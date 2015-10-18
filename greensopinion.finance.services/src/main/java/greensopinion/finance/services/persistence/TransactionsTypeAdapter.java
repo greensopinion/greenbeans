@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
@@ -80,6 +81,10 @@ class TransactionsTypeAdapter extends TypeAdapter<Transactions> {
 
 	private Transaction readTransaction(String string) {
 		String json = encryptorProviderService.getEncryptor().decrypt(string);
-		return checkNotNull(gson.fromJson(json, Transaction.class));
+		Transaction transaction = checkNotNull(gson.fromJson(json, Transaction.class));
+		if (transaction.getId() == null) {
+			transaction = transaction.withId(UUID.randomUUID().toString());
+		}
+		return transaction;
 	}
 }

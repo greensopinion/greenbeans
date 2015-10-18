@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -15,7 +16,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableMap;
 
 import greensopinion.finance.services.web.GsonWebRenderer;
 
@@ -54,9 +54,8 @@ public class Invoker {
 		return new WebResponse(response.getStatus(), entityString);
 	}
 
-	private Map<String, Object> createParameters(WebRequest request, MatchResult match, Handler handler)
-			throws Exception {
-		ImmutableMap.Builder<String, Object> parametersBuilder = ImmutableMap.builder();
+	Map<String, Object> createParameters(WebRequest request, MatchResult match, Handler handler) throws Exception {
+		Map<String, Object> parameters = new HashMap<>();
 		for (Map.Entry<String, Type> parameter : handler.getParameterNameToType().entrySet()) {
 			String name = parameter.getKey();
 			Object value;
@@ -65,13 +64,13 @@ public class Invoker {
 			} else {
 				value = match.getVariables().get(name);
 			}
-			parametersBuilder.put(name, convert(parameter.getValue(), value));
+			parameters.put(name, convert(parameter.getValue(), value));
 		}
-		return parametersBuilder.build();
+		return parameters;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private Object convert(Type type, Object value) throws Exception {
+	Object convert(Type type, Object value) throws Exception {
 		if (type == Integer.class) {
 			String v = value.toString();
 			return v.isEmpty() ? null : Integer.parseInt(v);
