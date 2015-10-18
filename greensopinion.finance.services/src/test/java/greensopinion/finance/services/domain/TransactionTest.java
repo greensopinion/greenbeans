@@ -67,6 +67,7 @@ public class TransactionTest {
 		Transaction transaction2 = transaction1.withCategory(category);
 
 		assertTransactionEquals(transaction1, transaction2);
+		assertIdsEqual(transaction1, transaction2);
 		assertNotSame(transaction1, transaction2);
 		assertEquals(category, transaction2.getCategory());
 		assertEquals(null, transaction1.getCategory());
@@ -78,8 +79,23 @@ public class TransactionTest {
 		Transaction transaction2 = transaction1.withCategoryName("A Category");
 		assertNotNull(transaction2);
 		assertNotSame(transaction1, transaction2);
+		assertIdsEqual(transaction1, transaction2);
 		assertEquals(null, transaction1.getCategoryName());
 		assertEquals("A Category", transaction2.getCategoryName());
+	}
+
+	@Test
+	public void withId() {
+		Transaction transaction1 = new Transaction(new Date(), "a desc", 1003, null, "acct1");
+		Transaction transaction2 = transaction1.withId("test12345");
+		assertNotNull(transaction2);
+		assertNotSame(transaction1, transaction2);
+		assertEquals("test12345", transaction2.getId());
+		assertEquals(transaction1, transaction2);
+	}
+
+	private void assertIdsEqual(Transaction transaction1, Transaction transaction2) {
+		assertEquals(transaction1.getId(), transaction2.getId());
 	}
 
 	private void assertTransactionNotEquals(Transaction t0, Object o1) {

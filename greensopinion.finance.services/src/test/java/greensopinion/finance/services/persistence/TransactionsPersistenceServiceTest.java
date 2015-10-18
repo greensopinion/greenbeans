@@ -55,7 +55,8 @@ public class TransactionsPersistenceServiceTest {
 	@Test
 	public void transactionsRoundTrip() throws IOException {
 		Transactions transactions = new Transactions(ImmutableList
-				.of(new Transaction(new Date(1443322433000L), "a desc", 12345, new Category("A category"), null)));
+				.of(new Transaction(new Date(1443322433000L), "a desc", 12345, new Category("A category"), null)
+						.withId("1234")));
 		service.save(transactions);
 
 		String value = Files.toString(service.getFile(), StandardCharsets.UTF_8);

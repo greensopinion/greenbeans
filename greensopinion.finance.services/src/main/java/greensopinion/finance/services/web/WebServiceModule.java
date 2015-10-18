@@ -21,9 +21,10 @@ public class WebServiceModule extends AbstractModule {
 
 	private void bindWebServices() {
 		bind(AboutWebService.class).in(Scopes.SINGLETON);
+		bind(CategoryWebService.class).in(Scopes.SINGLETON);
 		bind(EncryptionSettingsWebService.class).in(Scopes.SINGLETON);
 		bind(ImportFilesWebService.class).in(Scopes.SINGLETON);
 		bind(ReportsWebService.class).in(Scopes.SINGLETON);
-		bind(CategoryWebService.class).in(Scopes.SINGLETON);
+		bind(TransactionsWebService.class).in(Scopes.SINGLETON);
 	}
 }

@@ -6,10 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import com.google.common.base.MoreObjects;
 
 public class Transaction implements Comparable<Transaction> {
+	private final String id;
 	private final Date date;
 	private final String description;
 	private final long amount;
@@ -19,17 +21,22 @@ public class Transaction implements Comparable<Transaction> {
 	private transient final Category category;
 
 	public Transaction(Date date, String description, long amount, Category category, String accountNumber) {
-		this(date, description, amount, null, category, accountNumber);
+		this(UUID.randomUUID().toString(), date, description, amount, null, category, accountNumber);
 	}
 
-	private Transaction(Date date, String description, long amount, String categoryName, Category category,
+	private Transaction(String id, Date date, String description, long amount, String categoryName, Category category,
 			String accountNumber) {
+		this.id = checkNotNull(id);
 		this.date = checkNotNull(date, "Must provide a date");
 		this.description = checkNotNull(description, "Must provide a description");
 		this.amount = amount;
 		this.accountNumber = accountNumber;
 		this.categoryName = categoryName;
 		this.category = category;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public Date getDate() {
@@ -55,16 +62,20 @@ public class Transaction implements Comparable<Transaction> {
 	/**
 	 * The name of the category that applies to this one transaction.
 	 */
-	String getCategoryName() {
+	public String getCategoryName() {
 		return categoryName;
 	}
 
 	public Transaction withCategory(Category category) {
-		return new Transaction(date, description, amount, category, accountNumber);
+		return new Transaction(id, date, description, amount, categoryName, category, accountNumber);
 	}
 
 	public Transaction withCategoryName(String categoryName) {
-		return new Transaction(date, description, amount, categoryName, category, accountNumber);
+		return new Transaction(id, date, description, amount, categoryName, category, accountNumber);
+	}
+
+	public Transaction withId(String id) {
+		return new Transaction(id, date, description, amount, categoryName, category, accountNumber);
 	}
 
 	@Override
