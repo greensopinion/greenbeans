@@ -64,6 +64,11 @@ public class WebServiceModuleTest {
 	}
 
 	@Test
+	public void providesEulaWebService() {
+		assertSingletonBinding(createInjector(), EulaWebService.class);
+	}
+
+	@Test
 	public void providesGson() {
 		Gson gson = assertSingletonBinding(createInjector(), Gson.class);
 		assertHtmlEscapingDisabled(gson);

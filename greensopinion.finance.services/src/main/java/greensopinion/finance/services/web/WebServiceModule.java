@@ -26,5 +26,6 @@ public class WebServiceModule extends AbstractModule {
 		bind(ImportFilesWebService.class).in(Scopes.SINGLETON);
 		bind(ReportsWebService.class).in(Scopes.SINGLETON);
 		bind(TransactionsWebService.class).in(Scopes.SINGLETON);
+		bind(EulaWebService.class).in(Scopes.SINGLETON);
 	}
 }

@@ -45,7 +45,7 @@ public class EncryptorServiceTest {
 	@Test
 	public void isConfigured() {
 		assertFalse(encryptorService.isConfigured());
-		Settings settings = new Settings(mock(EncryptorSettings.class));
+		Settings settings = new Settings(mock(EncryptorSettings.class), false);
 		doReturn(settings).when(settingsService).retrieve();
 		assertTrue(encryptorService.isConfigured());
 	}
@@ -87,7 +87,7 @@ public class EncryptorServiceTest {
 	@Test
 	public void initializeWrongPassword() {
 		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("1234");
-		Settings settings = new Settings(encryptorSettings);
+		Settings settings = new Settings(encryptorSettings, false);
 		doReturn(settings).when(settingsService).retrieve();
 
 		thrown.expect(InvalidMasterPasswordException.class);
@@ -97,7 +97,7 @@ public class EncryptorServiceTest {
 	@Test
 	public void initialize() {
 		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings("1234");
-		Settings settings = new Settings(encryptorSettings);
+		Settings settings = new Settings(encryptorSettings, false);
 		doReturn(settings).when(settingsService).retrieve();
 
 		assertFalse(encryptorService.isInitialized());

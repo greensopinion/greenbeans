@@ -1,4 +1,5 @@
 {
+  "userHasAgreedToLicense": true,
   "encryptorSettings": {
     "masterPasswordVerificationState": "1234",
     "salt": [

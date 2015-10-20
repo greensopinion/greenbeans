@@ -20,8 +20,6 @@ import com.google.common.io.Files;
 import greensopinion.finance.services.TestResources;
 import greensopinion.finance.services.domain.EncryptorSettings;
 import greensopinion.finance.services.domain.Settings;
-import greensopinion.finance.services.persistence.DataDirectoryLocator;
-import greensopinion.finance.services.persistence.SettingsPersistenceService;
 
 public class SettingsPersistenceServiceTest {
 
@@ -49,7 +47,7 @@ public class SettingsPersistenceServiceTest {
 	public void settingsRoundTrip() throws IOException {
 		assertFalse(dataFolder.exists());
 
-		Settings data = new Settings(new EncryptorSettings("1234", new byte[] { 35, 36 }));
+		Settings data = new Settings(new EncryptorSettings("1234", new byte[] { 35, 36 }), true);
 
 		service.save(data);
 		assertTrue(dataFolder.exists());
@@ -59,6 +57,7 @@ public class SettingsPersistenceServiceTest {
 
 		Settings loaded = service.load();
 		assertNotNull(loaded);
+		assertEquals(data.userHasAgreedToLicense(), loaded.userHasAgreedToLicense());
 		assertEquals(data.getEncryptorSettings().getMasterPasswordVerificationState(),
 				loaded.getEncryptorSettings().getMasterPasswordVerificationState());
 		assertArrayEquals(data.getEncryptorSettings().getSalt(), loaded.getEncryptorSettings().getSalt());
