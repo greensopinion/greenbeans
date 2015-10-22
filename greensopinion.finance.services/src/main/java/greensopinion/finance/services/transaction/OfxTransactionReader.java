@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.common.base.Predicates;
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 
@@ -25,6 +26,7 @@ import greensopinion.finance.services.transaction.SgmlReader.TokenType;
 public class OfxTransactionReader implements Closeable {
 
 	private static final String NAME = "NAME";
+	private static final String MEMO = "MEMO";
 	private static final String TRNAMT = "TRNAMT";
 	private static final String DTPOSTED = "DTPOSTED";
 	private static final String STMTTRN = "STMTTRN";
@@ -70,6 +72,18 @@ public class OfxTransactionReader implements Closeable {
 		// <TRNAMT>-42.54
 		// <FITID>02015091400000000000003000
 		// <NAME>HOMESENSE 084 SURREY
+
+		// or
+
+		// <STMTTRN>
+		// <TRNTYPE>DEBIT
+		// <DTPOSTED>20151019000000[-7:PST]
+		// <TRNAMT>-8.35
+		// <FITID>44000001 1745904503450
+		// <NAME>Purchase
+		// <MEMO>DAILY GRIND CAFE VANCO
+		// </STMTTRN>
+
 		Date date = null;
 		Long amount = null;
 		String name = null;
@@ -92,6 +106,11 @@ public class OfxTransactionReader implements Closeable {
 						amount = readTransactionAmount(token.getValue());
 					} else if (NAME.equals(previousTagName)) {
 						name = token.getValue();
+					} else if (MEMO.equals(previousTagName)) {
+						String memo = token.getValue();
+						if (!Strings.isNullOrEmpty(memo)) {
+							name = memo;
+						}
 					}
 				}
 			}

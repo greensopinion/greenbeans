@@ -39,6 +39,18 @@ public class OfxTransactionReaderTest {
 		assertTransaction("2013-09-30", -1495, "MONTHLY ACCOUNT FEE", "1234567891122334", transactions.get(2));
 	}
 
+	@Test
+	public void readCreditUnionFormat() throws IOException {
+		List<Transaction> transactions = readTransactions("qfx-creditunion-format.sgml");
+		assertEquals(3, transactions.size());
+		assertTransaction("2015-10-19", -835, "DAILY GRIND CAFE       VANCO", "1000033330PC00000DC011101C",
+				transactions.get(0));
+		assertTransaction("2015-10-19", -40000, "Online Transfer Out", "1000033330PC00000DC011101C",
+				transactions.get(1));
+		assertTransaction("2015-10-18", -3762, "CEDAR COTTAGE LIQUOR S VANCO", "1000033330PC00000DC011101C",
+				transactions.get(2));
+	}
+
 	private List<Transaction> readTransactions(String resourceName) throws IOException {
 		String inputData = TestResources.load(OfxTransactionReaderTest.class, resourceName);
 		List<Transaction> transactions;
