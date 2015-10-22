@@ -24,7 +24,7 @@ import greensopinion.finance.services.web.model.UserEulaStatus;
 
 @Path(EulaWebService.BASE_PATH)
 public class EulaWebService {
-	static final String BASE_PATH = "eula";
+	static final String BASE_PATH = "/eula";
 	static final String CURRENT_EULA = "current";
 	static final String CURRENT = "user-agreements/current";
 
@@ -57,7 +57,8 @@ public class EulaWebService {
 	public void currentUserEulaStatus(UserEulaStatus newStatus) {
 		validateNotNull(newStatus, "Must provide a EulaStatus.");
 		validate(newStatus.userHasAgreedToLicense(),
-				format("You must agree to the license in order to use {0}.", GreenGap.APP_NAME));
+				format("You must agree to the license in order to use {0}.  Either agree to the license or exit the application.",
+						GreenGap.APP_NAME));
 
 		Settings settings = settingsService.retrieve();
 		settingsService.update(settings.withUserHasAgreedToLicense(newStatus.userHasAgreedToLicense()));

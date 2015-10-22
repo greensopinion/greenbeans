@@ -1,22 +1,25 @@
 'use strict';
 
-describe('Directive: mainmenu', function () {
+describe('Directive: mainmenu', function() {
 
   // load the directive's module
   beforeEach(module('greensopinionfinanceApp'));
 
   var $rootScope, $location, initializationService, element,
-    scope;
+    scope, eulaService;
 
-  beforeEach(inject(function (_$rootScope_,_$location_,_initializationService_) {
+
+  beforeEach(inject(function(_$rootScope_, _$location_, _initializationService_,_eulaService_) {
     $rootScope = _$rootScope_;
     $location = _$location_;
+    eulaService = _eulaService_;
     initializationService = _initializationService_;
+
     initializationService.initialized(true);
     scope = $rootScope.$new();
   }));
 
-  it('should expose getClass',inject(function ($compile) {
+  it('should expose getClass', inject(function($compile) {
     element = angular.element('<mainmenu></mainmenu>');
     element = $compile(element)(scope);
     $rootScope.$digest();
@@ -33,30 +36,54 @@ describe('Directive: mainmenu', function () {
     expect(scope.getClass('/about')).toBe('active');
   }));
 
-  it('should expose isVisible()',inject(function($compile) {
+  it('should expose isVisible()', inject(function($compile) {
     element = angular.element('<mainmenu></mainmenu>');
     element = $compile(element)(scope);
     $rootScope.$digest();
 
+    expect(scope.isVisible({})).toBe(false);
+    expect(scope.isVisible({
+      insecure: true
+    })).toBe(false);
+
+    eulaService.setEulaCheckComplete();
     initializationService.initialized(false);
 
-    expect(scope.isVisible({ })).toBe(false);
-    expect(scope.isVisible({ insecure: false })).toBe(false);
-    expect(scope.isVisible({ insecure: true })).toBe(true);
-    expect(scope.isVisible({ insecure: true, path: '/' })).toBe(true);
+    expect(scope.isVisible({})).toBe(false);
+    expect(scope.isVisible({
+      insecure: false
+    })).toBe(false);
+    expect(scope.isVisible({
+      insecure: true
+    })).toBe(true);
+    expect(scope.isVisible({
+      insecure: true,
+      path: '/'
+    })).toBe(true);
 
     initializationService.initialized(true);
 
-    expect(scope.isVisible({ })).toBe(true);
-    expect(scope.isVisible({ insecure: false })).toBe(true);
-    expect(scope.isVisible({ insecure: true })).toBe(true);
-    expect(scope.isVisible({ insecure: true })).toBe(true);
-    expect(scope.isVisible({ insecure: true, path: '/' })).toBe(false);
+    expect(scope.isVisible({})).toBe(true);
+    expect(scope.isVisible({
+      insecure: false
+    })).toBe(true);
+    expect(scope.isVisible({
+      insecure: true
+    })).toBe(true);
+    expect(scope.isVisible({
+      insecure: true
+    })).toBe(true);
+    expect(scope.isVisible({
+      insecure: true,
+      path: '/encryption'
+    })).toBe(false);
   }));
 
-  it('should have menu elements', inject(function ($compile) {
+  it('should have menu elements', inject(function($compile) {
     element = angular.element('<mainmenu></mainmenu>');
     element = $compile(element)(scope);
+    eulaService.setEulaCheckComplete();
+
     $rootScope.$digest();
 
     var homeNav = element.find('a:contains("Import")');
@@ -66,4 +93,11 @@ describe('Directive: mainmenu', function () {
     expect(aboutNav.attr('href')).toBe('#/about');
   }));
 
+  it('should hide menu elements based on eula check', inject(function($compile) {
+    element = angular.element('<mainmenu></mainmenu>');
+    element = $compile(element)(scope);
+
+    var aboutNav = element.find('a:contains("About")');
+    expect(aboutNav.length).toBe(0);
+  }));
 });

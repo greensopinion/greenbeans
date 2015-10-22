@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -81,5 +82,11 @@ public class WebPath {
 
 	String getHttpMethod() {
 		return httpMethod;
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(WebPath.class).add("httpMethod", httpMethod).add("pattern", pattern)
+				.toString();
 	}
 }

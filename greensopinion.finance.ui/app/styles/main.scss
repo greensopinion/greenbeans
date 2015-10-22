@@ -158,3 +158,20 @@ canvas {
   max-width: 400px;
   max-height: 400px;
 }
+
+.eula-buttons {
+  padding-bottom: 20px;
+}
+
+.eula {
+  font-size: $font-size-small;
+  h2 {
+    font-size: floor(($font-size-small * 1.6));
+  }
+  h3 {
+    font-size: floor(($font-size-small * 1.4));
+  }
+  h4 {
+    font-size: floor(($font-size-small * 1.2));
+  }
+}

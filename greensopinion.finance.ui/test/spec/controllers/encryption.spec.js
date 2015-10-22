@@ -1,49 +1,52 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: EncryptionCtrl', function() {
 
   // load the controller's module
   beforeEach(module('greensopinionfinanceApp'));
 
-  var MainCtrl,
-    scope, mockEncryptionSettingsService, encryptionSettings,$rootScope,initializationService;
+  var EncryptionCtrl,
+    scope, mockEncryptionSettingsService, encryptionSettings, $rootScope, initializationService;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, _$rootScope_, $q,_initializationService_) {
+  beforeEach(inject(function($controller, _$rootScope_, $q, _initializationService_) {
     $rootScope = _$rootScope_;
     initializationService = _initializationService_;
-    encryptionSettings = { initialized: false, configured: true };
+    encryptionSettings = {
+      initialized: false,
+      configured: true
+    };
     scope = $rootScope.$new();
     mockEncryptionSettingsService = {
-        get: function() {
-            return $q(function(resolve) {
-              resolve(encryptionSettings);
-            });
-        },
-        configureMasterPassword: function() {
-          return $q(function(resolve) {
-            resolve({});
-          });
-        },
-        initializeMasterPassword: function () {
-          return $q(function(resolve) {
-            resolve({});
-          });
-        }
+      get: function() {
+        return $q(function(resolve) {
+          resolve(encryptionSettings);
+        });
+      },
+      configureMasterPassword: function() {
+        return $q(function(resolve) {
+          resolve({});
+        });
+      },
+      initializeMasterPassword: function() {
+        return $q(function(resolve) {
+          resolve({});
+        });
+      }
     };
-    MainCtrl = $controller('MainCtrl', {
+    EncryptionCtrl = $controller('EncryptionCtrl', {
       $scope: scope,
       encryptionSettingsService: mockEncryptionSettingsService,
       initializationService: initializationService
     });
   }));
 
-  it('should resolve encryption settings', function () {
+  it('should resolve encryption settings', function() {
     $rootScope.$digest();
     expect(scope.encryptionSettings).toBe(encryptionSettings);
   });
 
-  it('exposes needsConfiguration()', function () {
+  it('exposes needsConfiguration()', function() {
     expect(scope.needsConfiguration).toBeDefined();
     expect(scope.needsConfiguration()).toBe(false);
     $rootScope.$digest();
@@ -55,7 +58,7 @@ describe('Controller: MainCtrl', function () {
     expect(scope.needsConfiguration()).toBe(true);
   });
 
-  it('exposes needsInitialization()', function () {
+  it('exposes needsInitialization()', function() {
     expect(scope.needsInitialization).toBeDefined();
     expect(scope.needsInitialization()).toBe(false);
     $rootScope.$digest();

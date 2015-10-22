@@ -17,12 +17,17 @@ angular
     'ui.bootstrap',
     'chart.js'
   ])
-  .config(function ($routeProvider) {
+  .config(function($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
+      .when('/encryption', {
+        templateUrl: 'views/encryption.html',
+        controller: 'EncryptionCtrl',
+        controllerAs: 'encryption'
+      })
+      .when('/eula-agreement', {
+        templateUrl: 'views/eula-agreement.html',
+        controller: 'EulaAgreementCtrl',
+        controllerAs: 'eula-agreement'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
@@ -60,6 +65,6 @@ angular
         controllerAs: 'month-detail'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/eula-agreement'
       });
   });
