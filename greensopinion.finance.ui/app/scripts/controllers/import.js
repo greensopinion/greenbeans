@@ -11,6 +11,7 @@ angular.module('greensopinionfinanceApp')
   .controller('ImportCtrl',['$scope','errorService','importService', function ($scope,errorService,importService) {
 
     var resetSelectedFiles = function() {
+      errorService.clearErrorMessage($scope);
       $scope.deleteAfterImport = true;
       delete $scope.files;
     };

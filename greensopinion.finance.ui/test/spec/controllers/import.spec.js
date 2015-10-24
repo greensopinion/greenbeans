@@ -59,9 +59,11 @@ describe('Controller: ImportCtrl', function () {
   it('should expose cancel()',function() {
     expect(scope.cancel).toBeDefined();
     scope.files = [ 'one' ];
+    scope.errorMessage = 'a message';
     scope.cancel();
     expect(scope.files).toBeUndefined();
     expect(scope.hasFiles()).toBe(false);
+    expect(scope.errorMessage).toBeUndefined();
   });
 
   it('should expose importFiles()',function() {

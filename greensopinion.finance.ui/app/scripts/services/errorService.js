@@ -12,6 +12,9 @@ angular.module('greensopinionfinanceApp')
         return 'Unexpected error: '+result;
     };
     return {
+      clearErrorMessage: function(scope) {
+        delete scope.errorMessage;
+      },
       maintainErrorMessageInScope: function(promise,scope) {
           return promise.then(function success(result) {
               delete scope.errorMessage;

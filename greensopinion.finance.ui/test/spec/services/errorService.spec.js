@@ -52,4 +52,12 @@ describe('Service: ErrorService', function () {
         expect(successCalled).toBe(true);
         expect(failureCalled).toBe(false);
     });
+    it('should expose clearErrorMessage()',function() {
+      expect(errorService.clearErrorMessage).toBeDefined();
+
+      scope.errorMessage = 'a message';
+
+      errorService.clearErrorMessage(scope);
+      expect(scope.errorMessage).toBeUndefined();
+    });
 });
