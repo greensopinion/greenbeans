@@ -45,20 +45,23 @@ public class WebDispatch {
 	}
 
 	public WebResponse dispatch(WebRequest request) {
-		for (Entry<WebPath, Handler> handlerEntry : pathToHandler.entrySet()) {
-			WebPath webPath = handlerEntry.getKey();
-			MatchResult match = webPath.match(request.getHttpMethod(), request.getPath());
-			if (match.matches()) {
-				return invoker.invoke(request, match, handlerEntry.getValue());
+		try {
+			for (Entry<WebPath, Handler> handlerEntry : pathToHandler.entrySet()) {
+				WebPath webPath = handlerEntry.getKey();
+				MatchResult match = webPath.match(request.getHttpMethod(), request.getPath());
+				if (match.matches()) {
+					return invoker.invoke(request, match, handlerEntry.getValue());
+				}
 			}
+			return notFound(request);
+		} catch (Exception e) { // fault barrier
+			return invoker.toWebResponse(e);
 		}
-		return notFound(request);
 	}
 
 	private WebResponse notFound(WebRequest request) {
 		ExceptionContent entity = new ExceptionContent(new NotFoundException(request));
-		return invoker.toWebResponse(
-				Response.status(Status.NOT_FOUND).entity(entity).build());
+		return invoker.toWebResponse(Response.status(Status.NOT_FOUND).entity(entity).build());
 	}
 
 	private Map<WebPath, Handler> createPathToHandler(Injector injector) {

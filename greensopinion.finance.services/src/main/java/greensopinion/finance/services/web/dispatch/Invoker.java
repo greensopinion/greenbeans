@@ -35,8 +35,12 @@ public class Invoker {
 			ResponseBuilder builder = value == null ? Response.noContent() : Response.ok(value);
 			return toWebResponse(builder.build());
 		} catch (Exception e) {
-			return toWebResponse(webRenderer.toResponse(e));
+			return toWebResponse(e);
 		}
+	}
+
+	WebResponse toWebResponse(Exception e) {
+		return toWebResponse(webRenderer.toResponse(e));
 	}
 
 	WebResponse toWebResponse(Response response) {

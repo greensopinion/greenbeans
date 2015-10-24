@@ -10,7 +10,7 @@ import greensopinion.finance.services.web.dispatch.WebResponse;
 
 public class WebInvoker {
 
-	private WebDispatch dispatch;
+	private final WebDispatch dispatch;
 
 	@Inject
 	public WebInvoker(WebDispatch dispatch) {

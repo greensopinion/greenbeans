@@ -30,7 +30,7 @@ import greensopinion.finance.services.web.model.ExceptionContent;
 public class GsonWebRenderer
 		implements MessageBodyReader<Object>, MessageBodyWriter<Object>, ExceptionMapper<Exception> {
 
-	private Gson gson;
+	private final Gson gson;
 
 	@Inject
 	public GsonWebRenderer(Gson gson) {
