@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -23,7 +25,7 @@ public class WebDispatchTest {
 	static final class ThrowingInvoker extends Invoker {
 		@Inject
 		public ThrowingInvoker(GsonWebRenderer webRenderer) {
-			super(webRenderer);
+			super(webRenderer, mock(Logger.class));
 		}
 
 		@Override

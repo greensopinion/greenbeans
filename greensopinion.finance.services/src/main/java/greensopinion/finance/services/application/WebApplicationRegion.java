@@ -32,11 +32,13 @@ class WebApplicationRegion extends Region {
 	private WebEngine webEngine;
 	private final ServiceLocator serviceLocator;
 	private final Parameters parameters;
+	private final ConsoleBridge consoleBridge;
 
 	@Inject
-	WebApplicationRegion(ServiceLocator serviceLocator, Parameters parameters) {
+	WebApplicationRegion(ServiceLocator serviceLocator, Parameters parameters, ConsoleBridge consoleBridge) {
 		this.serviceLocator = checkNotNull(serviceLocator);
 		this.parameters = checkNotNull(parameters);
+		this.consoleBridge = checkNotNull(consoleBridge);
 	}
 
 	public void initialize() {
@@ -81,7 +83,7 @@ class WebApplicationRegion extends Region {
 
 	private void installConsoleBridge() {
 		JSObject windowObject = getJsWindow();
-		windowObject.setMember(JS_MEMBER_NAME_CONSOLE_BRIDGE, new ConsoleBridge());
+		windowObject.setMember(JS_MEMBER_NAME_CONSOLE_BRIDGE, consoleBridge);
 		webEngine.executeScript("console.log = function(message) {\nconsoleBridge.log(message);\n};");
 	}
 

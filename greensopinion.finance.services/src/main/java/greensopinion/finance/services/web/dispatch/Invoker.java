@@ -10,22 +10,28 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
 
+import greensopinion.finance.services.ValidationException;
 import greensopinion.finance.services.web.GsonWebRenderer;
 
 public class Invoker {
 
 	private final GsonWebRenderer webRenderer;
+	private final Logger logger;
 
 	@Inject
-	public Invoker(GsonWebRenderer webRenderer) {
+	public Invoker(GsonWebRenderer webRenderer, Logger logger) {
 		this.webRenderer = checkNotNull(webRenderer);
+		this.logger = checkNotNull(logger);
 	}
 
 	public WebResponse invoke(WebRequest request, MatchResult match, Handler handler) {
@@ -35,8 +41,17 @@ public class Invoker {
 			ResponseBuilder builder = value == null ? Response.noContent() : Response.ok(value);
 			return toWebResponse(builder.build());
 		} catch (Exception e) {
+			logInvocationException(e);
 			return toWebResponse(e);
 		}
+	}
+
+	protected void logInvocationException(Exception e) {
+		Level level = Level.SEVERE;
+		if (ValidationException.class.isAssignableFrom(e.getClass())) {
+			level = Level.FINE;
+		}
+		logger.log(level, MoreObjects.firstNonNull(e.getMessage(), e.getClass().getSimpleName()), e);
 	}
 
 	WebResponse toWebResponse(Exception e) {

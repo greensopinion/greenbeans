@@ -1,5 +1,6 @@
 package greensopinion.finance.services.application;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import com.google.inject.Module;
 import greensopinion.finance.services.GreenGap;
 import greensopinion.finance.services.demo.Demo;
 import greensopinion.finance.services.encryption.EncryptionModule;
+import greensopinion.finance.services.logging.LogConfigurator;
+import greensopinion.finance.services.logging.LoggingModule;
 import greensopinion.finance.services.persistence.ConfigurationModule;
+import greensopinion.finance.services.persistence.DataDirectoryLocator;
 import greensopinion.finance.services.web.WebServiceModule;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
@@ -27,11 +31,22 @@ public class Main extends Application {
 		primaryStage.setTitle(GreenGap.APP_NAME);
 
 		Injector injector = createInjector(primaryStage);
+		initializeLogging(injector);
+		setupMainScene(primaryStage, injector);
+
+		primaryStage.show();
+	}
+
+	private void initializeLogging(Injector injector) {
+		File dataLocation = injector.getInstance(DataDirectoryLocator.class).locate();
+		injector.getInstance(LogConfigurator.class).configure(dataLocation);
+	}
+
+	private void setupMainScene(Stage primaryStage, Injector injector) {
 		MainScene scene = injector.getInstance(MainScene.class);
 		scene.initialize();
 		primaryStage.setScene(scene);
 		setSizeAndLocation(primaryStage);
-		primaryStage.show();
 	}
 
 	Injector createInjector(Stage primaryStage) {
@@ -49,7 +64,8 @@ public class Main extends Application {
 	}
 
 	public static List<Module> applicationModules() {
-		return ImmutableList.of(new EncryptionModule(), new ConfigurationModule(), new WebServiceModule());
+		return ImmutableList.of(new EncryptionModule(), new ConfigurationModule(), new WebServiceModule(),
+				new LoggingModule());
 	}
 
 	private void setSizeAndLocation(Stage primaryStage) {

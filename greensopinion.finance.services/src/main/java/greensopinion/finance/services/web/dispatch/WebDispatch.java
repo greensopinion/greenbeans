@@ -1,6 +1,7 @@
 package greensopinion.finance.services.web.dispatch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.text.MessageFormat.format;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -8,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
@@ -38,10 +41,13 @@ public class WebDispatch {
 
 	private final Invoker invoker;
 
+	private final Logger logger;
+
 	@Inject
-	public WebDispatch(Injector injector, Invoker invoker) {
+	public WebDispatch(Injector injector, Invoker invoker, Logger logger) {
 		this.invoker = checkNotNull(invoker);
 		pathToHandler = createPathToHandler(checkNotNull(injector));
+		this.logger = checkNotNull(logger);
 	}
 
 	public WebResponse dispatch(WebRequest request) {
@@ -55,6 +61,7 @@ public class WebDispatch {
 			}
 			return notFound(request);
 		} catch (Exception e) { // fault barrier
+			logger.log(Level.SEVERE, format("Unexpected exception: {0}", e.getMessage()), e);
 			return invoker.toWebResponse(e);
 		}
 	}
