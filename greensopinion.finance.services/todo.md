@@ -4,11 +4,9 @@
 ## Primary
 
 1. Reasonable report display without data
-1. Fault barrier on web invoker
 
 ## Secondary
 
-1. Log file (supportability)
 1. Import deleted files even when unchecked?
 1. New category rule same as existing
 1. Change Password
@@ -20,6 +18,8 @@
 
 # DONE
 
+1. Fault barrier on web invoker
+1. Log file (supportability)
 1. Compare category by month
 1. Set transaction category individually
 1. Chart?
