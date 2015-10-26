@@ -30,7 +30,7 @@ public class LogConfigurator {
 	}
 
 	protected void setLogLevel() {
-		logger.setLevel(Level.WARNING);
+		logger.setLevel(Level.INFO);
 	}
 
 	protected void logStartup() {

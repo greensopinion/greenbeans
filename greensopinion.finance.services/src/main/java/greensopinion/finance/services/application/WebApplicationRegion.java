@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -33,12 +34,15 @@ class WebApplicationRegion extends Region {
 	private final ServiceLocator serviceLocator;
 	private final Parameters parameters;
 	private final ConsoleBridge consoleBridge;
+	private final Logger logger;
 
 	@Inject
-	WebApplicationRegion(ServiceLocator serviceLocator, Parameters parameters, ConsoleBridge consoleBridge) {
+	WebApplicationRegion(ServiceLocator serviceLocator, Parameters parameters, ConsoleBridge consoleBridge,
+			Logger logger) {
 		this.serviceLocator = checkNotNull(serviceLocator);
 		this.parameters = checkNotNull(parameters);
 		this.consoleBridge = checkNotNull(consoleBridge);
+		this.logger = checkNotNull(logger);
 	}
 
 	public void initialize() {
@@ -48,10 +52,11 @@ class WebApplicationRegion extends Region {
 		webEngine = webView.getEngine();
 		installConsoleBridge();
 		installServiceLocator(serviceLocator);
-		webEngine.load(Constants.webViewLocation(parameters));
 		if (Constants.isDebugUi(parameters)) {
 			installFirebugLite();
 		}
+		webEngine.load(Constants.webViewLocation(parameters));
+
 		getChildren().add(webView);
 	}
 
@@ -66,6 +71,7 @@ class WebApplicationRegion extends Region {
 			}
 
 			private String installFirebugLiteScript() {
+				logger.info("Installing firebug lite");
 				try {
 					return Resources.toString(WebApplicationRegion.class.getResource("install-firebug-lite.js"),
 							StandardCharsets.UTF_8);
