@@ -21,7 +21,7 @@ angular.module('greensopinionfinanceApp')
                 $http(
                   {
                     method: method,
-                    url: 'http://localhost:8080'+path,
+                    url: 'http://localhost:8080/api'+path,
                     data: entity
                   }
                 ).then(function(response) {

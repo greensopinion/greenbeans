@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -23,6 +24,7 @@ public class WebServerRunner {
 		Server server = new Server(PORT);
 
 		ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
+		addDefaultServlet(contextHandler);
 
 		addJerseyServlet(contextHandler);
 		addCorHeadersFilter(contextHandler);
@@ -31,16 +33,21 @@ public class WebServerRunner {
 		server.join();
 	}
 
+	protected static void addDefaultServlet(ServletContextHandler contextHandler) {
+		ServletHolder servletHolder = contextHandler.addServlet(DefaultServlet.class, "/");
+		servletHolder.setInitParameter("resourceBase", "../greensopinion.finance.ui/dist/");
+	}
+
 	protected static void addJerseyServlet(ServletContextHandler contextHandler) {
 		ServletHolder jerseyServletHolder = new ServletHolder(new ServletContainer());
 		jerseyServletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS,
 				Application.class.getCanonicalName());
-		contextHandler.addServlet(jerseyServletHolder, "/*");
+		contextHandler.addServlet(jerseyServletHolder, "/api/*");
 	}
 
 	private static void addCorHeadersFilter(ServletContextHandler contextHandler) {
 		FilterHolder filterHolder = new FilterHolder(new CorHeaderFilter());
-		contextHandler.addFilter(filterHolder, "/*", EnumSet.of(DispatcherType.REQUEST));
+		contextHandler.addFilter(filterHolder, "/api/*", EnumSet.of(DispatcherType.REQUEST));
 	}
 
 }
