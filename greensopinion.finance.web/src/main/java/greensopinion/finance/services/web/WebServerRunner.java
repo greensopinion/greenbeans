@@ -14,12 +14,16 @@ import org.glassfish.jersey.servlet.ServletProperties;
 
 import com.google.common.util.concurrent.UncaughtExceptionHandlers;
 
+import greensopinion.finance.services.demo.Demo;
+
 public class WebServerRunner {
 
 	private static final int PORT = 8080;
 
 	public static void main(String[] args) throws Exception {
 		Thread.currentThread().setUncaughtExceptionHandler(UncaughtExceptionHandlers.systemExit());
+
+		maybeEnableDemo();
 
 		Server server = new Server(PORT);
 
@@ -33,12 +37,18 @@ public class WebServerRunner {
 		server.join();
 	}
 
-	protected static void addDefaultServlet(ServletContextHandler contextHandler) {
+	private static void maybeEnableDemo() {
+		if (Demo.isEnabled()) {
+			new Demo().setup();
+		}
+	}
+
+	private static void addDefaultServlet(ServletContextHandler contextHandler) {
 		ServletHolder servletHolder = contextHandler.addServlet(DefaultServlet.class, "/");
 		servletHolder.setInitParameter("resourceBase", "../greensopinion.finance.ui/dist/");
 	}
 
-	protected static void addJerseyServlet(ServletContextHandler contextHandler) {
+	private static void addJerseyServlet(ServletContextHandler contextHandler) {
 		ServletHolder jerseyServletHolder = new ServletHolder(new ServletContainer());
 		jerseyServletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS,
 				Application.class.getCanonicalName());
