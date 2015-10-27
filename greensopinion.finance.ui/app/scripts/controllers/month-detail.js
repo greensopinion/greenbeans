@@ -13,6 +13,11 @@ angular.module('greensopinionfinanceApp')
       var monthId = $routeParams.month;
       $scope.title = 'Details for '+ monthId;
 
+      $scope.chartOptions = {
+          animateRotate: false,
+          animateScale: false
+      };
+      
       var createExpensesData = function (monthDetails) {
         $scope.expenseCategories = [];
         $scope.monthExpenses = {
@@ -51,5 +56,4 @@ angular.module('greensopinionfinanceApp')
         $scope.monthDetails = monthDetails;
         createExpensesData(monthDetails);
       });
-
   }]);

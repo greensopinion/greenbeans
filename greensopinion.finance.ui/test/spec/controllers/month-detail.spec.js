@@ -52,4 +52,9 @@ describe('Controller: MonthDetailCtrl', function () {
     expect(scope.formatAmount).toBeDefined();
     expect(scope.formatAmount({amount: -12340})).toEqual('123.40');
   });
+  it('should expose chartOptions in scope', function () {
+    expect(scope.chartOptions).toBeDefined();
+    expect(scope.chartOptions.animateRotate).toBe(false);
+    expect(scope.chartOptions.animateScale).toBe(false);
+  });
 });
