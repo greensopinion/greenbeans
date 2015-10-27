@@ -16,7 +16,7 @@ public class AboutWebService {
 
 	public static final String BASE_PATH = "/abouts";
 
-	private AboutService service;
+	private final AboutService service;
 
 	@Inject
 	public AboutWebService(AboutService service) {

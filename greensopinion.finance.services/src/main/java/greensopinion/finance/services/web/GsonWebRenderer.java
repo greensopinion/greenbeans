@@ -13,6 +13,8 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -27,6 +29,8 @@ import com.google.gson.JsonSyntaxException;
 
 import greensopinion.finance.services.web.model.ExceptionContent;
 
+@Produces("application/json")
+@Consumes("application/json")
 public class GsonWebRenderer
 		implements MessageBodyReader<Object>, MessageBodyWriter<Object>, ExceptionMapper<Exception> {
 
