@@ -57,7 +57,13 @@ angular.module('greensopinionfinanceApp')
           $scope.category[1],
           $scope.category[2],
           $scope.category[3]
-        ]
+        ],
+        onClick: function(points) {
+          var monthLabel = points[0].label;
+          var monthIndex = $scope.incomeVersusExpenses.labels.indexOf(monthLabel);
+          var month = $scope.incomeVersusExpenses.months[monthIndex];
+          $scope.selectMonth(month);
+        }
       };
 
       var index;

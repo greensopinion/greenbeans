@@ -52,8 +52,13 @@ describe('Controller: ReportsCtrl', function () {
 
   it('should expose report', function () {
     $rootScope.$digest();
+
     expect(scope.incomeVersusExpenses).toBeDefined();
+    expect(scope.incomeVersusExpenses.onClick).toBeDefined();
+
     expect(scope.expensesByCategory).toBeDefined();
+    expect(scope.expensesByCategory.onClick).toBeDefined();
+
     expect(scope.title).toBe('Monthly Income vs Expenses');
   });
 
