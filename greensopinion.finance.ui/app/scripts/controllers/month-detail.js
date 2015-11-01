@@ -17,7 +17,7 @@ angular.module('greensopinionfinanceApp')
           animateRotate: false,
           animateScale: false
       };
-      
+
       var createExpensesData = function (monthDetails) {
         $scope.expenseCategories = [];
         $scope.monthExpenses = {
@@ -44,6 +44,7 @@ angular.module('greensopinionfinanceApp')
           }
         }
         if (otherAmount > 0) {
+          otherAmount = Math.round(otherAmount * 100) / 100;
           $scope.monthExpenses.labels.push('Other');
           $scope.monthExpenses.data.push(otherAmount);
         }
