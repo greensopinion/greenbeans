@@ -64,6 +64,14 @@ angular
         controller: 'MonthDetailCtrl',
         controllerAs: 'month-detail'
       })
+
+
+      .when('/help', {
+        templateUrl: 'views/help/help-index.html',
+        controller: 'HelpCtrl',
+        controllerAs: 'help'
+      })
+
       .otherwise({
         redirectTo: '/eula-agreement'
       });

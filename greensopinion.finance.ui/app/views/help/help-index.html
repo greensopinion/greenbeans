@@ -1,0 +1,173 @@
+<h2>Welcome!</h2>
+<p>
+  Welcome to {{applicationName}}!
+</p>
+<h2>Getting Started</h2>
+<p>
+  Getting started is a simple matter of following these steps:
+</p>
+<ol class="help steps">
+  <li>Import transactions from your bank,<br/>
+    <img class="help example" src="/images/help/import-transactions.png" title="Import Transactions"/>
+    <p>
+      See <a ng-click="scrollTo('import-transactions')">How To: Import Transactions</a> for help with this step.
+    </p>
+  </li>
+  <li>Categorize your transactions,<br/>
+    <img class="help example" src="/images/help/categorize-transactions.png" title="Categorize Transactions"/>
+    <p>
+      See <a  ng-click="scrollTo('categorize-transactions')">How To: Categorize Transactions</a> for help with this step.
+    </p>
+  </li>
+  <li>View the reports!<br/>
+    <img class="help report example" src="/images/help/report-categories-by-month.png" title="Categories By Month"/>
+    <img class="help report example" src="/images/help/report-month-details.png" title="Month Details: Expenses By Category"/>
+    <p>
+      See <a ng-click="scrollTo('view-reports')">How To: View Reports</a> for help with this step.
+    </p>
+  </li>
+</ol>
+<h2 id="import-transactions">How To: Import Transactions</h2>
+<p>
+  The first step is to download your account activity from your online banking website.  Do this by using
+  your web browser (such as Chrome, Firefox, Safari or Internet Explorer) to login to your bank's online
+  banking website.
+</p>
+  <img class="help example" src="/images/help/account-download.png" title="Download Account Activity"/>
+<p>
+  Decide which accounts you'd like to include, then follow the following steps for each account:
+</p>
+<ol>
+  <li>Select the account.</li>
+  <li>Select a time period.</li>
+  <li>Select the download file format.<br/>
+     Supported file types are "Microsoft Money", "Intuit Quicken", "Intuit Quickbooks", or "Simply Accounting".<br/>
+     "CSV", "Excel" and "Spreadsheet" file types are not supported.</li>
+  <li>Press the Download button.</li>
+</ol>
+<img class="help example" src="/images/help/import-files-selected.png" title="Import Account Activity"/>
+<p>
+  Repeat the above steps for each account and time period of interest.  Once you've downloaded the account
+  activity for each account, import the corresponding files into {{applicationName}} as follows:
+</p>
+<ol>
+  <li>Using {{applicationName}} select "Import" from the main menu.</li>
+  <li>Press the "Select Files..." button.</li>
+  <li>Select all of the account activity files that you downloaded from the bank.  You can select multiple files at once.</li>
+  <li>Press the "Open" button and then the "Import Files" button.</li>
+</ol>
+<div class="bs-callout bs-callout-info">
+  <h4>Tip: Importing Multiple Times</h4>
+  <p>
+    It's okay to import the same account activity multiple times.  {{applicationName}} will automatically
+    detect that transactions have been previously imported and ignore duplicates.  This makes it easy
+    to import account activity from the current month or statement more than once as the days go by
+    to get the most up to date information without having to worry about duplicates.
+  </p>
+</div>
+
+<div class="bs-callout bs-callout-info">
+  <h4><i class="fa fa-lock fa-2x"></i> Did You Know: Encryption</h4>
+  <p>
+    Banking information is private, and we want to keep it that way!  By encrypting your data
+    using strong encryption you're taking steps to ensure that it's safe from prying eyes.
+  </p>
+  <p>
+    Data imported into {{applicationName}} is encrypted using 256-bit AES encryption with Galois Counter Mode (GCM).
+    The secret key is derrived using PKCS #5's PBKDF2 (Password-Based Key Derivation Function #2).
+    The password is salted to prevent dictionary attacks against the key.  A random 16-byte initialization
+    vector is applied to ensure that each encrypted message is unique.
+  </p>
+  <p>
+      While encryption does not 100% guarantee data safety, strong encryption is the best known way to protect
+      your data.
+  </p>
+</div>
+
+<h2 id="categorize-transactions">How To: Categorize Transactions</h2>
+<p>
+  Categorizing transactions enables you to view your expenses and income for each category.
+  To categorize transactions from your imported account activity, follow these steps:
+</p>
+<ol>
+  <li>Using {{applicationName}} select "Transactions" from the main menu.</li>
+  <li>Select any month having transactions that you'd like to categorize.</li>
+  <li>For each transaction, hover over the "Category" column and click on the "Choose category..." link.</li>
+  <li>Select the appropriate category, and
+    <ul>
+      <li>press the "This Transaction Only" button to apply the cateogory for the transaction, or</li>
+      <li>edit the description as needed to match multiple transactions, and press the "Matching Transactions"
+          button to apply the category to every transaction that matches the desription.
+      </li>
+    </ul>
+   </li>
+</ol>
+<img class="help example" src="/images/help/transaction-category.png" title="Apply Category to Transaction"/>
+<div class="bs-callout bs-callout-info">
+  <h4>Tip: Apply Category to Multiple Transactions</h4>
+  <p>
+    A category can be applied to every transaction that matches a description.  Edit the description
+    text by removing unimportant information such as leading or trailing numbers.  For example, to
+    categorize all transactions matching "HOME DEPOT" with a description of "HOME DEPOT #12355",
+    remove "#12355" to leave a description of "HOME DEPOT".
+  </p>
+</div>
+
+<div class="bs-callout bs-callout-info">
+  <h4>Tip: Sorting Transactions</h4>
+  <p>
+    The transactions for any month can be sorted by date, category, income or expense.
+  </p>
+  <p>
+    Sorting transactions by category can help to find uncategorized transactions, and can help to
+    provide an understanding of which transactions contribute to a specific category.
+  </p>
+  <p>
+    Sorting transactions by expense can help in identifying the largest expenses.
+  </p>
+</div>
+
+<h2 id="view-reports">How To: View Reports</h2>
+<p>
+  Reports will help you to understand your cash flow.  Using {{applicationName}} select "Reports"
+  from the main menu.
+</p>
+<h3>Report: Monthly Income v.s. Expenses</h3>
+<p>
+  The Monthly Income v.s. Expenses report provides a high level view of month-to-month spending
+  and how it compares to income.
+</p>
+<img class="help report example" src="/images/help/report-monthly-income-vs-expenses.png" title="Monthly Income vs Expenses"/>
+<div class="bs-callout bs-callout-info">
+  <h4>Tip: Month Totals</h4>
+  <p>
+    Hover over any month in the report to see the total income or expenses for a specific month.
+  </p>
+</div>
+<div class="bs-callout bs-callout-info">
+  <h4>Tip: Month Breakdown by Category</h4>
+  <p>
+    To see a breakdown of expenses by category, click on any month in the report.
+  </p>
+  <img class="help report example" src="/images/help/report-month-details.png" title="Month Details: Expenses By Category"/>
+</div>
+
+<h3>Report: Monthly Expenses by Category</h3>
+<p>
+  The Monthly Expenses by Category report provides a comparison of month-to-month expenses by category.
+  Up to 4 categories can be selected for comparison.
+</p>
+<img class="help report example" src="/images/help/report-categories-by-month.png" title="Month Details: Expenses By Category"/>
+<div class="bs-callout bs-callout-info">
+  <h4>Tip: Month Totals</h4>
+  <p>
+    Hover over any month in the report to see the total expenses for each category for a specific month.
+  </p>
+</div>
+<div class="bs-callout bs-callout-info">
+  <h4>Tip: Month Breakdown by Category</h4>
+  <p>
+    To see a breakdown of expenses by category, click on any month in the report.
+  </p>
+  <img class="help report example" src="/images/help/report-month-details.png" title="Month Details: Expenses By Category"/>
+</div>

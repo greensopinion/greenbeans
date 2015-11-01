@@ -50,10 +50,15 @@ angular.module('greensopinionfinanceApp')
           label: 'Import',
           path: '/import'
         }, {
+          label: 'Help',
+          path: '/help',
+          insecure: true
+        }, {
           label: 'About',
           path: '/about',
           insecure: true
-        }];
+        }
+        ];
       }
     };
   }]);

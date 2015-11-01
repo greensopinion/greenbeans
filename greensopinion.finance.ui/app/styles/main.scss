@@ -175,3 +175,39 @@ canvas {
     font-size: floor(($font-size-small * 1.2));
   }
 }
+
+img.example {
+    padding-top: 10px;
+      max-width: 500px;
+}
+img.report.example {
+    padding-top: 10px;
+      max-width: 300px;
+}
+
+ol.help.steps {
+  li {
+    font-weight: bold;
+    font-size: $font-size-large;
+    padding-bottom: 20px;
+  }
+}
+.bs-callout {
+
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+}
+.bs-callout-info {
+      border-left-color: #1b809e;
+  h4 {
+    color: #1b809e;
+  }
+}
