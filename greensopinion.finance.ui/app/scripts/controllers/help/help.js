@@ -15,6 +15,7 @@ angular.module('greensopinionfinanceApp')
     });
     $scope.scrollTo = function (id) {
       $location.hash(id);
+      $anchorScroll.yOffset = 55;
       $anchorScroll();
     };
   }]);
