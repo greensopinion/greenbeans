@@ -25,7 +25,7 @@ angular.module('greensopinionfinanceApp')
 
           if (!$scope.needsInitialization() && !$scope.needsConfiguration()) {
             initializationService.initialized(true);
-            $location.path('/import');
+            $location.path('/help');
           }
         });
       };
