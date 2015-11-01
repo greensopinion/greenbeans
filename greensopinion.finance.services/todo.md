@@ -7,6 +7,7 @@
 
 ## Secondary
 
+1. More colour (menu? branding?)
 1. Import deleted files even when unchecked?
 1. New category rule same as existing
 1. Change Password
@@ -15,15 +16,18 @@
 1. Help
 1. Toast and error can occur simultaneously? (toast lies)
 1. Confirm last 6 months is indeed the last 6 months, not the first 6 months
+1. Import duplicates when same file selected twice?
+1. Import files should go do the "Downloads" folder
 
-# DONE
+# HELP
 
-1. Fault barrier on web invoker
-1. Log file (supportability)
-1. Compare category by month
-1. Set transaction category individually
-1. Chart?
-1. Individual Categorization
-1. Encryption of categories
-1. Fix pie chart layout
-1. Toast on import
+ideas:
+
+* basic steps
+* tips
+* advanced use cases
+* including help content elsewhere
+* linking to help from pages
+* hyperlinks within a page, or going to help scroll to visible
+
+* about section
