@@ -67,19 +67,21 @@ public class ImportFilesService {
 	public void importFiles(List<String> files, boolean deleteAfterImport) {
 		checkNotNull(files, "Must provide files");
 
-		List<Transaction> transactions = new ArrayList<>();
+		Transactions transactions = transactionsService.retrieve();
+
 		for (String path : files) {
-			transactions.addAll(importFile(path, deleteAfterImport));
+			List<Transaction> fileTransactions = importFile(path);
+			transactions = addTransactions(transactions, fileTransactions);
 		}
-		addTransactions(transactions);
+		transactionsService.update(transactions);
 		if (deleteAfterImport) {
 			deleteFiles(files);
 		}
 	}
 
-	private void addTransactions(List<Transaction> provided) {
+	private Transactions addTransactions(Transactions transactions, List<Transaction> provided) {
 		List<Transaction> newTransactions = new ArrayList<>(provided);
-		Transactions transactions = transactionsService.retrieve();
+
 		Set<Transaction> existingTransactions = new HashSet<>(transactions.getTransactions());
 		for (Transaction newTransaction : ImmutableList.copyOf(newTransactions)) {
 			if (existingTransactions.contains(newTransaction)) {
@@ -88,7 +90,7 @@ public class ImportFilesService {
 		}
 		newTransactions.addAll(transactions.getTransactions());
 		Collections.sort(newTransactions);
-		transactionsService.update(new Transactions(newTransactions));
+		return new Transactions(newTransactions);
 	}
 
 	private void deleteFiles(List<String> files) {
@@ -113,7 +115,7 @@ public class ImportFilesService {
 		}
 	}
 
-	private List<Transaction> importFile(String path, boolean deleteAfterImport) {
+	List<Transaction> importFile(String path) {
 		File file = new File(path);
 		checkArgument(file.exists(), "File does not exist: %s", file);
 		checkArgument(file.isFile(), "Not a file: %s", file);

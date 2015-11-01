@@ -47,6 +47,29 @@ public class ImportFilesServiceTest {
 		assertImportFiles(false);
 	}
 
+	@Test
+	public void importAvoidsDuplicatesWhenImportingTwoFilesWithTheSameTransactions() {
+		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263, "1234123412341234");
+		Transaction txn2 = MockTransaction.create("2015-06-13", "description 2", -1234, "1234123412341234");
+		Transactions originalTransactions = new Transactions(ImmutableList.of(txn1));
+		doReturn(originalTransactions).when(transactionsService).retrieve();
+
+		ImportFilesService service = new ImportFilesService(mock(Window.class), transactionsService) {
+			@Override
+			List<Transaction> importFile(String path) {
+				return ImmutableList.of(txn2);
+			}
+		};
+
+		service.importFiles(ImmutableList.of("a", "b"), false);
+
+		ArgumentCaptor<Transactions> transactionsCaptor = ArgumentCaptor.forClass(Transactions.class);
+		verify(transactionsService).update(transactionsCaptor.capture());
+
+		Transactions transactions = transactionsCaptor.getValue();
+		assertTransactions(ImmutableList.of(txn1, txn2), transactions.getTransactions());
+	}
+
 	private void assertImportFiles(boolean deleteFileAfterImport) {
 		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263, "1234123412341234");
 		Transaction txn2 = MockTransaction.create("2015-06-11", "description2", -1500, "1234123412341234");
