@@ -19,6 +19,8 @@ import greensopinion.finance.services.encryption.EncryptorService;
 
 public class Demo {
 
+	private static final int MAX_MONTHS = 12;
+
 	private static final long MORTGAGE_AMOUNT = -140000L;
 
 	private static final long PAY_AMOUNT = 80 * 1000 * 100 / (2 * 12L);
@@ -88,7 +90,7 @@ public class Demo {
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
-		for (int x = 0; x < 6; ++x) {
+		for (int x = 0; x < MAX_MONTHS; ++x) {
 			transactions.addAll(createTransactions(calendar.getTime()));
 			calendar.add(Calendar.MONTH, -1);
 		}

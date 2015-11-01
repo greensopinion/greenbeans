@@ -11,6 +11,7 @@ angular.module('greensopinionfinanceApp')
   .controller('TransactionsCtrl',[ '$scope','$location','reportService','money', function ($scope,$location,reportService,money) {
 
     reportService.incomeVersusExpenses().then(function(result) {
+      result.months.reverse();
       $scope.report = result;
     });
 

@@ -56,6 +56,8 @@ describe('Controller: TransactionsCtrl', function () {
   it('should expose reports', function () {
     $rootScope.$digest();
     expect(scope.report).toBe(incomeVersusExpensesReport);
+    expect(scope.report.months[0].id).toEqual(201502);
+    expect(scope.report.months[1].id).toEqual(201501);
   });
 
   it('should expose formatCurrency()',function() {
