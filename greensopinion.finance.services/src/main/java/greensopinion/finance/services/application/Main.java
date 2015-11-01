@@ -10,7 +10,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
-import greensopinion.finance.services.GreenGap;
+import greensopinion.finance.services.GreenBeans;
 import greensopinion.finance.services.demo.Demo;
 import greensopinion.finance.services.encryption.EncryptionModule;
 import greensopinion.finance.services.logging.LogConfigurator;
@@ -28,7 +28,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle(GreenGap.APP_NAME);
+		primaryStage.setTitle(GreenBeans.APP_NAME);
 
 		Injector injector = createInjector(primaryStage);
 		initializeLogging(injector);

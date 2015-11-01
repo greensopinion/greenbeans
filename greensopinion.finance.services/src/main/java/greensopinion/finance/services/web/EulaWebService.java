@@ -16,7 +16,7 @@ import javax.ws.rs.Path;
 import com.google.common.base.Throwables;
 import com.google.common.io.Resources;
 
-import greensopinion.finance.services.GreenGap;
+import greensopinion.finance.services.GreenBeans;
 import greensopinion.finance.services.domain.Settings;
 import greensopinion.finance.services.domain.SettingsService;
 import greensopinion.finance.services.web.model.Eula;
@@ -58,7 +58,7 @@ public class EulaWebService {
 		validateNotNull(newStatus, "Must provide a EulaStatus.");
 		validate(newStatus.userHasAgreedToLicense(),
 				format("You must agree to the license in order to use {0}.  Either agree to the license or exit the application.",
-						GreenGap.APP_NAME));
+						GreenBeans.APP_NAME));
 
 		Settings settings = settingsService.retrieve();
 		settingsService.update(settings.withUserHasAgreedToLicense(newStatus.userHasAgreedToLicense()));

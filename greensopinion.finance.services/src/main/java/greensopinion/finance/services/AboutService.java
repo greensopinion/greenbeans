@@ -9,7 +9,7 @@ public class AboutService {
 	}
 
 	private String getApplicationName() {
-		return GreenGap.APP_NAME;
+		return GreenBeans.APP_NAME;
 	}
 
 	private String getCopyrightNotice() {

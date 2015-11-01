@@ -65,7 +65,7 @@
                 <fx:jar destfile="target/greensopinnion-finance.jar">
                   <fx:application
                         mainClass="greensopinion.finance.services.application.Main"
-                        name="GreenGap" version="0.8.0-SNAPSHOT" />
+                        name="GreenBeans" version="0.8.0-SNAPSHOT" />
                   <fileset dir="target/libs">
                     <exclude name="web-assets"/>
                   </fileset>
@@ -74,12 +74,12 @@
                 <fx:deploy nativeBundles="all" outdir="${basedir}/target">
                   <fx:application
                       mainClass="greensopinion.finance.services.application.Main"
-                      name="GreenGap" version="0.8.0-SNAPSHOT" />
+                      name="GreenBeans" version="0.8.0-SNAPSHOT" />
                   <fx:preferences install="false" menu="true"/>
                   <fx:info 
                     copyright="Copyright (c) 2015 David Green.  All rights reserved."
-                    description="Green Gap Cash App.  Get control of your cash flow."
-                    title="Green Gap Cash App"
+                    description="Green Beans.  Get control of your cash flow."
+                    title="Green Beans"
                     vendor="Green's Opinion"/>
                   <fx:resources>
                     <fx:fileset dir="target">

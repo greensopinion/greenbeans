@@ -15,7 +15,7 @@ import com.google.inject.Guice;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
 
-import greensopinion.finance.services.GreenGap;
+import greensopinion.finance.services.GreenBeans;
 import greensopinion.finance.services.ImportFilesService;
 import greensopinion.finance.services.web.GsonWebRenderer;
 import greensopinion.finance.services.web.WebServiceModule;
@@ -42,7 +42,7 @@ public class WebDispatchTest {
 		assertNotNull(response);
 		assertEquals(200, response.getResponseCode());
 		assertEquals(
-				"{\"applicationName\":\"" + GreenGap.APP_NAME
+				"{\"applicationName\":\"" + GreenBeans.APP_NAME
 						+ "\",\"copyrightNotice\":\"Copyright (c) 2015 David Green.  All rights reserved.\"}",
 				response.getEntity());
 	}

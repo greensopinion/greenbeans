@@ -13,7 +13,7 @@ import java.util.logging.SimpleFormatter;
 
 import com.google.common.collect.ImmutableList;
 
-import greensopinion.finance.services.GreenGap;
+import greensopinion.finance.services.GreenBeans;
 
 public class LogConfigurator {
 	private static final int MEGABYTE = 1024 * 1024;
@@ -35,7 +35,7 @@ public class LogConfigurator {
 
 	protected void logStartup() {
 		logger.setLevel(Level.INFO);
-		logger.info(format("{0} application startup", GreenGap.APP_NAME));
+		logger.info(format("{0} application startup", GreenBeans.APP_NAME));
 	}
 
 	protected void addHandlers(File directory) {

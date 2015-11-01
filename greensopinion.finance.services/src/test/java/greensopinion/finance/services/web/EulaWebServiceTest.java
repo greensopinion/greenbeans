@@ -65,7 +65,7 @@ public class EulaWebServiceTest {
 		doReturn(new Settings()).when(settingsService).retrieve();
 
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("You must agree to the license in order to use Green Gap Cash App.");
+		thrown.expectMessage("You must agree to the license in order to use Green Beans.");
 		service.currentUserEulaStatus(new UserEulaStatus(false));
 	}
 }
