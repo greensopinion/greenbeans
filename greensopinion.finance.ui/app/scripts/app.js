@@ -75,4 +75,12 @@ angular
       .otherwise({
         redirectTo: '/eula-agreement'
       });
+  })
+  .run(function($rootScope,$location,$anchorScroll) {
+    $rootScope.$on('$routeChangeSuccess', function() {
+       $anchorScroll.yOffset = 55;
+       if ($location.hash()) {
+         $anchorScroll();
+       }
+    });
   });

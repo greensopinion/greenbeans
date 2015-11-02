@@ -13,6 +13,9 @@ describe('Controller: TransactionsCtrl', function () {
       return {
         path: function(pathName) {
           openedPath = pathName;
+        },
+        hash: function() {
+          return '';
         }
       };
     });
