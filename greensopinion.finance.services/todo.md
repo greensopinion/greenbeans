@@ -8,7 +8,6 @@
 1. New category rule same as existing
 1. Change Password (reset master password)
 1. Wipe data (lost password)
-1. EULA - update
 
 # HELP
 
