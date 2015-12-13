@@ -30,21 +30,40 @@ public class EncryptorService {
 		return encryptorProviderService.isInitialized();
 	}
 
+	public void reconfigure(String newMasterPassword) {
+		checkMasterPassword(newMasterPassword);
+		synchronized (configurationLock) {
+			checkState(isConfigured(), "Encryption must be configured to reset the master password");
+			checkState(isInitialized(), "Encryption must be initialized to reset the master password");
+
+			setMasterPassword(newMasterPassword);
+		}
+	}
+
 	public void configure(String masterPassword) {
+		checkMasterPassword(masterPassword);
+		synchronized (configurationLock) {
+			checkState(!isConfigured(), "Cannot configure encryption settings more than once");
+
+			setMasterPassword(masterPassword);
+		}
+	}
+
+	private void checkMasterPassword(String masterPassword) {
 		checkNotNull(masterPassword, "Must provide a master password");
 		checkArgument(!masterPassword.isEmpty(), "Must provide a master password");
 		checkArgument(masterPassword.equals(masterPassword.trim()),
 				"Master password must not have leading or trailing whitespace");
-		synchronized (configurationLock) {
-			checkState(!isConfigured(), "Cannot configure encryption settings more than once");
+	}
 
-			EncryptorSettings encryptorSettings = EncryptorSettings.newSettings(masterPassword);
-			encryptorProviderService.setEncryptor(new Encryptor(encryptorSettings, masterPassword));
+	private void setMasterPassword(String masterPassword) {
+		EncryptorSettings encryptorSettings = EncryptorSettings.newSettings(masterPassword);
 
-			Settings settings = settingsService.retrieve();
-			settings = settings.withEncryptorSettings(encryptorSettings);
-			settingsService.update(settings);
-		}
+		Settings settings = settingsService.retrieve();
+		settings = settings.withEncryptorSettings(encryptorSettings);
+
+		encryptorProviderService.setEncryptor(new Encryptor(encryptorSettings, masterPassword));
+		settingsService.update(settings);
 	}
 
 	public void initialize(String masterPassword) {

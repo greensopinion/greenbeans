@@ -12,7 +12,7 @@ import org.junit.rules.ExpectedException;
 public class EncryptorProviderServiceTest {
 	@Rule
 	public final ExpectedException thrown = ExpectedException.none();
-	private EncryptorProviderService service = new EncryptorProviderService();
+	private final EncryptorProviderService service = new EncryptorProviderService();
 
 	@Test
 	public void isInitialized() {
@@ -33,8 +33,9 @@ public class EncryptorProviderServiceTest {
 		Encryptor encryptor = mock(Encryptor.class);
 		service.setEncryptor(encryptor);
 		assertSame(encryptor, service.getEncryptor());
-		thrown.expect(IllegalStateException.class);
-		thrown.expectMessage("Cannot initialize encryptor more than once");
-		service.setEncryptor(mock(Encryptor.class));
+
+		Encryptor encryptor2 = mock(Encryptor.class);
+		service.setEncryptor(encryptor2);
+		assertSame(encryptor2, service.getEncryptor());
 	}
 }

@@ -32,9 +32,9 @@ public abstract class PersistenceService<T> {
 	}
 
 	public T load() {
-		File settingsFile = getFile();
-		if (settingsFile.exists()) {
-			return read(settingsFile);
+		File dataFile = getFile();
+		if (dataFile.exists()) {
+			return read(dataFile);
 		}
 		return defaultInstance();
 	}
