@@ -76,11 +76,15 @@ angular
         redirectTo: '/eula-agreement'
       });
   })
-  .run(function($rootScope,$location,$anchorScroll) {
+  .run(function($rootScope,$location,$anchorScroll,$routeParams,$timeout) {
     $rootScope.$on('$routeChangeSuccess', function() {
-       $anchorScroll.yOffset = 55;
-       if ($location.hash()) {
-         $anchorScroll();
-       }
+      var scrollTo = $location.hash();
+      if (scrollTo) {
+        $timeout(function() {
+          $location.hash(scrollTo);
+          $anchorScroll.yOffset = 55;
+          $anchorScroll();
+        },150,false);
+      }
     });
   });
