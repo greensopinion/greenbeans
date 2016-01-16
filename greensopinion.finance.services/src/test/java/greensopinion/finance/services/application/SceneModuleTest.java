@@ -4,6 +4,7 @@ import static greensopinion.finance.services.InjectorAsserts.assertSingletonBind
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.AbstractModule;
@@ -12,9 +13,15 @@ import com.google.inject.Injector;
 
 import greensopinion.finance.services.bridge.WebInvoker;
 import javafx.application.Application.Parameters;
+import javafx.embed.swing.JFXPanel;
 
 public class SceneModuleTest {
 	private final Parameters parameters = mock(Parameters.class);
+
+	@Before
+	public void initializeJavaFXRuntime() {
+		new JFXPanel();
+	}
 
 	@Test
 	public void providesMainScene() {

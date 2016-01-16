@@ -15,6 +15,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <applicationVersion>0.8.0</applicationVersion>
   </properties>
 
   <dependencies>
@@ -74,7 +75,7 @@
                 <fx:deploy nativeBundles="all" outdir="${basedir}/target">
                   <fx:application
                       mainClass="greensopinion.finance.services.application.Main"
-                      name="GreenBeans" version="0.8.0-SNAPSHOT" />
+                      name="GreenBeans" version="${applicationVersion}" />
                   <fx:preferences install="false" menu="true"/>
                   <fx:info 
                     copyright="Copyright (c) 2015 David Green.  All rights reserved."

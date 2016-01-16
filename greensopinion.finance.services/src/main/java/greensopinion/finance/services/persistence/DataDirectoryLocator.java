@@ -3,6 +3,8 @@ package greensopinion.finance.services.persistence;
 import java.io.File;
 import java.util.Locale;
 
+import com.google.common.base.Strings;
+
 import greensopinion.finance.services.demo.Demo;
 
 public class DataDirectoryLocator {
@@ -13,7 +15,12 @@ public class DataDirectoryLocator {
 		String path;
 		if (os.contains("mac")) {
 			path = System.getProperty("user.home") + "/Library/Application Support/" + APP_DIR;
-
+		} else if (os.contains("windows")) {
+			String appData = System.getenv("APPDATA");
+			if (Strings.isNullOrEmpty(appData)) {
+				appData = System.getProperty("user.home") + "AppData\\Roaming";
+			}
+			path = appData + "\\" + APP_DIR;
 		} else {
 			throw new IllegalStateException(os);
 		}
