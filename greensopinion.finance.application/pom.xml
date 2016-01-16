@@ -76,12 +76,13 @@
                   <fx:application
                       mainClass="greensopinion.finance.services.application.Main"
                       name="GreenBeans" version="${applicationVersion}" />
-                  <fx:preferences install="false" menu="true"/>
+                  <fx:preferences install="false" menu="true" shortcut="true"/>
                   <fx:info 
-                    copyright="Copyright (c) 2015 David Green.  All rights reserved."
+                    copyright="Copyright (c) 2016 David Green.  All rights reserved."
                     description="Green Beans.  Get control of your cash flow."
                     title="Green Beans"
-                    vendor="Green's Opinion"/>
+                    vendor="Green's Opinion"
+                    category="Green Beans Finance"/>
                   <fx:resources>
                     <fx:fileset dir="target">
                       <include name="greensopinnion-finance.jar" />
