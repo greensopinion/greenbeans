@@ -30,7 +30,7 @@ ideas:
 4. Install the JCE policy files
 5. Windows only: Install the WIX toolset http://wixtoolset.org/
 6. Install npm
-7. Install grunt ``npm install -g grunt-cli``
+7. Install grunt and bower ``npm install -g grunt-cli bower``
 8. cd into the ui project, run ``npm install``
 9. cd up one level to the root of the project
 10. run ``mvn package``
