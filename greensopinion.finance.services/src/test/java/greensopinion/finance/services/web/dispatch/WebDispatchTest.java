@@ -2,8 +2,14 @@ package greensopinion.finance.services.web.dispatch;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -12,6 +18,7 @@ import org.junit.Test;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
 
@@ -41,10 +48,9 @@ public class WebDispatchTest {
 		WebResponse response = dispatch.dispatch(new WebRequest("GET", "/abouts/current", null));
 		assertNotNull(response);
 		assertEquals(200, response.getResponseCode());
-		assertEquals(
-				"{\"applicationName\":\"" + GreenBeans.APP_NAME
-						+ "\",\"copyrightNotice\":\"Copyright (c) 2015 David Green.  All rights reserved.\"}",
-				response.getEntity());
+		int currentYear = LocalDate.now().get(ChronoField.YEAR);
+		assertEquals("{\"applicationName\":\"" + GreenBeans.APP_NAME + "\",\"copyrightNotice\":\"Copyright (c) 2015, "
+				+ currentYear + " David Green. All rights reserved.\"}", response.getEntity());
 	}
 
 	@Test
@@ -71,6 +77,9 @@ public class WebDispatchTest {
 		assertNotNull(response);
 		assertEquals(500, response.getResponseCode());
 		assertEquals("{\"errorCode\":\"NullPointerException\",\"message\":\"this is a test\"}", response.getEntity());
+
+		verify(dispatch.getLogger()).log(eq(Level.SEVERE), eq("Unexpected exception: this is a test"),
+				any(NullPointerException.class));
 	}
 
 	private WebDispatch createWebDispatchWithThrowingInvoker() {
@@ -81,7 +90,8 @@ public class WebDispatchTest {
 				bind(Invoker.class).to(ThrowingInvoker.class);
 			}
 		}, overrideWebServiceModule());
-		return Guice.createInjector(module).getInstance(WebDispatch.class);
+		Injector injector = Guice.createInjector(module);
+		return new WebDispatch(injector, injector.getInstance(Invoker.class), mock(Logger.class));
 	}
 
 	private WebDispatch createWebDispatch() {

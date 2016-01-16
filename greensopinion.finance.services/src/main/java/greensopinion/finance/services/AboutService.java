@@ -13,6 +13,6 @@ public class AboutService {
 	}
 
 	private String getCopyrightNotice() {
-		return "Copyright (c) 2015 David Green.  All rights reserved.";
+		return "Copyright (c) 2015, 2016 David Green. All rights reserved.";
 	}
 }

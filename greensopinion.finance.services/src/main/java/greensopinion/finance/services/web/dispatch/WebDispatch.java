@@ -50,6 +50,10 @@ public class WebDispatch {
 		this.logger = checkNotNull(logger);
 	}
 
+	Logger getLogger() {
+		return logger;
+	}
+
 	public WebResponse dispatch(WebRequest request) {
 		try {
 			for (Entry<WebPath, Handler> handlerEntry : pathToHandler.entrySet()) {
