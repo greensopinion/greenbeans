@@ -2,7 +2,6 @@ package greensopinion.finance.services.transaction;
 
 import static java.text.MessageFormat.format;
 
-import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,10 +34,10 @@ public class OfxTransactionReader implements Closeable {
 	private static final Object TAG_CCACCTFROM = "CCACCTFROM";
 
 	private static final String CHARSET_NAME_CP1252 = "Cp1252";
-	private final BufferedReader reader;
+	private final LookAheadReader reader;
 
 	public OfxTransactionReader(InputStream inputStream) {
-		this.reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(CHARSET_NAME_CP1252)));
+		this.reader = new LookAheadReader(new InputStreamReader(inputStream, Charset.forName(CHARSET_NAME_CP1252)));
 	}
 
 	public List<Transaction> transactions() {
@@ -181,12 +180,33 @@ public class OfxTransactionReader implements Closeable {
 		// COMPRESSION:NONE
 		// OLDFILEUID:NONE
 		// NEWFILEUID:NONE
-		checkValidFormat("OFXHEADER:100", reader.readLine());
-		checkValidFormat("DATA:OFXSGML", reader.readLine());
+		checkValidFormat("OFXHEADER:100", readNextNonBlankLine());
+		checkValidFormat("DATA:OFXSGML", readNextNonBlankLine());
+		advanceToFirstNonHeaderLine();
+
+	}
+
+	private void advanceToFirstNonHeaderLine() throws IOException {
+		for (;;) {
+			String line = reader.peekLine();
+			if (line != null && !line.trim().isEmpty() && line.charAt(0) != '<') {
+				reader.readLine();
+			} else {
+				break;
+			}
+		}
+	}
+
+	private void skipBlankLines() throws IOException {
 		String line;
-		do {
-			line = reader.readLine();
-		} while (line != null && !line.trim().isEmpty());
+		while ((line = reader.peekLine()) != null && line.trim().isEmpty()) {
+			reader.readLine();
+		}
+	}
+
+	String readNextNonBlankLine() throws IOException {
+		skipBlankLines();
+		return reader.readLine();
 	}
 
 	private void checkValidFormat(String expected, String line) {

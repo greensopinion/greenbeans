@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -28,6 +29,24 @@ public class OfxTransactionReaderTest {
 				transactions.get(1));
 		assertTransaction("2013-09-18", 5660, "THE CHILDREN'S PLACE#3257SURREY", "1234123412341234",
 				transactions.get(2));
+	}
+
+	@Test
+	public void readCreditCardChase() throws IOException {
+		List<Transaction> transactions = readTransactions("ofx-credit-card-chase.sgml");
+		assertEquals(2, transactions.size());
+		assertTransaction("2016-01-17", -1979, "PAPA JOHN'S #02714", "1234123412341234", transactions.get(0));
+		assertTransaction("2016-01-04", 3284, "TARGET        00009951", "1234123412341234", transactions.get(1));
+	}
+
+	@Test
+	public void readNextNonBlankLine() throws IOException {
+		try (OfxTransactionReader reader = new OfxTransactionReader(
+				new ByteArrayInputStream("\n\r\none\n\rtwo".getBytes(StandardCharsets.UTF_8)))) {
+			assertEquals("one", reader.readNextNonBlankLine());
+			assertEquals("two", reader.readNextNonBlankLine());
+			assertEquals(null, reader.readNextNonBlankLine());
+		}
 	}
 
 	@Test
