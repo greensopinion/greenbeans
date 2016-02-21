@@ -28,13 +28,14 @@ public class EncryptorServiceTest {
 	private SettingsService settingsService;
 	private EncryptorProviderService encryptorProviderService;
 	private EncryptorService encryptorService;
+	private final EncryptorListener encryptorListener = mock(EncryptorListener.class);
 	private final AtomicReference<Settings> settings = new AtomicReference<>();
 
 	@Before
 	public void before() {
 		settingsService = mockSettingsService();
 		encryptorProviderService = spy(new EncryptorProviderService());
-		encryptorService = new EncryptorService(settingsService, encryptorProviderService);
+		encryptorService = new EncryptorService(settingsService, encryptorProviderService, encryptorListener);
 	}
 
 	private SettingsService mockSettingsService() {
@@ -125,9 +126,11 @@ public class EncryptorServiceTest {
 
 		encryptorService.reconfigure("5678");
 
-		order = inOrder(encryptorProviderService, settingsService);
+		order = inOrder(encryptorProviderService, settingsService, encryptorListener);
+		order.verify(encryptorListener).aboutToChangeEncryptor();
 		order.verify(encryptorProviderService).setEncryptor(any(Encryptor.class));
 		order.verify(settingsService).update(any());
+		order.verify(encryptorListener).encryptorChanged();
 
 		assertTrue(settings.get().getEncryptorSettings().validateMasterPassword("5678"));
 	}

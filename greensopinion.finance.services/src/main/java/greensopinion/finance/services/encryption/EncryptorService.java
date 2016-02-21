@@ -15,11 +15,14 @@ public class EncryptorService {
 	private final SettingsService settingsService;
 	private final EncryptorProviderService encryptorProviderService;
 	private final Object configurationLock = new Object();
+	private final EncryptorListener encryptorListener;
 
 	@Inject
-	public EncryptorService(SettingsService settingsService, EncryptorProviderService encryptorProviderService) {
+	public EncryptorService(SettingsService settingsService, EncryptorProviderService encryptorProviderService,
+			EncryptorListener encryptorListener) {
 		this.settingsService = checkNotNull(settingsService);
 		this.encryptorProviderService = checkNotNull(encryptorProviderService);
+		this.encryptorListener = checkNotNull(encryptorListener);
 	}
 
 	public boolean isConfigured() {
@@ -36,7 +39,9 @@ public class EncryptorService {
 			checkState(isConfigured(), "Encryption must be configured to reset the master password");
 			checkState(isInitialized(), "Encryption must be initialized to reset the master password");
 
+			encryptorListener.aboutToChangeEncryptor();
 			setMasterPassword(newMasterPassword);
+			encryptorListener.encryptorChanged();
 		}
 	}
 

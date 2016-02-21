@@ -9,5 +9,6 @@ public class EncryptionModule extends AbstractModule {
 	protected void configure() {
 		bind(EncryptorProviderService.class).in(Scopes.SINGLETON);
 		bind(EncryptorService.class).in(Scopes.SINGLETON);
+		bind(EncryptorListener.class).to(MasterPasswordChangeSupport.class).in(Scopes.SINGLETON);
 	}
 }

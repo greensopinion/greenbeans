@@ -18,6 +18,11 @@ public class EncryptionModuleTest {
 		assertSingletonBinding(createInjector(), EncryptorService.class);
 	}
 
+	@Test
+	public void providesMasterPasswordChangeSupport() {
+		assertSingletonBinding(createInjector(), EncryptorListener.class, MasterPasswordChangeSupport.class);
+	}
+
 	private Injector createInjector() {
 		return Guice.createInjector(new EncryptionModule());
 	}
