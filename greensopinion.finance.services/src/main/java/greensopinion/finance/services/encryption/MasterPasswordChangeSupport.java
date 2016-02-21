@@ -2,6 +2,8 @@ package greensopinion.finance.services.encryption;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import greensopinion.finance.services.domain.Categories;
@@ -15,11 +17,14 @@ class MasterPasswordChangeSupport implements EncryptorListener {
 	private final TransactionsService transactionsService;
 	private Transactions transactions;
 	private Categories categories;
+	private final Logger logger;
 
 	@Inject
-	MasterPasswordChangeSupport(TransactionsService transactionsService, CategoriesService categoriesService) {
+	MasterPasswordChangeSupport(TransactionsService transactionsService, CategoriesService categoriesService,
+			Logger logger) {
 		this.transactionsService = checkNotNull(transactionsService);
 		this.categoriesService = checkNotNull(categoriesService);
+		this.logger = checkNotNull(logger);
 	}
 
 	@Override
@@ -36,5 +41,6 @@ class MasterPasswordChangeSupport implements EncryptorListener {
 		transactions = null;
 		categoriesService.update(categories);
 		categories = null;
+		logger.info("encrypted data with new master password");
 	}
 }

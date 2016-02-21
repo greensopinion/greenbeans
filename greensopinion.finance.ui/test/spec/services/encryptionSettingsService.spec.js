@@ -56,4 +56,18 @@ describe('Service: EncryptionSettingsService', function () {
         expect(settings.method).toBe('POST');
         expect(settings.entity.masterPassword).toBe('1234');
     });
+
+    it('resetMasterPassword should invoke web service',function() {
+        expect(encryptionSettingsService.resetMasterPassword).toBeDefined();
+        var settings;
+        encryptionSettingsService.resetMasterPassword('1234','5678').then(function(result) {
+          settings = result;
+        });
+        $rootScope.$digest();
+
+        expect(settings.path).toBe('/encryption-settings/');
+        expect(settings.method).toBe('PUT');
+        expect(settings.entity.masterPassword).toBe('1234');
+        expect(settings.entity.newMasterPassword).toBe('5678');
+    });
 });

@@ -18,6 +18,13 @@ angular.module('greensopinionfinanceApp')
           masterPassword: masterPassword
         };
         return rest.post(API_BASE + 'current', entity);
+      },
+      resetMasterPassword: function(masterPassword,newMasterPassword) {
+        var entity = {
+          masterPassword: masterPassword,
+          newMasterPassword: newMasterPassword
+        };
+        return rest.put(API_BASE , entity);
       }
     };
   }]);

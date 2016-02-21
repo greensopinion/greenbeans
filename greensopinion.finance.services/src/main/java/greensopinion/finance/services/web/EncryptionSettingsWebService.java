@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import greensopinion.finance.services.encryption.EncryptorService;
 import greensopinion.finance.services.web.model.EncryptionSettings;
 import greensopinion.finance.services.web.model.NewEncryptionSettings;
+import greensopinion.finance.services.web.model.ResetEncryptionSettings;
 
 @Path(EncryptionSettingsWebService.BASE_PATH)
 public class EncryptionSettingsWebService {
@@ -39,5 +40,12 @@ public class EncryptionSettingsWebService {
 	@POST
 	public void initialize(NewEncryptionSettings encryptionSettings) {
 		encryptorService.initialize(encryptionSettings.getMasterPassword());
+	}
+
+	@Path("/")
+	@PUT
+	public void configure(ResetEncryptionSettings encryptionSettings) {
+		encryptorService.initialize(encryptionSettings.getMasterPassword());
+		encryptorService.reconfigure(encryptionSettings.getNewMasterPassword());
 	}
 }

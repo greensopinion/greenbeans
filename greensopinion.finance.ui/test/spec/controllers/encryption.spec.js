@@ -32,6 +32,11 @@ describe('Controller: EncryptionCtrl', function() {
         return $q(function(resolve) {
           resolve({});
         });
+      },
+      resetMasterPassword: function() {
+        return $q(function(resolve) {
+          resolve({});
+        });
       }
     };
     EncryptionCtrl = $controller('EncryptionCtrl', {
@@ -110,7 +115,7 @@ describe('Controller: EncryptionCtrl', function() {
   });
 
   it('exposes initialize()', function() {
-    expect(scope.configure).toBeDefined();
+    expect(scope.initialize).toBeDefined();
     scope.initialize();
     $rootScope.$digest();
     expect(scope.errorMessage).toBe('You must enter a master password.');
@@ -121,6 +126,36 @@ describe('Controller: EncryptionCtrl', function() {
     encryptionSettings.initialized = true;
     encryptionSettings.configured = true;
     $rootScope.$digest();
+    expect(scope.errorMessage).toBeUndefined();
+    expect(initializationService.isInitialized()).toBe(true);
+  });
+
+  it('exposes resetMasterPassword()', function() {
+    expect(scope.resetMasterPassword).toBeDefined();
+    scope.resetMasterPassword();
+    $rootScope.$digest();
+    expect(scope.errorMessage).toBe('You must enter the original master password.');
+
+    scope.formData.masterPassword = '1234';
+    expect(initializationService.isInitialized()).toBe(false);
+    scope.resetMasterPassword();
+    $rootScope.$digest();
+
+    expect(scope.errorMessage).toBe('You must enter a new master password.');
+
+    scope.formData.newMasterPassword = '5678';
+    expect(initializationService.isInitialized()).toBe(false);
+    scope.resetMasterPassword();
+    $rootScope.$digest();
+
+    expect(scope.errorMessage).toBe('New master passwords entered do not match.');
+
+    scope.formData.newMasterPassword2 = '5678';
+    scope.resetMasterPassword();
+    encryptionSettings.initialized = true;
+    encryptionSettings.configured = true;
+    $rootScope.$digest();
+
     expect(scope.errorMessage).toBeUndefined();
     expect(initializationService.isInitialized()).toBe(true);
   });

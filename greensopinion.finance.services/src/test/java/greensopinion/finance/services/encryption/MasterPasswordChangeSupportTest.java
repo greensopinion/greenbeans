@@ -7,6 +7,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+import java.util.logging.Logger;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -20,8 +22,9 @@ public class MasterPasswordChangeSupportTest {
 
 	private final TransactionsService transactionsService = mock(TransactionsService.class);
 	private final CategoriesService categoriesService = mock(CategoriesService.class);
+	private final Logger logger = mock(Logger.class);
 	private final MasterPasswordChangeSupport support = new MasterPasswordChangeSupport(transactionsService,
-			categoriesService);
+			categoriesService, logger);
 	private final Transactions transactions = mock(Transactions.class);
 	private final Categories categories = mock(Categories.class);
 
@@ -42,8 +45,10 @@ public class MasterPasswordChangeSupportTest {
 
 		support.encryptorChanged();
 
-		InOrder inOrder = inOrder(transactionsService, categoriesService);
+		InOrder inOrder = inOrder(transactionsService, categoriesService, logger);
 		inOrder.verify(transactionsService).update(transactions);
 		inOrder.verify(categoriesService).update(categories);
+		inOrder.verify(logger).info("encrypted data with new master password");
+		inOrder.verifyNoMoreInteractions();
 	}
 }

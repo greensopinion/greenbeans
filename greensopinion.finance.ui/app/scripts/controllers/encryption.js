@@ -17,7 +17,9 @@ angular.module('greensopinionfinanceApp')
 
       $scope.formData = {
         masterPassword: '',
-        masterPassword2: ''
+        masterPassword2: '',
+        newMasterPassword: '',
+        newMasterPassword2: ''
       };
       var fetchSettings = function() {
         encryptionSettingsService.get().then(function(encryptionSettings) {
@@ -53,6 +55,23 @@ angular.module('greensopinionfinanceApp')
             return result;
           });
       };
+      var resetMasterPassword = function() {
+        if ($scope.formData.masterPassword.trim().length === 0) {
+          return $q.reject(new ErrorModel('You must enter the original master password.'));
+        }
+        if ($scope.formData.newMasterPassword.trim().length === 0) {
+          return $q.reject(new ErrorModel('You must enter a new master password.'));
+        }
+        if ($scope.formData.newMasterPassword !== $scope.formData.newMasterPassword2) {
+          return $q.reject(new ErrorModel('New master passwords entered do not match.'));
+        }
+        return encryptionSettingsService.resetMasterPassword($scope.formData.masterPassword,$scope.formData.newMasterPassword)
+          .then(function(result) {
+            fetchSettings();
+            return result;
+          });
+      };
+
       $scope.needsConfiguration = function() {
         return $scope.encryptionSettings !== undefined && !$scope.encryptionSettings.configured;
       };
@@ -65,6 +84,9 @@ angular.module('greensopinionfinanceApp')
       };
       $scope.initialize = function() {
         return errorService.maintainErrorMessageInScope(initialize(), $scope);
+      };
+      $scope.resetMasterPassword = function() {
+        return errorService.maintainErrorMessageInScope(resetMasterPassword(), $scope);
       };
       fetchSettings();
     }

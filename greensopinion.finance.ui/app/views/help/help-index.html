@@ -181,6 +181,7 @@
 <h2>Frequently Asked Questions</h2>
 <ul>
   <li><a ng-click="scrollTo('faq-data-location')">Where is my data stored?</a></li>
+  <li><a ng-click="scrollTo('faq-change-password')">How do I change the master password?</a></li>
 </ul>
 <h3 id="faq-data-location">Where is my data stored?</h3>
 <p>
@@ -189,4 +190,17 @@
 <p>
   <b>Windows:</b> <tt>&lt;home&gt;&#92;AppData&#92;Roaming&#92;GreensOpinionFinance</tt><br/><br/>
   <b>Mac:</b> <tt>&lt;home&gt;/Library/Application Support/GreensOpinionFinance</tt><br/>
+</p>
+<h3 id="faq-change-password">How do I change the master password?</h3>
+<p>
+  The master password can be changed by restarting the application.
+</p>
+<p>
+  To do this, quit the application if it is already running.  Launch the application, and when asked
+  for the master password provide both the original master password and the new master password.
+  Press "Reset Master Password".  This will cause the master password to be changed and all of your
+  data to be re-encrypted using the new password.
+</p>
+<p>
+  After changing the master password the old master password will no longer work.
 </p>
