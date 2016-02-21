@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2015 David Green.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the EULA
+ * which accompanies this distribution.
+ *******************************************************************************/
 // Karma configuration
 // http://karma-runner.github.io/0.12/config/configuration-file.html
 // Generated on 2015-08-17 using

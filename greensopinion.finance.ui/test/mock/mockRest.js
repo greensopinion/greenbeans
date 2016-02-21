@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2015 David Green.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the EULA
+ * which accompanies this distribution.
+ *******************************************************************************/
 angular.module('greensopinionfinanceApp')
   .service('MockRest',['$q',function ($q) {
     function MockRest(payload) {
