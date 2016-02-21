@@ -24,6 +24,7 @@ import com.google.inject.util.Modules;
 
 import greensopinion.finance.services.GreenBeans;
 import greensopinion.finance.services.ImportFilesService;
+import greensopinion.finance.services.encryption.EncryptorService;
 import greensopinion.finance.services.web.GsonWebRenderer;
 import greensopinion.finance.services.web.WebServiceModule;
 
@@ -103,6 +104,7 @@ public class WebDispatchTest {
 			@Override
 			protected void configure() {
 				bind(ImportFilesService.class).toInstance(mock(ImportFilesService.class));
+				bind(EncryptorService.class).toInstance(mock(EncryptorService.class));
 			}
 		};
 	}

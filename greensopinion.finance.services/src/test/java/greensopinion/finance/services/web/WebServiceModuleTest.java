@@ -20,6 +20,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import greensopinion.finance.services.ImportFilesService;
+import greensopinion.finance.services.encryption.EncryptorService;
 import greensopinion.finance.services.web.dispatch.Invoker;
 import greensopinion.finance.services.web.dispatch.WebDispatch;
 
@@ -94,6 +95,7 @@ public class WebServiceModuleTest {
 			@Override
 			protected void configure() {
 				bind(ImportFilesService.class).toInstance(mock(ImportFilesService.class));
+				bind(EncryptorService.class).toInstance(mock(EncryptorService.class));
 			}
 		});
 	}
