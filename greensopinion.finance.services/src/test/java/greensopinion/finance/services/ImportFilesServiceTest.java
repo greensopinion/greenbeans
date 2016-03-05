@@ -76,6 +76,30 @@ public class ImportFilesServiceTest {
 		assertTransactions(ImmutableList.of(txn1, txn2), transactions.getTransactions());
 	}
 
+	@Test
+	public void importAvoidsDuplicatesWhenImportingIgnoringDescriptionCase() {
+		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263, "1234123412341234");
+		Transaction txn2 = MockTransaction.create("2015-06-13", "description 2", -1234, "1234123412341234");
+		Transaction txn3 = MockTransaction.create("2015-06-12", "DESCRiption", -1263, "1234123412341234");
+		Transactions originalTransactions = new Transactions(ImmutableList.of(txn1, txn2));
+		doReturn(originalTransactions).when(transactionsService).retrieve();
+
+		ImportFilesService service = new ImportFilesService(mock(Window.class), transactionsService) {
+			@Override
+			List<Transaction> importFile(String path) {
+				return ImmutableList.of(txn3);
+			}
+		};
+
+		service.importFiles(ImmutableList.of("a"), false);
+
+		ArgumentCaptor<Transactions> transactionsCaptor = ArgumentCaptor.forClass(Transactions.class);
+		verify(transactionsService).update(transactionsCaptor.capture());
+
+		Transactions transactions = transactionsCaptor.getValue();
+		assertTransactions(ImmutableList.of(txn1, txn2), transactions.getTransactions());
+	}
+
 	private void assertImportFiles(boolean deleteFileAfterImport) {
 		Transaction txn1 = MockTransaction.create("2015-06-12", "description", -1263, "1234123412341234");
 		Transaction txn2 = MockTransaction.create("2015-06-11", "description2", -1500, "1234123412341234");

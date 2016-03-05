@@ -86,7 +86,7 @@ public class Transaction implements Comparable<Transaction> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, description, amount, accountNumber);
+		return Objects.hash(date, description.toLowerCase(), amount, accountNumber);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class Transaction implements Comparable<Transaction> {
 		}
 		Transaction other = (Transaction) obj;
 		return amount == other.getAmount() && Objects.equals(getDate(), other.getDate())
-				&& Objects.equals(getDescription(), other.getDescription())
+				&& getDescription().equalsIgnoreCase(other.getDescription())
 				&& Objects.equals(accountNumber, other.getAccountNumber());
 	}
 

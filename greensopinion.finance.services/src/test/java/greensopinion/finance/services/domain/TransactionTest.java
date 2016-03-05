@@ -52,6 +52,10 @@ public class TransactionTest {
 		Transaction transaction2 = new Transaction(date1, "a desc", 1003, null, "123");
 		Transaction transaction3 = transaction1.withCategoryName("some category");
 
+		assertTransactionEqualsCaseInsensitive(transaction1);
+		assertTransactionEqualsCaseInsensitive(transaction2);
+		assertTransactionEqualsCaseInsensitive(transaction3);
+
 		assertTransactionEquals(transaction1, transaction1);
 		assertTransactionEquals(transaction1, transaction3);
 		assertTransactionEquals(transaction1, new Transaction(date1, "a desc", 1003, null, null));
@@ -115,6 +119,16 @@ public class TransactionTest {
 		assertEquals(t0.hashCode(), t1.hashCode());
 		assertEquals(t0, t1);
 		assertEquals(t1, t0);
+	}
+
+	private void assertTransactionEqualsCaseInsensitive(Transaction t) {
+		Transaction t1 = new Transaction(t.getDate(), t.getDescription().toUpperCase(), t.getAmount(), t.getCategory(),
+				t.getAccountNumber());
+		Transaction t2 = new Transaction(t.getDate(), t.getDescription().toLowerCase(), t.getAmount(), t.getCategory(),
+				t.getAccountNumber());
+
+		assertEquals(t, t1);
+		assertEquals(t, t2);
 	}
 
 	private void assertOrder(Transaction t0, Transaction t1) {
