@@ -9,20 +9,10 @@ package greensopinion.finance.services.application;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.logging.Logger;
-
 import javax.inject.Inject;
-
-import com.google.common.base.Throwables;
-import com.google.common.io.Resources;
 
 import greensopinion.finance.services.bridge.ConsoleBridge;
 import javafx.application.Application.Parameters;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker.State;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.Region;
@@ -40,15 +30,12 @@ class WebApplicationRegion extends Region {
 	private final ServiceLocator serviceLocator;
 	private final Parameters parameters;
 	private final ConsoleBridge consoleBridge;
-	private final Logger logger;
 
 	@Inject
-	WebApplicationRegion(ServiceLocator serviceLocator, Parameters parameters, ConsoleBridge consoleBridge,
-			Logger logger) {
+	WebApplicationRegion(ServiceLocator serviceLocator, Parameters parameters, ConsoleBridge consoleBridge) {
 		this.serviceLocator = checkNotNull(serviceLocator);
 		this.parameters = checkNotNull(parameters);
 		this.consoleBridge = checkNotNull(consoleBridge);
-		this.logger = checkNotNull(logger);
 	}
 
 	public void initialize() {
@@ -58,34 +45,9 @@ class WebApplicationRegion extends Region {
 		webEngine = webView.getEngine();
 		installConsoleBridge();
 		installServiceLocator(serviceLocator);
-		if (Constants.isDebugUi(parameters)) {
-			installFirebugLite();
-		}
 		webEngine.load(Constants.webViewLocation(parameters));
 
 		getChildren().add(webView);
-	}
-
-	private void installFirebugLite() {
-		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
-
-			@Override
-			public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-				if (State.SUCCEEDED.equals(newValue)) {
-					webEngine.executeScript(installFirebugLiteScript());
-				}
-			}
-
-			private String installFirebugLiteScript() {
-				logger.info("Installing firebug lite");
-				try {
-					return Resources.toString(WebApplicationRegion.class.getResource("install-firebug-lite.js"),
-							StandardCharsets.UTF_8);
-				} catch (IOException e) {
-					throw Throwables.propagate(e);
-				}
-			}
-		});
 	}
 
 	private void installServiceLocator(ServiceLocator serviceLocator) {

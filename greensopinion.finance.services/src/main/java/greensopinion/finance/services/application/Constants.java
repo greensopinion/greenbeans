@@ -22,12 +22,7 @@ class Constants {
 	public static final int DEFAULT_HEIGHT = 1024;
 	public static final int DEFAULT_WIDTH = 1024;
 	public static final Color DEFAULT_FILL_COLOUR = Color.web("#666970");
-	public static final Object PARAM_DEBUG_UI = "-XdebugUI";
 	public static final Object PARAM_EXTERNAL_UI = "-XexternalUI";
-
-	public static boolean isDebugUi(Parameters parameters) {
-		return parameters.getUnnamed().contains(Constants.PARAM_DEBUG_UI);
-	}
 
 	public static boolean isExternalUi(Parameters parameters) {
 		return parameters.getUnnamed().contains(Constants.PARAM_EXTERNAL_UI);
