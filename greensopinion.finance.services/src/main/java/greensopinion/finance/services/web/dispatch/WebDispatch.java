@@ -37,17 +37,17 @@ public class WebDispatch {
 	private static final List<Class<? extends Annotation>> webMethodAnnotations = ImmutableList
 			.<Class<? extends Annotation>> of(GET.class, PUT.class, DELETE.class, POST.class);
 
-	private final Map<WebPath, Handler> pathToHandler;
-
 	private final Invoker invoker;
 
 	private final Logger logger;
 
+	private final Map<WebPath, Handler> pathToHandler;
+
 	@Inject
 	public WebDispatch(Injector injector, Invoker invoker, Logger logger) {
 		this.invoker = checkNotNull(invoker);
-		pathToHandler = createPathToHandler(checkNotNull(injector));
 		this.logger = checkNotNull(logger);
+		pathToHandler = createPathToHandler(checkNotNull(injector));
 	}
 
 	Logger getLogger() {
@@ -114,6 +114,10 @@ public class WebDispatch {
 		path = CharMatcher.is('/').collapseFrom(path, '/');
 
 		WebPath webPath = new WebPath(httpMethod, path);
+
+		logger.log(Level.FINEST, format("HTTP {0} {1} -> {2}.{3}", httpMethod, path,
+				webService.getClass().getSimpleName(), method.getName()));
+
 		builder.put(webPath, new Handler(webService, method));
 
 	}

@@ -14,8 +14,9 @@
  * Controller of the greensopinionfinanceApp
  */
 angular.module('greensopinionfinanceApp')
-  .controller('CategoryDialogCtrl',['$scope','$modalInstance','errorService','categoryService','transactionService','transaction', function ($scope,$modalInstance,errorService,categoryService,transactionService,transaction) {
+  .controller('CategoryDialogCtrl',['$scope','$modalInstance','errorService','categoryService','transactionService','money','transaction', function ($scope,$modalInstance,errorService,categoryService,transactionService,money,transaction) {
     $scope.transaction = transaction;
+    $scope.transactionAmount = money.format(Math.abs(transaction.amount));
     $scope.categoryName = transaction.categoryName;
     $scope.description = transaction.description;
     if ($scope.categoryName === undefined) {

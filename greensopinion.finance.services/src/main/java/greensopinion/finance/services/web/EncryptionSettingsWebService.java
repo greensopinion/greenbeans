@@ -48,7 +48,6 @@ public class EncryptionSettingsWebService {
 		encryptorService.initialize(encryptionSettings.getMasterPassword());
 	}
 
-	@Path("/")
 	@PUT
 	public void configure(ResetEncryptionSettings encryptionSettings) {
 		encryptorService.initialize(encryptionSettings.getMasterPassword());

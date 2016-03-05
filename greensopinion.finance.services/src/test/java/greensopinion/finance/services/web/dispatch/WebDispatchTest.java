@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.Response.Status;
 
 import org.junit.Test;
 
@@ -81,6 +82,13 @@ public class WebDispatchTest {
 
 		verify(dispatch.getLogger()).log(eq(Level.SEVERE), eq("Unexpected exception: this is a test"),
 				any(NullPointerException.class));
+	}
+
+	@Test
+	public void dispatchToEncryptionSettingsWebService() {
+		WebResponse response = dispatch.dispatch(new WebRequest("PUT", "/encryption-settings", "{}"));
+		assertNotNull(response);
+		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getResponseCode());
 	}
 
 	private WebDispatch createWebDispatchWithThrowingInvoker() {

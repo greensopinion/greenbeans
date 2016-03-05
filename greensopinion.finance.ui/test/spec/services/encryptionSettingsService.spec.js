@@ -71,7 +71,7 @@ describe('Service: EncryptionSettingsService', function () {
         });
         $rootScope.$digest();
 
-        expect(settings.path).toBe('/encryption-settings/');
+        expect(settings.path).toBe('/encryption-settings');
         expect(settings.method).toBe('PUT');
         expect(settings.entity.masterPassword).toBe('1234');
         expect(settings.entity.newMasterPassword).toBe('5678');
