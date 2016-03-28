@@ -50,7 +50,7 @@ class Constants {
 
 			File file = new File(rootPath);
 
-			String localPath = file.getParentFile().getPath() + "/greensopinion.finance.ui/dist/index.html";
+			String localPath = file.getParentFile().getPath() + "/ui/dist/index.html";
 
 			checkState(new File(localPath).exists(), "%s", localPath);
 

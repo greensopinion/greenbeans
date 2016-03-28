@@ -48,7 +48,7 @@ public class EulaWebServiceTest {
 		Eula eula = service.current();
 		assertNotNull(eula);
 		assertFalse(Strings.isNullOrEmpty(eula.getText()));
-		assertTrue(eula.getText().contains("END USER LICENSE AGREEMENT"));
+		assertTrue(eula.getText().contains("Apache License"));
 	}
 
 	@Test

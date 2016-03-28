@@ -42,8 +42,7 @@ public class ConstantsTest {
 	@Test
 	public void webViewLocation() {
 		File base = new File(".").getAbsoluteFile().getParentFile().getParentFile();
-		assertEquals("file://" + base.toString() + "/greensopinion.finance.ui/dist/index.html",
-				Constants.webViewLocation(parameters));
+		assertEquals("file://" + base.toString() + "/ui/dist/index.html", Constants.webViewLocation(parameters));
 	}
 
 	@Test

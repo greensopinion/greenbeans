@@ -1,4 +1,4 @@
-# greensopinionfinance
+# About
 
 ## Build & development
 
