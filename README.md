@@ -5,10 +5,12 @@ Green Beans is designed to help you take control of your cash flow.
 # Developer Environment
 
 1. Install Ruby
-2. Install Java (version 8 or higher)
+2. Install Java JDK (version 8 or higher)
    * Install [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)
 3. Install npm
-   * install compass and sass
+4. install compass and sass
+5. Install grunt and bower ``npm install -g grunt-cli bower``
+6. Windows only: Install the WIX toolset http://wixtoolset.org/
 
 # Building
 
