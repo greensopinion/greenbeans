@@ -51,9 +51,6 @@ class Constants {
 			File file = new File(rootPath);
 
 			String localPath = file.getParentFile().getPath() + "/ui/dist/index.html";
-
-			checkState(new File(localPath).exists(), "%s", localPath);
-
 			return "file://" + localPath;
 		} else if ("jar".equals(protocol)) {
 			String path = selfUri.getPath();
