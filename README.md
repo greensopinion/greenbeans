@@ -20,6 +20,7 @@ One time only:
 
 1. `cd ui`
 2. `npm install`
+3. `bower install`
 
 Then:
 
