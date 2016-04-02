@@ -6,7 +6,7 @@ A personal finance app, designed for simplicity and security.
 * Open source, so that you can see how it works.
 * For Mac and Windows.
 
-<img src="https://raw.githubusercontent.com/greensopinion/greenbeans/master/assets/report-categories-by-month.png" style="width:320px;" alt="GreenBeans app"/>
+<img src="https://raw.githubusercontent.com/greensopinion/greenbeans/master/assets/report-categories-by-month.png" width="450px" alt="GreenBeans app"/>
 
 # Developer Environment
 
