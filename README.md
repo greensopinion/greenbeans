@@ -1,6 +1,12 @@
 # Green Beans
 
-Green Beans is designed to help you take control of your cash flow.
+A personal finance app, designed for simplicity and security.
+
+<img src="https://raw.githubusercontent.com/greensopinion/greenbeans/master/assets/report-categories-by-month.png" style="width:320px;" alt="GreenBeans app"/>
+
+* Strong encryption and local data only - no need to [trust the cloud](http://www.informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks/) with your information.
+* Open source, so that you can see how it works.
+* For Mac and Windows.
 
 # Developer Environment
 
