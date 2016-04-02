@@ -8,6 +8,12 @@ A personal finance app, designed for simplicity and security.
 
 <img src="https://raw.githubusercontent.com/greensopinion/greenbeans/master/ui/app/images/help/report-categories-by-month.png" width="450px" alt="GreenBeans app"/>
 
+# FAQ
+
+* *Why aren't pre-built binaries available for download?*
+
+  Green Beans uses strong encryption, for which there are export restrictions.  Unfortunately this means that Green Beans can't be made available for download with the [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html) included.  I'd like to have a way for the user to download and install the JCE policy files separately, but haven't created a feature to do that yet.
+
 # Developer Environment
 
 1. Install Ruby
