@@ -65,6 +65,14 @@ application/target/bundles/GreenBeans-0.8.0.dmg
 application/target/bundles/GreenBeans-0.8.0.pkg
 application/target/bundles/GreenBeans-0.8.0.msi
 ````
+# More Information
+
+* GreenBeans has a user guide, just run the app
+
+## Blog
+
+* [Building a Cross-Platform Desktop Application with AngularJS and Java](http://greensopinion.com/2016/06/01/cross-platform-desktop-application-with-angularjs.html)
+* [Learning New Things](http://greensopinion.com/2016/03/30/learning-new-things.html)
 
 # License
 
