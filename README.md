@@ -20,8 +20,12 @@ A personal finance app, designed for simplicity and security.
 2. Install Java JDK (version 8 or higher)
    * Install [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)
 3. Install npm
+   * see [how to install npm](https://docs.npmjs.com/getting-started/installing-node)
 4. install compass and sass
-5. Install grunt and bower ``npm install -g grunt-cli bower``
+   * ``gem install compass`` or see [the compass installation instructions](http://compass-style.org/install/)
+   * ``gem install sass`` or see [the sass installation instructions](http://sass-lang.com/install)
+5. Install grunt and bower
+   * ``npm install -g grunt-cli bower`` or see [the bower installation instructions](https://www.npmjs.com/package/bower)
 6. Windows only: Install the WIX toolset http://wixtoolset.org/
 
 # Building
