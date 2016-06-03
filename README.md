@@ -65,6 +65,9 @@ application/target/bundles/GreenBeans-0.8.0.dmg
 application/target/bundles/GreenBeans-0.8.0.pkg
 application/target/bundles/GreenBeans-0.8.0.msi
 ````
+
+Note that building the installer has the unfortunate side-effect of causing some windows to open (e.g. a Finder window).  If you have any ideas on how to avoid this please [comment on issue 3](https://github.com/greensopinion/greenbeans/issues/3) or consider contributing.
+
 # More Information
 
 * GreenBeans has a user guide, just run the app
